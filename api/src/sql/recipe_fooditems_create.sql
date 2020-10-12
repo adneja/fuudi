@@ -1,0 +1,1 @@
+SELECT * FROM func_fooditems_create($1, $2)
