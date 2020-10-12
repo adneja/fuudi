@@ -1,0 +1,57 @@
+// global variables
+@main-background: rgb(56, 95, 80);
+@main-background-dark: rgb(42, 71, 60);
+@main-color: white;
+@main-padding-vertical: 10px;
+@main-padding-horizontal: 20px;
+@main-content-width: 1200px;
+
+// custom bootstrap
+.form-control:focus {
+    border-color: inherit;
+    border-color: #cccccc;
+    box-shadow: none;
+}
+
+.btn-success {
+    background-color: @main-background;
+    color: @main-color;
+    border: 1px solid @main-background !important;
+}
+
+.btn-success:hover {
+    background-color: @main-background;
+    border: 1px solid @main-background!important;
+}
+
+.btn-success:focus {
+    background-color: @main-background;
+    border: 1px solid @main-background !important;
+    box-shadow: none;
+}
+
+.btn-success:active {
+    box-shadow: none !important;
+    border: 1px solid @main-background !important;
+    background-color: @main-background !important;
+}
+
+.text-danger {
+    color: rgb(170, 79, 79) !important;
+}
+
+.btn-danger {
+    background-color: rgb(170, 79, 79) !important;
+}
+
+.badge-success {
+    background-color: @main-background !important;
+}
+
+hr {
+    border-top: 1px solid @main-background-dark !important;
+}
+
+.pointer:hover {
+    cursor: pointer;
+}
