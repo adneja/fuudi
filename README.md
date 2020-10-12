@@ -10,3 +10,26 @@ Some features include:
 # Stack
 Vue.js + Express + PostgreSQL
  
+
+# Run locally
+Start by cloning into repository: `git clone https://github.com/adneja/mealplanner.git`
+
+## Client
+- Go to /client directory and install dependencies: `npm install`
+- To serve content locally, run: `npm run serve`
+
+## API
+- Go to /api directory and install dependencies: `npm install`
+- Create `.env` file in root directory with following variables:
+    - SQL_SERVER
+    - SQL_PORT
+    - SQL_DB
+    - SQL_USER
+    - SQL_PASSWORD
+    - JWT_SECRET
+- Run app with: `npm run serve`
+
+## DB
+- Install and run postgresql
+- Restore from .bak file found in /db/restore
+- Create a user named `api`, login credentials for this user must match .env variables
