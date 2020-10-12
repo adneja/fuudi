@@ -6,11 +6,11 @@ const path = require('path');
 dotenv.config().parsed;
 
 const dbConfig = {
-    user: process.env.sql_user,
-    host: process.env.sql_server,
-    database: process.env.sql_db,
-    password: process.env.sql_password,
-    port: process.env.sql_port
+    user: process.env.SQL_USER,
+    host: process.env.SQL_SERVER,
+    database: process.env.SQL_DB,
+    password: process.env.SQL_PASSWORD,
+    port: process.env.SQL_PORT
 };
 
 const pool = new Pool(dbConfig);

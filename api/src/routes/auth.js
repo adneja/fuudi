@@ -4,7 +4,7 @@ const {runQuery, queries} = require('../util/db.js');
 
 
 // Check if email is valid
-router.get('/api/auth/validemail/:email', (req, res) => {
+router.get('/api/auth/validateemail/:email', (req, res) => {
     let params = [req.params.email];
 
     runQuery(queries.auth_validate_email, params, res, (result) => {
