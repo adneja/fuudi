@@ -31,5 +31,5 @@ Start by cloning into repository: `git clone https://github.com/adneja/mealplann
 
 ## DB
 - Install and run postgresql
-- Restore from .bak file found in /db/restore
+- Restore from `/db/schema_backup` for empty db or `full_backup` to include test data
 - Create a user named `api`, login credentials for this user must match .env variables
