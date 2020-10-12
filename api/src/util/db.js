@@ -28,6 +28,8 @@ module.exports = {
     runQuery: (query, params, res, callback) => {
         pool.query(query, params, (err, result) => {
             if(err) {
+                console.log(err);
+                
                 if(err.hint) {
                     res.json({
                         error: err.hint
@@ -36,7 +38,6 @@ module.exports = {
                     res.json({
                         error: 'Internal server error.'
                     });
-                    console.log(err);
                 }
             } else {
                 callback(result);

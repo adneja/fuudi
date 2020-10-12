@@ -111,7 +111,7 @@
 
 <script>
     export default {
-        name: 'topbar',
+        name: 'Topbar',
 
         data() {
             return {
@@ -141,6 +141,7 @@
         left: 0px;
         width: 100%;
         z-index: 99999;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
     }
 
     .topbar-content {

@@ -1,6 +1,11 @@
 <template>
 	<div id="app">
-		<topbar v-if="$store.getters.showNavbar"></topbar>
+		<Topbar v-if="$store.getters.showNavbar"></Topbar>
+
+		<transition name="slideDown">
+            <SystemMessage v-show="$store.getters.systemMessage"></SystemMessage>
+        </transition>
+
 		<!--<div class="space"></div>-->
 		<keep-alive>
 			<router-view/>
@@ -10,13 +15,13 @@
 
 <script>
 	import Topbar from './components/Topbar.vue';
-	import Footer from './components/Footer.vue';
+	import SystemMessage from './components/SystemMessage.vue';
 
 	export default {
 		name: 'app',
 		components: {
 			Topbar,
-			Footer
+			SystemMessage
 		}
 	}
 </script>
@@ -27,10 +32,18 @@
 	#app {
 		font-family: 'Ubuntu', sans-serif;
 		height: 100%;
-		background-color: rgb(178, 190, 176);
+		background-color: rgb(198, 194, 204);
 	}
 
 	.space {
 		padding-top: 50px;
 	}
+
+	.slideDown-enter-active, .slideDown-leave-active {
+        transition: all 0.3s;
+    }
+
+    .slideDown-enter, .slideDown-leave-to {
+        margin-top: -50px;
+    }
 </style>

@@ -69,8 +69,15 @@ const routes = [
 		name: 'CreateRecipe',
 		component: CreateRecipe,
 		meta: {requiresAuth: true, showNavbar: true}
+	},
+	{
+		path: '/*',
+		name: 'All',
+		component: Home,
+		meta: {requiresAuth: false, showNavbar: true}
 	}
 ];
+
 
 const router = new VueRouter({
 	mode: 'history',

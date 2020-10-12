@@ -2,15 +2,12 @@
 	<div class="createrecipe d-flex justify-content-center">
 		<div class="createrecipe-container">
 			<!-- Details -->
-			<div class="list-group mb-4">
-				<div 
-					class="list-group-item list-title d-flex justify-content-between align-items-center pointer" 
-					v-on:click="showDetailsTab = !showDetailsTab">
+			<div class="list-group mb-5">
+				<div class="list-group-item list-title">
+					<i class="fas fa-info-circle mr-2"></i>
 					<span>DETAILS</span>
-					<i v-if="showDetailsTab" class="fas fa-caret-down"></i>
-					<i v-else class="fas fa-caret-up"></i>
 				</div>
-				<div class="list-group-item" v-if="showDetailsTab">
+				<div class="list-group-item">
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-md-5 pl-md-0 p-0 pr-md-3 mb-md-0 mb-3">
@@ -25,26 +22,26 @@
 							<div class="col-md-7">
 								<div class="row">
 									<div class="col-12 p-0">
-										<div class="mb-1 text-muted">TITLE</div>
+										<div class="mb-1 text-muted">Title</div>
 										<input class="form-control mb-3" type="text" v-model="name">
 									</div>
 								</div>
 
 								<div class="row">
 									<div class="col-12 p-0">
-										<div class="mb-1 text-muted">DESCRIPTION</div>
+										<div class="mb-1 text-muted">Description</div>
 										<textarea class="form-control mb-3" type="text" rows="4" v-model="description"></textarea>
 									</div>
 								</div>
 
 								<div class="row">
 									<div class="col-md-6 p-md-0 pr-md-1 p-0">
-										<div class="mb-1 text-muted">COOKING TIME <small>(MINUTES)</small></div>
+										<div class="mb-1 text-muted">Cooking Time <small>(minutes)</small></div>
 										<input v-model="cookingTime" class="form-control" type="number">
 									</div>
 
 									<div class="col-md-6 p-md-0 pl-md-1 p-0">
-										<div class="mb-1 text-muted">PORTIONS</div>
+										<div class="mb-1 text-muted">Portions</div>
 										<input v-model="portions" class="form-control" type="number">
 									</div>
 								</div>
@@ -55,22 +52,18 @@
 			</div>
 
 			<!-- Ingredients -->
-			<div class="list-group mb-4">
-				<div 
-					class="list-group-item list-title pointer d-flex justify-content-between align-items-center" 
-					v-on:click="showIngredientsTab = !showIngredientsTab">
-
+			<div class="list-group mb-5">
+				<div class="list-group-item list-title">
+					<i class="fas fa-pepper-hot mr-2"></i>
 					<span>INGREDIENTS</span>
-					<i v-if="showIngredientsTab" class="fas fa-caret-down"></i>
-					<i v-else class="fas fa-caret-up"></i>
 				</div>
 
-				<div class="list-group-item" v-if="showIngredientsTab">
+				<div class="list-group-item">
 					<div class="container-fluid">
 						<div class="row">
 							<!-- Food item input -->
 							<div class="col-md-7 mb-2 pl-md-0 pr-md-1 p-0">
-								<div class="text-muted mb-1">ITEM</div>
+								<div class="text-muted mb-1">Item</div>
 								<input 
 									v-on:blur="unfocusFooditem" 
 									ref="fooditem" 
@@ -92,7 +85,7 @@
 
 							<!-- Amount input -->
 							<div class="col-md-2 mb-2 px-md-1 p-0">
-								<div class="text-muted mb-1">AMOUNT</div>
+								<div class="text-muted mb-1">Amount</div>
 								<input 
 									ref="amount" 
 									v-model="newIngredient.amount" 
@@ -103,7 +96,7 @@
 
 							<!-- Unit input -->
 							<div class="col-md-2 mb-2 px-md-1 p-0">
-								<div class="text-muted mb-1">UNIT</div>
+								<div class="text-muted mb-1">Unit</div>
 								<input 
 									v-on:blur="unfocusMeasurement" 
 									ref="measurement" 
@@ -124,7 +117,7 @@
 							</div>
 
 							<div class="col-md-1 mb-2 pr-md-0 pl-md-1 p-0">
-								<div class="mb-1"><span v-html="'&nbsp;'"></span></div>
+								<div class="mb-1 d-md-block d-none"><span v-html="'&nbsp;'"></span></div>
 								<button v-on:click="addIngredient" class="btn btn-success w-100">
 									<i class="fas fa-plus-circle mr-1"></i>
 								</button>
@@ -215,19 +208,16 @@
 
 			<!-- Instructions -->
 			<div class="list-group mb-4">
-				<div 
-					class="list-group-item list-title pointer d-flex justify-content-between align-items-center" 
-					v-on:click="showInstructionsTab = !showInstructionsTab">
+				<div class="list-group-item list-title">
+					<i class="fas fa-list-ol mr-2"></i>
 					<span>INSTRUCTIONS</span>
-					<i v-if="showInstructionsTab" class="fas fa-caret-down"></i>
-					<i v-else class="fas fa-caret-up"></i>
 				</div>
 
-				<div class="list-group-item" v-if="showInstructionsTab">
+				<div class="list-group-item">
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-md-1 mb-2 pl-md-0 pr-md-1 p-0">
-								<div class="text-muted mb-1">ORDER</div>
+								<div class="text-muted mb-1">Order</div>
 								<input 
 									v-model="newInstruction.number" 
 									type="number" 
@@ -236,7 +226,7 @@
 							</div>
 
 							<div class="col-md-10 mb-2 px-md-1 p-0">
-								<div class="text-muted mb-1">INSTRUCTION</div>
+								<div class="text-muted mb-1">Instruction</div>
 								<input 
 									v-model="newInstruction.instruction" 
 									type="text" 
@@ -245,7 +235,7 @@
 							</div>
 
 							<div class="col-md-1 mb-2 pl-md-1 p-0 text-right">
-								<div class="mb-1"><span v-html="'&nbsp;'"></span></div>
+								<div class="mb-1 d-md-block d-none"><span v-html="'&nbsp;'"></span></div>
 								<button v-on:click="addInstruction" class="btn btn-success w-100">
 									<i class="fas fa-plus-circle mr-1"></i>
 								</button>
@@ -278,19 +268,20 @@
 			</div>
 
 			<!-- Actions -->
-			<div class="text-right">
+			<div class="d-flex justify-content-end">
 				<button 
 					v-on:click="clear" 
 					class="btn btn-danger mr-2">
 
-					<span>CLEAR</span>
+					<span>Clear</span>
 				</button>
 
 				<button 
 					v-on:click="createRecipe"
 					class="btn btn-success">
 
-					<span>CREATE</span>
+					<i v-if="creatingRecipe" class="fas fa-circle-notch fa-spin"></i>
+					<span v-else>Create</span>
 				</button>
 			</div>
 		</div>
@@ -336,11 +327,7 @@
 				measurementsSearching: false,
 				creatingMeasurement: false,
 
-				measurementTypes: [],
-
-				showDetailsTab: true,
-				showIngredientsTab: true,
-				showInstructionsTab: true
+				creatingRecipe: false
 			}
 		},
 
@@ -365,10 +352,6 @@
 		},
 
 		methods: {
-			addIngredient() {
-
-			},
-
 			searchFoodItems() {
 				this.$store.dispatch('searchFoodItems',  {
 					search: this.foodItemSearch
@@ -493,13 +476,31 @@
 			},
 
 			createRecipe() {
-				// create recipe & save id
+				this.creatingRecipe = true;
 
-				// add ingredients
-
-				// add instructions
-
-				// go to newly created recipe page
+				this.$store.dispatch('createRecipe', {
+					name: this.name,
+					description: this.description,
+					cooking_time: this.cookingTime,
+					portions: this.portions,
+					ingredients: this.ingredients,
+					instructions: this.instructions
+				})
+				.then((response) => {
+					this.$store.commit('setSystemMessage', {
+						content: 'Recipe created!',
+						error: false
+					});
+				})
+				.catch((err) => {
+					this.$store.commit('setSystemMessage', {
+						content: err,
+						error: true
+					});
+				})
+				.finally(() => {
+					this.creatingRecipe = false;
+				});
 			},
 
 			clear() {
@@ -559,7 +560,6 @@
 	@import "../assets/global.less";
 	
 	.createrecipe {
-		color: #343a40;
 		padding-top: 50px;
 	}
 
@@ -571,6 +571,13 @@
 
 	.list-group-item {
 		padding: 20px;
+		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+		background-color: rgb(247, 243, 252);
+		border: none !important;
+
+		button {
+			box-shadow: none;
+		}
 	}
 
 	.list-title {
@@ -583,12 +590,8 @@
 		padding: 4px 6px;
 	}
 
-	.list-group-item {
-		background-color: rgb(250, 250, 250);
-		border: none !important;
-	}
-
-	.dashed {
-		border-style: dashed !important;
+	button {
+		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+		border: none;
 	}
 </style>

@@ -103,7 +103,13 @@
                         this.$router.push({name: 'Home'});
                     })
                     .catch((err) => {
-                        this.loginError = err;
+                        //this.loginError = err;
+                        console.log(err);
+
+                        this.$store.commit('setSystemMessage', {
+                            content: err,
+                            error: true
+                        });
                     })
                     .finally(() => { 
                         this.loggingIn = false;
