@@ -2,7 +2,7 @@
 	<div class="createrecipe d-flex justify-content-center">
 		<div class="createrecipe-container">
 			<!-- Details -->
-			<div class="list-group mb-5">
+			<div class="list-group mb-4">
 				<div class="list-group-item list-title">
 					<i class="fas fa-info-circle mr-2"></i>
 					<span>DETAILS</span>
@@ -52,7 +52,7 @@
 			</div>
 
 			<!-- Ingredients -->
-			<div class="list-group mb-5">
+			<div class="list-group mb-4">
 				<div class="list-group-item list-title">
 					<i class="fas fa-pepper-hot mr-2"></i>
 					<span>INGREDIENTS</span>
@@ -61,145 +61,158 @@
 				<div class="list-group-item">
 					<div class="container-fluid">
 						<div class="row">
-							<!-- Food item input -->
-							<div class="col-md-7 mb-2 pl-md-0 pr-md-1 p-0">
-								<div class="text-muted mb-1">Item</div>
-								<input 
-									v-on:blur="unfocusFooditem" 
-									ref="fooditem" 
-									v-if="!newIngredient.foodItem" 
-									v-model="foodItemSearch" 
-									type="text" 
-									class="form-control" 
-									placeholder="">
-								
-								<div v-else class="form-control d-flex justify-content-between">
-									<div>
-										<span class="badge badge-success">
-											{{newIngredient.foodItem.name}}
-										</span>
-									</div>
-									<span><i class="fas fa-times-circle pointer" v-on:click="clearFoodItems"></i></span>
+							<div class="col-md-12 p-0">
+								<div class="mb-2">
+									<div class="text-muted"><small>Add your ingredients by selecting an item, an amount and a unit of measurement.</small></div>
 								</div>
+
+								<table>
+									<thead>
+										<tr>
+											<td class="text-muted" style="width: 60%">Ingredient</td>
+											<td class="text-muted" style="width: 20%">Amount</td>
+											<td class="text-muted" style="width: 20%">Unit</td>
+											<td style="width: 10%"></td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(ingredient, index) in ingredients" v-bind:key="index">
+											<td>
+												<input class="form-control" v-bind:value="ingredient.foodItem.name">
+											</td>
+
+											<td>
+												<input class="form-control" v-model="ingredient.amount">
+											</td>
+
+											<td>
+												<input class="form-control" v-bind:value="ingredient.measurement.name">
+											</td>
+
+											<td>
+												<button class="btn btn-danger" v-on:click="removeIngredient(index)">
+													<i class="fas fa-trash-alt"></i>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<!-- Ingredient -->
+											<td>
+												<input 
+													v-on:blur="unfocusFooditem" 
+													ref="fooditem"
+													v-model="foodItemSearch" 
+													type="text" 
+													class="form-control" 
+													placeholder="New ingredient.."
+													v-on:keyup.enter="selectFoodItem(markedFoodItem)"
+													v-on:keyup.right.stop.prevent="markNextFoodItem"
+													v-on:keyup.left.stop.prevent="markPreviousFoodItem">
+											</td>
+
+											<!-- Amount -->
+											<td>
+												<input 
+													ref="amount" 
+													v-model="newIngredient.amount" 
+													type="number" 
+													class="form-control" 
+													placeholder=""
+													v-on:keyup.enter="$refs.measurement.focus()">
+											</td>
+
+											<!-- Unit -->
+											<td>
+												<input 
+													v-on:blur="unfocusMeasurement" 
+													ref="measurement"
+													v-model="measurementSearch" 
+													type="text" 
+													class="form-control" 
+													placeholder=""
+													v-on:keyup.enter="selectMeasurement(markedMeasurement)"
+													v-on:keyup.right="markNextMeasurement"
+													v-on:keyup.left="markPreviousMeasurement">
+											</td>
+											<td>
+												<button class="btn btn-success" v-on:click="addIngredient">
+													<i class="fas fa-plus"></i>
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+
 							</div>
 
-							<!-- Amount input -->
-							<div class="col-md-2 mb-2 px-md-1 p-0">
-								<div class="text-muted mb-1">Amount</div>
-								<input 
-									ref="amount" 
-									v-model="newIngredient.amount" 
-									type="number" 
-									class="form-control" 
-									placeholder="">
-							</div>
+							<div class="col-md-12 p-0">
+								<div v-if="showFoodItemsResults" class="mt-3">
+									<div class="text-muted mb-1">Select an ingredient:</div>
+									<div class="search-results">
+										<div class="d-flex justify-content-start flex-wrap" v-if="!foodItemsSearching">
+											<div>
+												<span 
+													v-for="(foodItem, index) in foodItems"  
+													v-bind:key="index" 
+													class="badge badge-dark mr-1 pointer"
+													v-on:click="selectFoodItem(foodItem)"
+													v-bind:class="[markedFoodItem === foodItem ? 'underline' : '']">
 
-							<!-- Unit input -->
-							<div class="col-md-2 mb-2 px-md-1 p-0">
-								<div class="text-muted mb-1">Unit</div>
-								<input 
-									v-on:blur="unfocusMeasurement" 
-									ref="measurement" 
-									v-if="!newIngredient.measurement" 
-									v-model="measurementSearch" 
-									type="text" 
-									class="form-control" 
-									placeholder="">
-								
-								<div v-else class="form-control d-flex justify-content-between">
-									<div>
-										<span class="badge badge-success">
-											{{newIngredient.measurement.name}}
-										</span>
+													<span>{{foodItem.name}}</span>
+												</span>
+											</div>
+
+											<div>
+												<span 
+													v-if="foodItemSearch.length > 0 && !foodItemsSearching && !foodItemExists"
+													class="badge badge-success pointer"
+													v-on:click="createFoodItem"
+													v-bind:class="[!markedFoodItem ? 'underline' : '']">
+
+													<i v-if="creatingFoodItem" class="fas fa-circle-notch"></i>
+													<i v-else class="fas fa-plus-circle mr-1"></i>
+													<span>Add '{{foodItemSearch.trim()}}'</span>
+												</span>
+											</div>
+										</div>
+										<div v-else>
+											<span class="badge badge-dark">
+												<span>Searching</span>
+												<i class="fas fa-circle-notch fa-spin ml-1"></i>
+											</span>
+										</div>
 									</div>
-									<span><i class="fas fa-times-circle pointer" v-on:click="clearMeasurements"></i></span>
 								</div>
-							</div>
 
-							<div class="col-md-1 mb-2 pr-md-0 pl-md-1 p-0">
-								<div class="mb-1 d-md-block d-none"><span v-html="'&nbsp;'"></span></div>
-								<button v-on:click="addIngredient" class="btn btn-success w-100">
-									<i class="fas fa-plus-circle mr-1"></i>
-								</button>
-							</div>
-						</div>
+								<div v-if="showMeasurementsResults"  class="mt-3">
+									<div class="text-muted mb-1">Select a unit of measurement:</div>
+									<div class="search-results">
+										<div class="d-flex justify-content-start flex-wrap" v-if="!measurementsSearching">
+											<div>
+												<span 
+													v-for="(measurement, index) in measurements"  
+													v-bind:key="index" 
+													class="badge badge-dark mr-1 pointer"
+													v-on:click="selectMeasurement(measurement)"
+													v-bind:class="[markedMeasurement.id === measurement.id ? 'underline' : '']">
 
-						<!-- Measurement search results -->
-						<div class="row" v-if="measurementSearch.length > 0 && !measurementsSearching">
-							<div class="col p-0">
-								<div class="card p-1 search-results">
-									<div class="d-flex justify-content-start flex-wrap">
-										<span 
-											v-for="(measurement, index) in measurements"  
-											v-bind:key="index" 
-											class="badge badge-dark m-1 pointer"
-											v-on:click="selectMeasurement(measurement)">
+													<span>{{measurement.name}}</span>
+												</span>
+											</div>
 
-											<span>{{measurement.name}}</span>
-										</span>
+											<small class="text-muted" v-if="measurementSearch.length > 0 && !measurementsSearching && !measurementExists && measurements.length === 0">
+												Can't find unit '{{measurementSearch}}'
+											</small>
+										</div>
 
-										<span 
-											v-if="measurementSearch.length > 0 && !measurementsSearching && !measurementExists" 
-											class="badge badge-success m-1 pointer">'
-											
-											<i class="fas fa-plus-circle mr-1"></i>
-											<span>{{measurementSearch}}</span>
-										</span>
+										<div v-else>
+											<span class="badge badge-dark">
+												<span>Searching</span>
+												<i class="fas fa-circle-notch fa-spin ml-1"></i>
+											</span>
+										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-
-						<!-- Food items search result -->
-						<div class="row" v-if="foodItemSearch.length > 0 && !foodItemsSearching">
-							<div class="col p-0">
-								<div class="card p-1 search-results">
-									<div class="d-flex justify-content-start flex-wrap">
-										<span 
-											v-for="(foodItem, index) in foodItems"  
-											v-bind:key="index" 
-											class="badge badge-dark m-1 pointer"
-											v-on:click="selectFoodItem(foodItem)">
-
-											<span>{{foodItem.name}}</span>
-										</span>
-
-										<span 
-											v-if="foodItemSearch.length > 0 && !foodItemsSearching && !foodItemExists"
-											class="badge badge-success m-1 pointer"
-											v-on:click="createFoodItem">
-
-											<i v-if="creatingFoodItem" class="fas fa-circle-notch"></i>
-											<i v-else class="fas fa-plus-circle mr-1"></i>
-											<span>{{foodItemSearch}}</span>
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row" v-if="ingredients.length > 0">
-							<div class="col p-0">
-								<hr>
-							</div>
-						</div>
-
-						<!-- Ingredients -->
-						<div class="row" v-for="(ingredient, index) in ingredients" v-bind:key="index">
-							<div class="col-md-7 col-7 mb-2 pl-md-0 pr-md-1 p-0">
-								{{ingredient.foodItem.name}}
-							</div>
-
-							<div class="col-md-2 col-2 mb-2 px-md-1 p-0 pr-1 text-right">
-								{{ingredient.amount}}
-							</div>
-
-							<div class="col-md-1 col-1 mb-2 px-md-1 p-0">
-								{{ingredient.measurement.name}}
-							</div>
-
-							<div class="col-2 col-2 mb-2 px-md-1 p-0 text-right">
-								<button v-on:click="removeIngredient(index)" title="Remove ingredient" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button>
 							</div>
 						</div>
 					</div>
@@ -216,51 +229,56 @@
 				<div class="list-group-item">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-md-1 mb-2 pl-md-0 pr-md-1 p-0">
-								<div class="text-muted mb-1">Order</div>
-								<input 
-									v-model="newInstruction.number" 
-									type="number" 
-									placeholder="" 
-									class="form-control">
-							</div>
+							<div class="col-md-12 p-0">
+								<div class="mb-2">
+									<small class="text-muted">Writing instructions will make it easier for others to recreate your recipe!</small>
+								</div>
 
-							<div class="col-md-10 mb-2 px-md-1 p-0">
-								<div class="text-muted mb-1">Instruction</div>
-								<input 
-									v-model="newInstruction.instruction" 
-									type="text" 
-									placeholder="" 
-									class="form-control">
-							</div>
+								<table>
+									<thead>
+										<tr>
+											<td style="width: 100%" class="text-muted"></td>
+											<td></td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(instruction, index) in sortedInstructions" v-bind:key="index">
+											<td>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<button disabled title="Move" class="btn btn-dark">{{index + 1}}</button>
+													</div>
+													<input type="text" class="form-control" v-model="instruction.instruction">
+													<div class="input-group-append" v-if="sortedInstructions.length > 1">
+														<button title="Move" class="btn btn-dark"><i class="fas fa-grip-lines"></i></button>
+													</div>
+												</div>
+											</td>
+											<td>
+												<button class="btn btn-danger" v-on:click="removeInstruction(index)">
+													<i class="fas fa-trash-alt"></i>
+												</button>
+											</td>
+										</tr>
 
-							<div class="col-md-1 mb-2 pl-md-1 p-0 text-right">
-								<div class="mb-1 d-md-block d-none"><span v-html="'&nbsp;'"></span></div>
-								<button v-on:click="addInstruction" class="btn btn-success w-100">
-									<i class="fas fa-plus-circle mr-1"></i>
-								</button>
-							</div>
-						</div>
-
-						<div class="row" v-if="instructions.length > 0">
-							<div class="col-12 p-0">
-								<hr>
-							</div>
-						</div>
-
-						<div class="row" v-for="(instruction, index) in sortedInstructions" v-bind:key="index">
-							<div class="col-md-11 col-11 mb-2 pl-md-0 pr-md-1 p-0">
-								<span class="mr-2">{{instruction.number}}.</span>
-								<span>{{instruction.instruction}}</span>
-							</div>
-
-							<div class="col-md-1 col-1 mb-2 px-md-1 p-0 text-right">
-								<button 
-									v-on:click="removeInstruction(index)" 
-									class="btn btn-sm btn-danger">
-
-									<i class="fas fa-times"></i>
-								</button>
+										<tr>
+											<td>
+												<input 
+													v-model="newInstruction.instruction" 
+													type="text" 
+													placeholder="New instruction.." 
+													class="form-control"
+													ref="instruction"
+													v-on:keyup.enter="addInstruction">
+											</td>
+											<td>
+												<button v-on:click="addInstruction" class="btn btn-success">
+													<i class="fas fa-plus"></i>
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -319,6 +337,8 @@
 				foodItemFocus: false,
 				foodItemsSearching: false,
 				creatingFoodItem: false,
+				showFoodItemsResults: false,
+				markedFoodItem: null,
 
 				measurementTimeout: null,
 				measurementSearch: '',
@@ -326,6 +346,8 @@
 				measurementFocus: false,
 				measurementsSearching: false,
 				creatingMeasurement: false,
+				showMeasurementsResults: false,
+				markedMeasurement: null,
 
 				creatingRecipe: false
 			}
@@ -334,13 +356,13 @@
 		computed: {
 			foodItemExists() {
 				return this.foodItems.filter((foodItem) =>  {
-					return this.foodItemSearch.toLowerCase() === foodItem.name.toLowerCase();
+					return this.foodItemSearch.toLowerCase().trim() === foodItem.name.toLowerCase().trim();
 				}).length > 0;
 			},
 
 			measurementExists() {
 				return this.measurements.filter((measurement) => {
-					return this.measurementSearch.toLowerCase() === measurement.name.toLowerCase() || this.measurementSearch.toLowerCase() === measurement.long_name.toLowerCase();
+					return this.measurementSearch.toLowerCase().trim() === measurement.name.toLowerCase().trim() || this.measurementSearch.toLowerCase().trim() === measurement.long_name.toLowerCase().trim();
 				}).length > 0;
 			},
 
@@ -358,6 +380,12 @@
 				})
 				.then((response) => {
 					this.foodItems = response;
+					
+					if(this.foodItems.length > 0) {
+						this.markedFoodItem = this.foodItems[0];
+					} else {
+						this.markedFoodItem = null;
+					}
 				})
 				.catch((err) => {
 					console.log(err);
@@ -373,6 +401,13 @@
 				})
 				.then((response) => {
 					this.measurements = response;
+
+					if(this.measurements.length > 0) {
+						this.markedMeasurement = this.measurements[0];
+					} else {
+						this.markedMeasurement = null;
+					}
+					
 				})
 				.catch((err) => {
 					console.log(err);
@@ -386,7 +421,7 @@
 				this.creatingFoodItem = true;
 
 				this.$store.dispatch('createFoodItem', {
-					name: this.foodItemSearch,
+					name: this.capitalize(this.foodItemSearch),
 					created_by: this.$store.getters.userData.id
 				})
 				.then((response) => {
@@ -401,15 +436,27 @@
 			},
 
 			selectFoodItem(foodItem) {
-				this.newIngredient.foodItem = foodItem;
-				this.foodItems = [];
-				this.foodItemSearch = '';
+				console.log(foodItem);
+
+				if(foodItem) {
+					this.newIngredient.foodItem = foodItem;
+					this.foodItems = [];
+					this.foodItemSearch = foodItem.name;
+					this.showFoodItemsResults = false;
+
+					this.$refs.amount.focus();
+				} else {
+					this.createFoodItem();
+				}
+
 			},
 
 			selectMeasurement(measurement) {
 				this.newIngredient.measurement = measurement;
 				this.measurements = [];
-				this.measurementSearch = '';
+				this.measurementSearch = measurement.name;
+				this.showMeasurementsResults = false;
+				this.addIngredient();
 			},
 
 			addIngredient() {
@@ -420,6 +467,11 @@
 						measurement: null,
 						amount: null
 					};
+
+					this.foodItemSearch = '';
+					this.measurementSearch = '';
+
+					this.$refs.fooditem.focus();
 				}
 			},
 
@@ -449,8 +501,11 @@
 
 			unfocusFooditem() {
 				/*
-				this.foodItems = [];
-				this.foodItemSearch = '';
+				this.$nextTick(() => {
+					if(!this.newIngredient.foodItem) {
+						this.foodItemSearch = '';
+					}
+				});
 				*/
 			},
 
@@ -462,12 +517,16 @@
 			},
 
 			addInstruction() {
-				if(this.newInstruction.number && this.newInstruction.instruction.trim().length > 0) {
+				if(this.newInstruction.instruction.trim().length > 0) {
+					
+					this.newInstruction.number = this.instructions.length + 1;
 					this.instructions.push(this.newInstruction);
 					this.newInstruction = {
 						number: null,
 						instruction: ''
 					};
+
+					this.$refs.instruction.focus();
 				}
 			},
 
@@ -518,6 +577,80 @@
 					number: null,
 					instruction: ''
 				}
+			},
+
+			markNextFoodItem() {
+				if(this.foodItems.length > 0) {
+					if(this.markedFoodItem) {
+						let currIndex = this.foodItems.indexOf(this.markedFoodItem);
+
+						if(currIndex < (this.foodItems.length - 1)) {
+							this.markedFoodItem = this.foodItems[currIndex + 1];
+						} else {
+							if(this.markedFoodItem) {
+								this.markedFoodItem = null;
+							} else {
+								this.markedFoodItem = this.foodItems[0];
+							}
+						}
+					} else  {
+						this.markedFoodItem = this.foodItems[0];
+					}
+				}
+			},
+
+			markPreviousFoodItem() {
+				if(this.foodItems.length > 1) {
+					if(this.markedFoodItem) {
+						let currIndex = this.foodItems.indexOf(this.markedFoodItem);
+
+						if(currIndex > 0) {
+							this.markedFoodItem = this.foodItems[currIndex - 1];
+						} else {
+							if(this.markedFoodItem) {
+								this.markedFoodItem = null;
+							} else {
+								this.markedFoodItem = this.foodItems[this.foodItems.length - 1];
+							}
+						}
+					} else {
+						this.markedFoodItem = this.foodItems[this.foodItems.length - 1];
+					}
+				}
+			},
+
+			markNextMeasurement() {
+				if(this.measurements.length > 1) {
+					let currIndex = this.measurements.indexOf(this.markedMeasurement);
+
+					if(currIndex < (this.measurements.length - 1)) {
+						this.markedMeasurement = this.measurements[currIndex + 1];
+					} else {
+						this.markedMeasurement = this.measurements[0];
+					}
+				}
+			},
+
+			markPreviousMeasurement() {
+				if(this.measurements.length > 1) {
+					let currIndex = this.measurements.indexOf(this.markedMeasurement);
+
+					if(currIndex > 0) {
+						this.markedMeasurement = this.measurements[currIndex - 1];
+					} else {
+						this.markedMeasurement = this.measurements[this.measurements.length - 1];
+					}
+				}
+			},
+
+			capitalize(s) {
+				let text = '';
+
+				s.split(' ').forEach((word) => {
+					text += word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() + ' ';
+				});
+
+				return text.trim();
 			}
 		},
 
@@ -525,6 +658,18 @@
 			foodItemSearch() {
 				this.measurements = [];
 				this.foodItemsSearching = true;
+				
+				if(this.newIngredient.foodItem) {
+					if(this.newIngredient.foodItem.name !== this.foodItemSearch) {
+						this.showFoodItemsResults = true;
+					}
+				} else {
+					this.showFoodItemsResults = true;
+				}
+
+				if(this.foodItemSearch.trim().length === 0) {
+					this.showFoodItemsResults = false;
+				}
 
 				if(this.foodItemSearch.length > 0) {
 					clearTimeout(this.foodItemTimeout);
@@ -540,6 +685,18 @@
 			measurementSearch() {
 				this.foodItems = [];
 				this.measurementsSearching = true;
+
+				if(this.newIngredient.measurement) {
+					if(this.newIngredient.measurement.name !== this.measurementSearch) {
+						this.showMeasurementsResults = true;
+					}
+				} else {
+					this.showMeasurementsResults = true;
+				}
+
+				if(this.measurementSearch.trim().length === 0) {
+					this.showMeasurementsResults = false;
+				}
 
 				if(this.measurementSearch.length > 0) {
 					clearTimeout(this.measurementTimeout);
@@ -587,11 +744,19 @@
 	}
 
 	.badge {
-		padding: 4px 6px;
+		padding: 6px 8px;
 	}
 
 	button {
 		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 		border: none;
+	}
+
+	.info {
+		background-color: #c4bad325;
+	}
+
+	.underline {
+		text-decoration: underline;
 	}
 </style>

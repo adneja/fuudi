@@ -8,22 +8,6 @@
 <script>
 	export default {
 		name: 'Plans',
-
-		methods: {
-			getPlans() {
-				this.$store.dispatch('getMyPlans')
-				.then((response) => {
-					console.log(response);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-			}
-		},
-
-		mounted() {
-			this.getPlans();
-		}
 	}
 </script>
 

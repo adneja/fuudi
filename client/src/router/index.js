@@ -97,7 +97,14 @@ router.beforeEach((to, from, next) => {
 		if(store.getters.token) {
 			next();
 		} else {
-			router.push({name: 'Home'});
+			if(!from.name || from.meta.requiresAuth) {
+				router.push({name: 'Home'});
+			} else {
+				store.commit('setSystemMessage', {
+					content: 'Please login to use this feature.',
+					error: true
+				});
+			}
 		}
 	} else {
 		next();

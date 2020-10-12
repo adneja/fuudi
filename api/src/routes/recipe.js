@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {verifyToken} = require('../util/jwt.js');
-const {runQuery, queries} = require('../util/db.js');
+const {runQuery, queries, query} = require('../util/db.js');
 
 
 // Search for measurements
@@ -16,7 +16,7 @@ router.get('/api/recipes/search/measurements/:search', verifyToken, (req, res) =
 // Search for food items
 router.get('/api/recipes/search/fooditems/:search', verifyToken, (req, res) => {
     let params = [req.params.search];
-
+    
     runQuery(queries.recipe_fooditems_search, params, res, (result) => {
         res.json(result.rows);
     });

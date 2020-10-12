@@ -1,1 +1,1 @@
-SELECT * FROM func_recipes_ingredients_create_fromjson($1, $2, $3, $4, $5, $6, $7)
+SELECT * FROM func_recipes_create($1, $2, $3, $4, $5, $6, $7)

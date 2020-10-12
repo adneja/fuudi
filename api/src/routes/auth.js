@@ -31,7 +31,7 @@ router.post('/api/auth/register', (req, res) => {
 // Login user
 router.get('/api/auth/login/:email/:password', (req, res) => {
     let params = [req.params.email, req.params.password];
-
+    
     runQuery(queries.auth_login, params, res, (result) => {
         let user = result.rows[0];
 

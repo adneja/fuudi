@@ -24,12 +24,13 @@ filenames.forEach((filename) => {
 
 module.exports = {
     pool: pool,
+    queries: queries,
 
     runQuery: (query, params, res, callback) => {
         pool.query(query, params, (err, result) => {
             if(err) {
                 console.log(err);
-                
+
                 if(err.hint) {
                     res.json({
                         error: err.hint
@@ -45,5 +46,9 @@ module.exports = {
         });
     },
 
-    queries: queries
+    query: (req, res, next) => {
+        req.query = (query, params, callback) => {
+            this.runQuery(query, params, res, callback);
+        }
+    }
 };
