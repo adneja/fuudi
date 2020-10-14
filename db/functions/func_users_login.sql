@@ -1,14 +1,11 @@
 DROP FUNCTION func_users_login;
 
 CREATE FUNCTION func_users_login(
-	p_email TEXT,
-	p_password TEXT
-)
-RETURNS SETOF viw_users
-LANGUAGE plpgsql
-AS $$
+	p_email text,
+	p_password text
+) RETURNS SETOF viw_users AS $$
 	DECLARE
-		v_user_id INTEGER;
+		v_user_id integer;
 	BEGIN
 		SELECT
 			id
@@ -27,6 +24,6 @@ AS $$
 				SELECT * FROM viw_users WHERE id = v_user_id;
 		END IF;
 	END;
-$$;
+$$ LANGUAGE plpgsql;
 
 GRANT EXECUTE ON FUNCTION func_users_login TO api;

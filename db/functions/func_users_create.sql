@@ -4,10 +4,7 @@ CREATE FUNCTION func_users_create(
 	p_email TEXT,
 	p_name TEXT,
 	p_password TEXT
-)
-RETURNS SETOF viw_users
-LANGUAGE plpgsql
-AS $$
+) RETURNS SETOF viw_users AS $$
 	DECLARE
 		v_new_user_id INTEGER;
 	BEGIN
@@ -40,6 +37,6 @@ AS $$
 		RETURN QUERY
 			SELECT * FROM viw_users WHERE id = v_new_user_id;
 	END;
-$$;
+$$ LANGUAGE plpgsql;
 
 GRANT EXECUTE ON FUNCTION func_users_create TO api;

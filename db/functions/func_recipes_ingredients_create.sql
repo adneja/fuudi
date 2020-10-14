@@ -6,10 +6,7 @@ CREATE FUNCTION func_recipes_ingredients_create(
 	p_measurement_id integer,
 	p_amount integer,
 	p_created_by integer
-)
-RETURNS SETOF tbl_recipes_ingredients
-LANGUAGE plpgsql
-AS $$
+) RETURNS SETOF tbl_recipes_ingredients AS $$
 	DECLARE
 		v_new_recipe_ingredient_id integer;
 	BEGIN
@@ -30,6 +27,6 @@ AS $$
 		RETURN QUERY
 			SELECT * FROM tbl_recipes_ingredients WHERE id = v_new_recipe_ingredient_id;
 	END;
-$$;
+$$ LANGUAGE plpgsql;
 
 GRANT EXECUTE ON FUNCTION func_recipes_ingredients_create TO API;

@@ -4,7 +4,7 @@
 			<div class="text-right">
 				<router-link to="/createrecipe">
 					<span class="btn btn-success">
-						Create recipe
+						Add recipe
 					</span>
 				</router-link>
 			</div>

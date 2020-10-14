@@ -17,8 +17,14 @@
 <style lang="less" scoped>
 	@import "../assets/global.less";
 
+	.home {
+		padding-top: 50px;
+		height: 100%;
+	}
+
 	.home-container {
 		width: 100%;
+		height: 100%;
 		max-width: @main-content-width;
 		padding: @main-padding-horizontal;
 	}

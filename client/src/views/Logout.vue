@@ -10,16 +10,6 @@
         <div class="h-100 d-flex justify-content-center align-items-md-center align-items-top pt-md-0 pt-5">
             <div class="logout-container">
                 <div class="card logout-card">
-                    <!-- Logo -->
-                    <div class="title text-center">
-                        <!--
-                        <router-link to="/" title="Home">
-                            <i class="fas fa-carrot mr-1"></i>
-                            <span>Mealplan</span>
-                        </router-link>
-                        -->
-                    </div>
-
                     <div class="text-center message">You have been logged out.</div>
                     
                     <router-link to="/">
@@ -39,7 +29,6 @@
                             </router-link>
                         </small>
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -105,7 +94,6 @@
         font-size: 35pt;
         color: @main-color;
         margin-bottom: 10px;
-        //margin-top: -40px;
         color: @main-background;
 
         a {

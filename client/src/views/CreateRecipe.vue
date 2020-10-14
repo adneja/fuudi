@@ -2,298 +2,311 @@
 	<div class="createrecipe d-flex justify-content-center">
 		<div class="createrecipe-container">
 			<!-- Details -->
-			<div class="list-group mb-4">
-				<div class="list-group-item list-title">
-					<i class="fas fa-info-circle mr-2"></i>
-					<span>DETAILS</span>
-				</div>
-				<div class="list-group-item">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-5 pl-md-0 p-0 pr-md-3 mb-md-0 mb-3">
-								<div class="border dashed rounded text-muted d-flex justify-content-center align-items-center h-100">
-									<div class="text-center p-3 pointer" title="Click to upload image">
-										<i class="fas fa-image fa-3x"></i>
-										<div>Upload image</div>
+			<Window title="New recipe" icon="fas fa-info-circle" class="mb-5">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-4 pl-md-0 p-0 pr-md-3 mb-md-0 mb-3 mt-md-0 mt-3">
+							<div 
+								v-bind:class="[!uploadedFile ? 'uploadImageContainer' : '']"
+								class=" d-flex justify-content-center align-items-center h-100">
+								<div 
+									v-if="!uploadedFile" 
+									class="text-center p-3 pointer" 
+									v-on:click="chooseFile" 
+									title="Click to upload image">
+									
+									<i v-if="!uploadingFile" class="fas fa-upload fa-2x"></i>
+									<i v-else class="fas fa-circle-notch fa-3x fa-spin"></i>
+									<div class="mt-2">Upload image</div>
+								</div>
+
+								<div v-else>
+									<img class="recipeImage" ref="img" width="100%" v-bind:src="uploadedFilePath">
+									
+									<div class="btn-group w-100">
+										<button 
+											type="button"
+											title="Remove image"
+											class="w-50 btn btn-outline-light changeFileButton"
+											v-on:click="removeFile">
+											<i class="fas fa-trash-alt d-md-none d-inline"></i>
+											<span class="d-md-inline d-none">Delete</span>
+										</button>
+
+										<button 
+											type="button"
+											title="Upload new image"
+											v-on:click="chooseFile" 
+											class="w-50 btn btn-outline-light  changeFileButton">
+											<i class="fas fa-upload d-md-none d-inline"></i>
+											<span class="d-md-inline d-none">Change</span>
+										</button>
 									</div>
 								</div>
 							</div>
+						</div>
 
-							<div class="col-md-7">
-								<div class="row">
-									<div class="col-12 p-0">
-										<div class="mb-1 text-muted">Title</div>
-										<input class="form-control mb-3" type="text" v-model="name">
-									</div>
+						<div class="col-md-8">
+							<div class="row">
+								<div class="col-12 p-0">
+									<div class="mb-1  ">Title</div>
+									<input class="form-control form-control-sm mb-3" type="text" v-model="name" placeholder="">
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12 p-0">
+									<div class="mb-1  ">Description</div>
+									<textarea placeholder="" class="form-control form-control-sm mb-3" type="text" rows="4" v-model="description"></textarea>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 p-md-0 pr-md-1 p-0 mb-3">
+									<div class="mb-1  ">Cooking Time <small>(minutes)</small></div>
+									<input placeholder="" v-model="cookingTime" class="form-control form-control-sm" type="number">
 								</div>
 
-								<div class="row">
-									<div class="col-12 p-0">
-										<div class="mb-1 text-muted">Description</div>
-										<textarea class="form-control mb-3" type="text" rows="4" v-model="description"></textarea>
-									</div>
+								<div class="col-md-6 p-md-0 pl-md-1 p-0 mb-3">
+									<div class="mb-1  ">Portions</div>
+									<input placeholder="" v-model="portions" class="form-control form-control-sm " type="number">
 								</div>
+							</div>
 
-								<div class="row">
-									<div class="col-md-6 p-md-0 pr-md-1 p-0">
-										<div class="mb-1 text-muted">Cooking Time <small>(minutes)</small></div>
-										<input v-model="cookingTime" class="form-control" type="number">
+							<div class="row">
+								<div class="col-12 p-0 d-flex flex-wrap">
+									<div class="custom-control custom-checkbox mr-3">
+										<input v-model="vegan" type="checkbox" class="custom-control-input" id="vegan">
+										<label class="custom-control-label " for="vegan">
+											<span>Vegan</span>
+										</label>
+									</div>
+									<div class="custom-control custom-checkbox mr-3">
+										<input v-model="vegetarian" type="checkbox" class="custom-control-input" id="vegetarian">
+										<label class="custom-control-label " for="vegetarian">										
+											<span>Vegetarian</span>
+										</label>
 									</div>
 
-									<div class="col-md-6 p-md-0 pl-md-1 p-0">
-										<div class="mb-1 text-muted">Portions</div>
-										<input v-model="portions" class="form-control" type="number">
+									<div class="custom-control custom-checkbox mr-3">
+										<input v-model="glutenFree" type="checkbox" class="custom-control-input" id="gluten">
+										<label class="custom-control-label " for="gluten">
+											<span>Gluten free</span>
+										</label>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</Window>
 
 			<!-- Ingredients -->
-			<div class="list-group mb-4">
-				<div class="list-group-item list-title">
-					<i class="fas fa-pepper-hot mr-2"></i>
-					<span>INGREDIENTS</span>
-				</div>
+			<Window title="Ingredients" icon="fas fa-pepper-hot" class="mb-5">
+				<table>
+					<thead>
+						<tr>
+							<td class=" " style="width: 60%">Ingredient</td>
+							<td class="amountPadding" style="width: 20%">Amount</td>
+							<td class=" " style="width: 20%">Unit</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Data -->
+						<tr v-for="(ingredient, index) in ingredients" v-bind:key="index">
+							<td>
+								<SearchField 
+									action="searchFoodItems" 
+									displayField="name"
+									placeholder=""
+									prompt="Change ingredient"
+									v-bind:enableCreatePrompt="true"
+									v-bind:bottomPadding="true"
+									v-bind:startValue="ingredient.foodItem.name"
+									v-on:item-selected="updateFoodItem(index, $event)">
+								</SearchField>
+							</td>
 
-				<div class="list-group-item">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-12 p-0">
-								<div class="mb-2">
-									<div class="text-muted"><small>Add your ingredients by selecting an item, an amount and a unit of measurement.</small></div>
-								</div>
+							<td class="amountPadding">
+								<input class="form-control form-control-sm " v-model="ingredient.amount">
+							</td>
 
-								<table>
-									<thead>
-										<tr>
-											<td class="text-muted" style="width: 60%">Ingredient</td>
-											<td class="text-muted" style="width: 20%">Amount</td>
-											<td class="text-muted" style="width: 20%">Unit</td>
-											<td style="width: 10%"></td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr v-for="(ingredient, index) in ingredients" v-bind:key="index">
-											<td>
-												<input class="form-control" v-bind:value="ingredient.foodItem.name">
-											</td>
+							<td class="unitSpacing">
+								<SearchField 
+									action="searchMeasurements" 
+									displayField="name"
+									placeholder=""
+									prompt="Change unit"
+									v-bind:bottomPadding="true"
+									v-bind:startValue="ingredient.measurement.name"
+									v-on:item-selected="updateMeasurement(index, $event)">
+								</SearchField>
+							</td>
 
-											<td>
-												<input class="form-control" v-model="ingredient.amount">
-											</td>
+							<td>
+								<button class="btn btn-outline-light btn-sm" v-on:click="removeIngredient(index)">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</td>
+						</tr>
 
-											<td>
-												<input class="form-control" v-bind:value="ingredient.measurement.name">
-											</td>
+						<!-- Inputs -->
+						<tr>
+							<td>
+								<SearchField 
+									ref="searchfooditems"
+									action="searchFoodItems" 
+									displayField="name"
+									placeholder=""
+									prompt="Select ingredient"
+									v-bind:enableCreatePrompt="true"
+									v-on:item-selected="selectFoodItem"
+									v-on:create-item="createFoodItem">
+								</SearchField>	
+							</td>
 
-											<td>
-												<button class="btn btn-danger" v-on:click="removeIngredient(index)">
-													<i class="fas fa-trash-alt"></i>
-												</button>
-											</td>
-										</tr>
-										<tr>
-											<!-- Ingredient -->
-											<td>
-												<input 
-													v-on:blur="unfocusFooditem" 
-													ref="fooditem"
-													v-model="foodItemSearch" 
-													type="text" 
-													class="form-control" 
-													placeholder="New ingredient.."
-													v-on:keyup.enter="selectFoodItem(markedFoodItem)"
-													v-on:keyup.right.stop.prevent="markNextFoodItem"
-													v-on:keyup.left.stop.prevent="markPreviousFoodItem">
-											</td>
+							<td class="amountPadding">
+								<input 
+									ref="amount" 
+									v-model="newIngredient.amount" 
+									type="number" 
+									class="form-control form-control-sm " 
+									placeholder=""
+									v-on:keyup.enter="$refs.searchmeasurements.focus()">
+							</td>
 
-											<!-- Amount -->
-											<td>
-												<input 
-													ref="amount" 
-													v-model="newIngredient.amount" 
-													type="number" 
-													class="form-control" 
-													placeholder=""
-													v-on:keyup.enter="$refs.measurement.focus()">
-											</td>
-
-											<!-- Unit -->
-											<td>
-												<input 
-													v-on:blur="unfocusMeasurement" 
-													ref="measurement"
-													v-model="measurementSearch" 
-													type="text" 
-													class="form-control" 
-													placeholder=""
-													v-on:keyup.enter="selectMeasurement(markedMeasurement)"
-													v-on:keyup.right="markNextMeasurement"
-													v-on:keyup.left="markPreviousMeasurement">
-											</td>
-											<td>
-												<button class="btn btn-success" v-on:click="addIngredient">
-													<i class="fas fa-plus"></i>
-												</button>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-
-							</div>
-
-							<div class="col-md-12 p-0">
-								<div v-if="showFoodItemsResults" class="mt-3">
-									<div class="text-muted mb-1">Select an ingredient:</div>
-									<div class="search-results">
-										<div class="d-flex justify-content-start flex-wrap" v-if="!foodItemsSearching">
-											<div>
-												<span 
-													v-for="(foodItem, index) in foodItems"  
-													v-bind:key="index" 
-													class="badge badge-dark mr-1 pointer"
-													v-on:click="selectFoodItem(foodItem)"
-													v-bind:class="[markedFoodItem === foodItem ? 'underline' : '']">
-
-													<span>{{foodItem.name}}</span>
-												</span>
-											</div>
-
-											<div>
-												<span 
-													v-if="foodItemSearch.length > 0 && !foodItemsSearching && !foodItemExists"
-													class="badge badge-success pointer"
-													v-on:click="createFoodItem"
-													v-bind:class="[!markedFoodItem ? 'underline' : '']">
-
-													<i v-if="creatingFoodItem" class="fas fa-circle-notch"></i>
-													<i v-else class="fas fa-plus-circle mr-1"></i>
-													<span>Add '{{foodItemSearch.trim()}}'</span>
-												</span>
-											</div>
-										</div>
-										<div v-else>
-											<span class="badge badge-dark">
-												<span>Searching</span>
-												<i class="fas fa-circle-notch fa-spin ml-1"></i>
-											</span>
-										</div>
-									</div>
-								</div>
-
-								<div v-if="showMeasurementsResults"  class="mt-3">
-									<div class="text-muted mb-1">Select a unit of measurement:</div>
-									<div class="search-results">
-										<div class="d-flex justify-content-start flex-wrap" v-if="!measurementsSearching">
-											<div>
-												<span 
-													v-for="(measurement, index) in measurements"  
-													v-bind:key="index" 
-													class="badge badge-dark mr-1 pointer"
-													v-on:click="selectMeasurement(measurement)"
-													v-bind:class="[markedMeasurement.id === measurement.id ? 'underline' : '']">
-
-													<span>{{measurement.name}}</span>
-												</span>
-											</div>
-
-											<small class="text-muted" v-if="measurementSearch.length > 0 && !measurementsSearching && !measurementExists && measurements.length === 0">
-												Can't find unit '{{measurementSearch}}'
-											</small>
-										</div>
-
-										<div v-else>
-											<span class="badge badge-dark">
-												<span>Searching</span>
-												<i class="fas fa-circle-notch fa-spin ml-1"></i>
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+							<td class="unitSpacing">
+								<SearchField
+									ref="searchmeasurements" 
+									action="searchMeasurements" 
+									displayField="name"
+									placeholder=""
+									prompt="Select unit"
+									v-on:item-selected="selectMeasurement">
+								</SearchField>	
+							</td>
+							<td>
+								<button class="btn btn-outline-light btn-sm" v-on:click="addIngredient">
+									<i class="fas fa-plus"></i>
+								</button>
+							</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</Window>
 
 			<!-- Instructions -->
-			<div class="list-group mb-4">
-				<div class="list-group-item list-title">
-					<i class="fas fa-list-ol mr-2"></i>
-					<span>INSTRUCTIONS</span>
-				</div>
+			<Window title="Instructions" icon="fas fa-list-ol" class="mb-5">
+				<table>
+					<thead class="invisible">
+						<tr>
+							<td style="width: 100%" class="heightZero"></td>
+							<td></td>
+						</tr>
+					</thead>
 
-				<div class="list-group-item">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-12 p-0">
-								<div class="mb-2">
-									<small class="text-muted">Writing instructions will make it easier for others to recreate your recipe!</small>
+					<tbody>
+						<!-- Data -->
+						<tr v-for="(instruction, index) in sortedInstructions" v-bind:key="index">
+							<td class="unitSpacing">
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<button title="Move" class="btn  btn-sm btn-outline-light">{{index + 1}}</button>
+									</div>
+									<input type="text" class="form-control form-control-sm " v-model="instruction.instruction">
+									<div class="input-group-append" v-if="sortedInstructions.length > 1">
+										<button 
+											title="Move down" 
+											class="btn btn-sm btn-outline-light"
+											v-on:click="moveInstructionDown(index)">
+
+											<i class="fas fa-caret-down"></i>
+										</button>
+										<button 
+											title="Move up" 
+											class="btn btn-sm btn-outline-light"
+											v-on:click="moveInstructionUp(index)">
+
+											<i class="fas fa-caret-up"></i>
+										</button>
+									</div>
 								</div>
+							</td>
+							<td>
+								<button class="btn btn-sm btn-outline-light" v-on:click="removeInstruction(index)">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</td>
+						</tr>
 
-								<table>
-									<thead>
-										<tr>
-											<td style="width: 100%" class="text-muted"></td>
-											<td></td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr v-for="(instruction, index) in sortedInstructions" v-bind:key="index">
-											<td>
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<button disabled title="Move" class="btn btn-dark">{{index + 1}}</button>
-													</div>
-													<input type="text" class="form-control" v-model="instruction.instruction">
-													<div class="input-group-append" v-if="sortedInstructions.length > 1">
-														<button title="Move" class="btn btn-dark"><i class="fas fa-grip-lines"></i></button>
-													</div>
-												</div>
-											</td>
-											<td>
-												<button class="btn btn-danger" v-on:click="removeInstruction(index)">
-													<i class="fas fa-trash-alt"></i>
-												</button>
-											</td>
-										</tr>
+						<!-- Inputs -->
+						<tr>
+							<td class="unitSpacing">
+								<input 
+									v-model="newInstruction.instruction" 
+									type="text" 
+									placeholder="" 
+									class="form-control form-control-sm "
+									ref="instruction"
+									v-on:keyup.enter="addInstruction">
+							</td>
+							<td>
+								<button v-on:click="addInstruction" class="btn btn-sm btn-outline-light">
+									<i class="fas fa-plus"></i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</Window>
 
-										<tr>
-											<td>
-												<input 
-													v-model="newInstruction.instruction" 
-													type="text" 
-													placeholder="New instruction.." 
-													class="form-control"
-													ref="instruction"
-													v-on:keyup.enter="addInstruction">
-											</td>
-											<td>
-												<button v-on:click="addInstruction" class="btn btn-success">
-													<i class="fas fa-plus"></i>
-												</button>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+			<Window class="mb-4" title="Allergens" icon="fas fa-exclamation-triangle">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12 p-0 d-flex flex-wrap">
+							<div class="custom-control custom-checkbox mr-3">
+								<input v-model="milk" type="checkbox" class="custom-control-input" id="milk">
+								<label class="custom-control-label " for="milk">Milk</label>
+							</div>
+
+							<div class="custom-control custom-checkbox mr-3">
+								<input v-model="egg" type="checkbox" class="custom-control-input" id="egg">
+								<label class="custom-control-label " for="egg">Egg</label>
+							</div>
+
+							<div class="custom-control custom-checkbox mr-3">
+								<input v-model="nuts" type="checkbox" class="custom-control-input" id="nuts">
+								<label class="custom-control-label " for="nuts">Nuts</label>
+							</div>
+
+							<div class="custom-control custom-checkbox mr-3">
+								<input v-model="wheat" type="checkbox" class="custom-control-input" id="wheat">
+								<label class="custom-control-label " for="wheat">Wheat</label>
+							</div>
+
+							<div class="custom-control custom-checkbox mr-3">
+								<input v-model="soy" type="checkbox" class="custom-control-input" id="soy">
+								<label class="custom-control-label " for="soy">Soy</label>
+							</div>
+
+							<div class="custom-control custom-checkbox mr-3">
+								<input v-model="fish" type="checkbox" class="custom-control-input" id="fish">
+								<label class="custom-control-label " for="fish">Fish</label>
+							</div>
+
+							<div class="custom-control custom-checkbox mr-3">
+								<input v-model="shellfish" type="checkbox" class="custom-control-input" id="shellfish">
+								<label class="custom-control-label " for="shellfish">Shellfish</label>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</Window>
 
 			<!-- Actions -->
 			<div class="d-flex justify-content-end">
-				<button 
-					v-on:click="clear" 
-					class="btn btn-danger mr-2">
-
-					<span>Clear</span>
-				</button>
-
 				<button 
 					v-on:click="createRecipe"
 					class="btn btn-success">
@@ -302,14 +315,30 @@
 					<span v-else>Create</span>
 				</button>
 			</div>
+
+			<input 
+				v-on:change="handleFileChange" 
+				accept="image/*" 
+				class="file" 
+				ref="file" 
+				type="file"
+				name="recipe">
 		</div>
 	</div>
 </template>
 
 
 <script>
+	import SearchField from '../components/SearchField.vue';
+	import Window from '../components/Window.vue';
+
 	export default {
 		name: 'CreateRecipe',
+
+		components: {
+			SearchField,
+			Window
+		},
 		
 		data() {
 			return {
@@ -317,146 +346,90 @@
 				description: '',
 				cookingTime: null,
 				portions: null,
-				ingredients: [],
-				instructions: [],
+				fileId: null,
 
+				vegan: false,
+				vegetarian: false,
+				glutenFree: false,
+				milk: false,
+				egg: false,
+				nuts: false,
+				wheat: false,
+				soy: false,
+				fish: false,
+				shellfish: false,
+				
+				ingredients: [],
 				newIngredient: {
 					foodItem: null,
 					measurement: null,
 					amount: null
 				},
 
+				instructions: [],
 				newInstruction: {
 					number: null,
 					instruction: ''
 				},
 				
-				foodItemTimeout: null,
-				foodItemSearch: '',
-				foodItems: [],
-				foodItemFocus: false,
-				foodItemsSearching: false,
-				creatingFoodItem: false,
-				showFoodItemsResults: false,
-				markedFoodItem: null,
-
-				measurementTimeout: null,
-				measurementSearch: '',
-				measurements: [],
-				measurementFocus: false,
-				measurementsSearching: false,
-				creatingMeasurement: false,
-				showMeasurementsResults: false,
-				markedMeasurement: null,
-
-				creatingRecipe: false
+				creatingRecipe: false,
+				uploadingFile: false,
+				uploadedFile: null
 			}
 		},
 
 		computed: {
-			foodItemExists() {
-				return this.foodItems.filter((foodItem) =>  {
-					return this.foodItemSearch.toLowerCase().trim() === foodItem.name.toLowerCase().trim();
-				}).length > 0;
-			},
-
-			measurementExists() {
-				return this.measurements.filter((measurement) => {
-					return this.measurementSearch.toLowerCase().trim() === measurement.name.toLowerCase().trim() || this.measurementSearch.toLowerCase().trim() === measurement.long_name.toLowerCase().trim();
-				}).length > 0;
-			},
-
 			sortedInstructions() {
 				return this.instructions.sort((a, b) => {
 					return a.number - b.number;
 				});
+			},
+
+			uploadedFilePath() {
+				return `http://localhost:3333/api/files/img/${this.uploadedFile}`;
 			}
 		},
 
 		methods: {
-			searchFoodItems() {
-				this.$store.dispatch('searchFoodItems',  {
-					search: this.foodItemSearch
-				})
-				.then((response) => {
-					this.foodItems = response;
-					
-					if(this.foodItems.length > 0) {
-						this.markedFoodItem = this.foodItems[0];
-					} else {
-						this.markedFoodItem = null;
-					}
-				})
-				.catch((err) => {
-					console.log(err);
-				})
-				.finally(() => {
-					this.foodItemsSearching = false;
-				});
-			},
-
-			searchMeasurements() {
-				this.$store.dispatch('searchMeasurements',  {
-					search: this.measurementSearch
-				})
-				.then((response) => {
-					this.measurements = response;
-
-					if(this.measurements.length > 0) {
-						this.markedMeasurement = this.measurements[0];
-					} else {
-						this.markedMeasurement = null;
-					}
-					
-				})
-				.catch((err) => {
-					console.log(err);
-				})
-				.finally(() => {
-					this.measurementsSearching = false;
-				});
-			},
-
-			createFoodItem() {
-				this.creatingFoodItem = true;
-
+			createFoodItem(name) {
 				this.$store.dispatch('createFoodItem', {
-					name: this.capitalize(this.foodItemSearch),
+					name: name,
 					created_by: this.$store.getters.userData.id
 				})
 				.then((response) => {
 					this.selectFoodItem(response);
+
+					this.$store.commit('setSystemMessage', {
+						content: 'New ingredient has been added to the database.',
+						error: false
+					});
 				})
 				.catch((err) => {
-					console.log(err);
-				})
-				.finally(() => {
-					this.creatingFoodItem = false;
+					this.$store.commit('setSystemMessage', {
+						content: 'New ingredient has been added to the database.',
+						error: err
+					});
 				});
 			},
 
 			selectFoodItem(foodItem) {
-				console.log(foodItem);
-
 				if(foodItem) {
 					this.newIngredient.foodItem = foodItem;
-					this.foodItems = [];
-					this.foodItemSearch = foodItem.name;
-					this.showFoodItemsResults = false;
-
 					this.$refs.amount.focus();
-				} else {
-					this.createFoodItem();
-				}
+				} 
+			},
 
+			updateFoodItem(index, newFoodItem) {
+				this.ingredients[index].foodItem = newFoodItem;
 			},
 
 			selectMeasurement(measurement) {
 				this.newIngredient.measurement = measurement;
-				this.measurements = [];
-				this.measurementSearch = measurement.name;
-				this.showMeasurementsResults = false;
 				this.addIngredient();
+			},
+
+			updateMeasurement(index, newMeasurement) {
+				this.ingredients[index].measurement = newMeasurement;
 			},
 
 			addIngredient() {
@@ -468,52 +441,18 @@
 						amount: null
 					};
 
-					this.foodItemSearch = '';
-					this.measurementSearch = '';
+					this.$refs.searchfooditems.clear();
+					
+					this.$nextTick(() => {
+						this.$refs.searchmeasurements.clear();
+					});
 
-					this.$refs.fooditem.focus();
+					this.$refs.searchfooditems.focus();
 				}
 			},
 
 			removeIngredient(index) {
 				this.ingredients.splice(index, 1);
-			},
-
-			clearFoodItems() {
-				this.foodItems = [];
-				this.foodItemSearch = '';
-				this.newIngredient.foodItem = null;
-
-				this.$nextTick(() => {
-					this.$refs.fooditem.focus();
-				});
-			},
-
-			clearMeasurements() {
-				this.measurements = [];
-				this.measurementSearch = [];
-				this.newIngredient.measurement = null;
-
-				this.$nextTick(() => {
-					this.$refs.measurement.focus();
-				});
-			},
-
-			unfocusFooditem() {
-				/*
-				this.$nextTick(() => {
-					if(!this.newIngredient.foodItem) {
-						this.foodItemSearch = '';
-					}
-				});
-				*/
-			},
-
-			unfocusMeasurement() {
-				/*
-				this.measurements = [];
-				this.measurementSearch = '';
-				*/
 			},
 
 			addInstruction() {
@@ -534,6 +473,20 @@
 				this.instructions.splice(index, 1);
 			},
 
+			moveInstructionUp(index) {
+				if(index > 0) {
+					this.instructions[index].number = (index - 1);
+					this.instructions[index - 1].number = index;
+				}
+			},
+
+			moveInstructionDown(index) {
+				if(index < (this.instructions.length - 1))  {
+					this.instructions[index].number = (index + 1);
+					this.instructions[index + 1].number = index;
+				}
+			},
+
 			createRecipe() {
 				this.creatingRecipe = true;
 
@@ -541,6 +494,7 @@
 					name: this.name,
 					description: this.description,
 					cooking_time: this.cookingTime,
+					file_id: this.fileId,
 					portions: this.portions,
 					ingredients: this.ingredients,
 					instructions: this.instructions
@@ -561,152 +515,43 @@
 					this.creatingRecipe = false;
 				});
 			},
-
-			clear() {
-				this.name = '';
-				this.description = '';
-
-				this.ingredients = [];
-				this.instructions = [];
-				this.newIngredient = {
-					foodItem: null,
-					amount: null,
-					measurement: null
-				};
-				this.newInstruction = {
-					number: null,
-					instruction: ''
-				}
+			
+			chooseFile() {
+                this.$refs.file.value = "";
+                this.$refs.file.click();
 			},
+			
+			handleFileChange() {
+				let file = this.$refs.file.files[0],
+					formData = new FormData();
 
-			markNextFoodItem() {
-				if(this.foodItems.length > 0) {
-					if(this.markedFoodItem) {
-						let currIndex = this.foodItems.indexOf(this.markedFoodItem);
+				formData.append('file', file);
+				this.uploadingFile = true;
 
-						if(currIndex < (this.foodItems.length - 1)) {
-							this.markedFoodItem = this.foodItems[currIndex + 1];
-						} else {
-							if(this.markedFoodItem) {
-								this.markedFoodItem = null;
-							} else {
-								this.markedFoodItem = this.foodItems[0];
-							}
-						}
-					} else  {
-						this.markedFoodItem = this.foodItems[0];
-					}
-				}
-			},
+				this.$store.dispatch('uploadFile', formData)
+				.then((response) => {
+					this.uploadedFile = response.path;
+					this.fileId = response.id;
 
-			markPreviousFoodItem() {
-				if(this.foodItems.length > 1) {
-					if(this.markedFoodItem) {
-						let currIndex = this.foodItems.indexOf(this.markedFoodItem);
-
-						if(currIndex > 0) {
-							this.markedFoodItem = this.foodItems[currIndex - 1];
-						} else {
-							if(this.markedFoodItem) {
-								this.markedFoodItem = null;
-							} else {
-								this.markedFoodItem = this.foodItems[this.foodItems.length - 1];
-							}
-						}
-					} else {
-						this.markedFoodItem = this.foodItems[this.foodItems.length - 1];
-					}
-				}
-			},
-
-			markNextMeasurement() {
-				if(this.measurements.length > 1) {
-					let currIndex = this.measurements.indexOf(this.markedMeasurement);
-
-					if(currIndex < (this.measurements.length - 1)) {
-						this.markedMeasurement = this.measurements[currIndex + 1];
-					} else {
-						this.markedMeasurement = this.measurements[0];
-					}
-				}
-			},
-
-			markPreviousMeasurement() {
-				if(this.measurements.length > 1) {
-					let currIndex = this.measurements.indexOf(this.markedMeasurement);
-
-					if(currIndex > 0) {
-						this.markedMeasurement = this.measurements[currIndex - 1];
-					} else {
-						this.markedMeasurement = this.measurements[this.measurements.length - 1];
-					}
-				}
-			},
-
-			capitalize(s) {
-				let text = '';
-
-				s.split(' ').forEach((word) => {
-					text += word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() + ' ';
+					this.$store.commit('setSystemMessage', {
+						content: 'File uploaded!',
+						error: false
+					});
+				})
+				.catch((err) => {
+					this.$store.commit('setSystemMessage', {
+						content: err,
+						error: true
+					});
+				})
+				.finally(() => {
+					this.uploadingFile = false;
 				});
-
-				return text.trim();
-			}
-		},
-
-		watch: {
-			foodItemSearch() {
-				this.measurements = [];
-				this.foodItemsSearching = true;
-				
-				if(this.newIngredient.foodItem) {
-					if(this.newIngredient.foodItem.name !== this.foodItemSearch) {
-						this.showFoodItemsResults = true;
-					}
-				} else {
-					this.showFoodItemsResults = true;
-				}
-
-				if(this.foodItemSearch.trim().length === 0) {
-					this.showFoodItemsResults = false;
-				}
-
-				if(this.foodItemSearch.length > 0) {
-					clearTimeout(this.foodItemTimeout);
-
-					this.foodItemTimeout = setTimeout(() => {
-						this.searchFoodItems();
-					}, 500);
-				} else {
-					this.foodItems = [];
-				}
 			},
 
-			measurementSearch() {
-				this.foodItems = [];
-				this.measurementsSearching = true;
-
-				if(this.newIngredient.measurement) {
-					if(this.newIngredient.measurement.name !== this.measurementSearch) {
-						this.showMeasurementsResults = true;
-					}
-				} else {
-					this.showMeasurementsResults = true;
-				}
-
-				if(this.measurementSearch.trim().length === 0) {
-					this.showMeasurementsResults = false;
-				}
-
-				if(this.measurementSearch.length > 0) {
-					clearTimeout(this.measurementTimeout);
-
-					this.measurementTimeout = setTimeout(() => {
-						this.searchMeasurements();
-					}, 500);
-				} else {
-					this.measurements = [];
-				}
+			removeFile() {
+				this.fileId = null;
+				this.uploadedFile = null;
 			}
 		}
 	}
@@ -726,37 +571,69 @@
 		padding: @main-padding-horizontal;
 	}
 
-	.list-group-item {
-		padding: 20px;
-		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-		background-color: rgb(247, 243, 252);
-		border: none !important;
-
-		button {
-			box-shadow: none;
-		}
+	td {
+		vertical-align: top;
 	}
 
-	.list-title {
+	.file {
+		height: 0px;
+		width: 0px;
+	}
+
+	.changeFileButton {
+		border-top-left-radius: 0rem;
+		border-top-right-radius: 0rem;
+	}
+
+	.recipeImage {
+		border-top-left-radius: 0.25rem;
+		border-top-right-radius: 0.25rem;
+	}
+
+	
+	table {
+		border-collapse: separate;
+		border-spacing: 0px 7px;
+		margin-top: -7px;
+	}
+
+
+	.custom-control-label::before  {
 		background-color: @main-background !important;
-		color: rgba(255, 255, 255, 0.6);
-		padding: 7px 20px !important;
+		border-color: @main-color;
 	}
 
-	.badge {
-		padding: 6px 8px;
+	.custom-control-input:checked~.custom-control-label::before  {
+		background-color: @main-background !important;
+		border-color: @main-color;
 	}
 
-	button {
-		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-		border: none;
+	.custom-control-input:focus ~ .custom-control-label::before {
+		box-shadow:none !important;
+		outline: none !important;
+		border-color: @main-color;
 	}
 
-	.info {
-		background-color: #c4bad325;
+
+	.uploadImageContainer {
+		border: 1px dashed white;
+		border-radius: 0.25rem;
 	}
 
-	.underline {
-		text-decoration: underline;
+	.amountPadding {
+		padding-left: 7px;
+		padding-right: 7px;
+	}
+
+	.unitSpacing { 
+		padding-right: 7px;
+	}
+
+	.window {
+		margin-bottom: 30px !important;
+	}
+
+	.invisible {
+		visibility: collapse !important;
 	}
 </style>

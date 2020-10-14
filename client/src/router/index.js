@@ -70,12 +70,14 @@ const routes = [
 		component: CreateRecipe,
 		meta: {requiresAuth: true, showNavbar: true}
 	},
+	/*
 	{
-		path: '/*',
+		path: '*',
 		name: 'All',
 		component: Home,
 		meta: {requiresAuth: false, showNavbar: true}
 	}
+	*/
 ];
 
 

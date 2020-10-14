@@ -290,7 +290,6 @@
         font-size: 35pt;
         color: @main-color;
         margin-bottom: 40px;
-        //margin-top: -40px;
         color: @main-background;
 
         a {

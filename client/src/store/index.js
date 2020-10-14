@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import general from './general.js';
 import auth from './auth.js';
 import recipe from './recipe.js';
+import files from './files.js';
 
 Vue.use(Vuex)
 
@@ -11,6 +12,7 @@ export default new Vuex.Store({
 	modules: {
 		general: general,
 		auth: auth,
-		recipe: recipe
+		recipe: recipe,
+		files: files
 	}
 });

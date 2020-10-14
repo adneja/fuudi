@@ -6,19 +6,23 @@
                     <!-- Logo -->
                     <div class="logo">
                         <router-link to="/" title="Home">
-                            <i class="fas fa-carrot mr-1"></i>
-                            <span>Mealplanner</span>
+                            <i class="fas fa-hamburger mr-1"></i>
+                            <span>Deelish.io</span>
                         </router-link>
                     </div>
 
                     <!-- Desktop menu items -->
                     <div class="ml-4 d-md-block d-none">
                         <router-link to="/recipes" title="Browse all recipes" class="menu-item-desktop mr-3">
-                            <span>RECIPES</span>
+                            <span>Recipes</span>
                         </router-link>
 
                         <router-link to="/plans" title="My meal plans" class="menu-item-desktop mr-3">
-                            <span>PLANS</span>
+                            <span>Plans</span>
+                        </router-link>
+
+                        <router-link to="/plans" title="My meal plans" class="menu-item-desktop mr-3">
+                            <span>Ratings</span>
                         </router-link>
                     </div>
                 </div>
@@ -29,11 +33,11 @@
                     <!-- Desktop: Login/profile button -->
                     <div class="d-md-block d-none">
                         <router-link to="/signin" title="Sign in" class="menu-item-desktop mr-3" v-if="!$store.getters.token">
-                            <span>LOGIN</span>
+                            <span>Login</span>
                         </router-link>
 
                         <router-link to="/register" title="Register" class="menu-item-desktop" v-if="!$store.getters.token">
-                            <span>REGISTER</span>
+                            <span>Register</span>
                         </router-link>
 
                         <span class="user-menu d-flex justify-content-start align-items-center" v-else v-on:click="showUserMenu = !showUserMenu">
@@ -52,46 +56,47 @@
 
             <!-- Mobile menu -->
             <div class="mobile-menu d-md-none d-block" v-if="showMobileMenu">
-                <div class="menu-item-mobile">
+                <div class="menu-item-mobile-title ">Menu</div>
+                <div class="menu-item-mobile"  v-on:click="showMobileMenu = false">
                     <router-link to="/recipes" title="Recipes">
-                        <span>RECIPES</span>
+                        <span>Recipes</span>
                     </router-link>
                 </div>
 
-                <div class="menu-item-mobile">
+                <div class="menu-item-mobile"  v-on:click="showMobileMenu = false">
                     <router-link to="/plans" title="Plans">
-                        <span>PLANS</span>
+                        <span>Plans</span>
                     </router-link>
                 </div>
                 
                 <hr>
 
                 <div v-if="!$store.getters.token">
-                    <div class="menu-item-mobile">
+                    <div class="menu-item-mobile" v-on:click="showMobileMenu = false">
                         <router-link to="/signin" title="Sign in">
-                            <span>LOGIN</span>
+                            <span>Login</span>
                         </router-link>
                     </div>
 
-                    <div class="menu-item-mobile">
+                    <div class="menu-item-mobile" v-on:click="showMobileMenu = false">
                         <router-link to="/register" title="Register">
-                            <span>REGISTER</span>
+                            <span>Register</span>
                         </router-link>
                     </div>
                 </div>
 
                 <div v-else>
-                    <div class="d-flex justify-content-start align-items-center mb-2">
+                    <div class="d-flex justify-content-start align-items-center menu-item-mobile-title ">
                         <!--<i class="fas fa-user-circle mr-2 profile-img"></i>-->
                         <span>{{$store.getters.userData.name}}</span>
                     </div>
 
-                    <div class="menu-item-mobile">
-                        <router-link to="/settings">SETTINGS</router-link>
+                    <div class="menu-item-mobile" v-on:click="showMobileMenu = false">
+                        <router-link to="/settings">Settings</router-link>
                     </div>
 
-                    <div class="menu-item-mobile">
-                        <router-link to="/logout">LOG OUT</router-link>
+                    <div class="menu-item-mobile" v-on:click="showMobileMenu = false">
+                        <router-link to="/logout">Log Out</router-link>
                     </div>
                 </div>
             </div>
@@ -204,17 +209,21 @@
         opacity: 0.6;
     }
 
+    .menu-item-mobile {
+        margin-bottom: 5px;
+        opacity: .6;
+    }
+
     .router-link-active {
-        opacity: 1;
+        opacity: 1 !important;
     }
 
     .menu-item-desktop:hover {
         opacity: 1;
     }
 
-    .menu-item-mobile {
-        margin-bottom: 10px;
-        opacity: .6;
+    .menu-item-mobile-title {
+        margin-bottom: 5px;
     }
 
     .mobile-menu {
@@ -225,6 +234,7 @@
         top: 50px;
         left: 0px;
         padding: @main-padding-horizontal;
+        padding-top: 10px;
     }
 
     hr {

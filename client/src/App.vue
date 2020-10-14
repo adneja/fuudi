@@ -6,15 +6,17 @@
             <SystemMessage v-show="$store.getters.systemMessage"></SystemMessage>
         </transition>
 
-		<!--<div class="space"></div>-->
 		<keep-alive>
 			<router-view/>
 		</keep-alive>
+
+		<Footer></Footer>
 	</div>
 </template>
 
 <script>
 	import Topbar from './components/Topbar.vue';
+	import Footer from './components/Footer.vue';
 	import SystemMessage from './components/SystemMessage.vue';
 
 	export default {
@@ -32,7 +34,14 @@
 	#app {
 		font-family: 'Ubuntu', sans-serif;
 		height: 100%;
-		background-color: rgb(198, 194, 204);
+		font-family: 'Fugaz One', cursive;
+		font-family: 'Sansita Swashed', cursive;
+		font-family: 'Bebas Neue', cursive;
+		font-family: 'Staatliches', cursive;
+		font-size: 13pt;
+		letter-spacing: 0.08rem;
+		background: url(./assets/background.png);
+	background-attachment: fixed;
 	}
 
 	.space {

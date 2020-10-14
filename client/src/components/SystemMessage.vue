@@ -41,6 +41,8 @@
 </script>
 
 <style lang="less" scoped>
+    @import "../assets/global.less";
+
     .systemmessage {
         position: fixed;
         top: 0px; 
@@ -56,6 +58,6 @@
     }
 
     .success {
-        background-color: #426b42;
+        background-color: @main-background;;
     }
 </style>

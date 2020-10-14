@@ -5,3 +5,6 @@ FROM
 WHERE
     LOWER(name) LIKE '%' || LOWER($1) || '%'
     OR LOWER(long_name) LIKE '%' || LOWER($1) || '%'
+ORDER BY
+    name ASC
+LIMIT 10

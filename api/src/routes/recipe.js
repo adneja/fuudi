@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {verifyToken} = require('../util/jwt.js');
-const {runQuery, queries, query} = require('../util/db.js');
+const {runQuery, queries} = require('../util/db.js');
 
 
 // Search for measurements
@@ -52,13 +52,17 @@ router.post('/api/recipes/recipe', verifyToken, (req, res) => {
         }
     });
 
-    console.log(recipeData);
-
-    let params = [recipeData.name, recipeData.description, parseInt(recipeData.cooking_time), parseInt(recipeData.portions), JSON.stringify(recipeData.ingredients), JSON.stringify(recipeData.instructions), req.user.id];
-    console.log(params);
+    let params = [
+        recipeData.name, 
+        recipeData.description, 
+        parseInt(recipeData.cooking_time), 
+        parseInt(recipeData.portions), 
+        parseInt(recipeData.file_id) || null, 
+        JSON.stringify(recipeData.ingredients), 
+        JSON.stringify(recipeData.instructions), 
+        req.user.id];
 
     runQuery(queries.recipe_recipe_create, params, res, (result) => {
-        console.log(result.rows);
         res.json(result.rows[0]);
     });
 });

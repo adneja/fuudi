@@ -1,61 +1,105 @@
 // global variables
-@main-background: rgb(66, 56, 95);
-@main-background-dark:rgb(28, 23, 44);
+@main-background: rgb(53, 124, 118);//rgb(66, 56, 95);
+@main-background-dark:rgb(33, 71, 54);
 @main-color: white;
 @main-padding-vertical: 10px;
-@main-padding-horizontal: 20px;
+@main-padding-horizontal: 30px;
 @main-content-width: 1200px;
 
 // custom bootstrap
 .form-control:focus {
     border-color: inherit;
-    border-color: #cccccc;
     box-shadow: none;
 }
 
+// btn success
 .btn-success {
-    background-color: rgb(66, 107, 66);
-    color: @main-color;
-    //border: 1px solid @main-background !important;
+    background-color: @main-background;
+    border: 1px solid @main-background;
 }
 
 .btn-success:hover {
-    background-color:  rgb(66, 107, 66);
-    //border: 1px solid @main-background!important;
+    background-color:  rgb(43, 104, 76);
 }
 
 .btn-success:focus {
-    background-color: rgb(66, 107, 66);
-    //border: 1px solid @main-background !important;
     box-shadow: none;
+    background-color: rgb(43, 104, 76);    
 }
 
 .btn-success:active {
+    background-color:  rgb(59, 112, 88) !important;
     box-shadow: none !important;
-    //border: 1px solid @main-background !important;
-    background-color:  rgb(66, 107, 66) !important;
+}
+
+// btn danger
+.btn-danger {
+    background-color: rgb(170, 79, 79) !important;
+    border: 1px solid rgb(170, 79, 79);
+}
+
+.btn-danger:hover {
+    background-color: rgb(134, 63, 63) !important;
+}
+
+.btn-danger:focus {
+    background-color: rgb(134, 63, 63) !important;
+    box-shadow: none !important;
+}
+
+.btn-danger:active {
+    background-color: rgb(148, 79, 79) !important;
+    box-shadow: none !important;
+}
+
+.btn-dark {
+    border: 1px solid #343a40;
+}
+
+.btn-dark:focus {
+    box-shadow: none !important;
+}
+
+.btn-dark:active {
+    box-shadow: none !important;
+}
+
+.badge-success {
+    background-color: rgb(53, 124, 91) !important;
 }
 
 .text-danger {
     color: rgb(170, 79, 79) !important;
 }
 
-.btn-danger {
-    background-color: rgb(170, 79, 79) !important;
-}
-
-.badge-success {
-    background-color: rgb(66, 107, 66) !important;
+.pointer:hover {
+    cursor: pointer;
 }
 
 hr {
     border-top: 1px solid @main-background-dark !important;
 }
 
-.pointer:hover {
-    cursor: pointer;
+.btn {
+    //border: none !important;
 }
 
-.btn {
-    border: none !important;
+.badge-success {
+    background-color: @main-background !important;
+}
+
+input {
+    border-color: @main-color;
+    border-color: @main-color;
+    letter-spacing: 0.035rem;
+    font-size: 11pt;
+}
+
+input:focus {
+    border-color: @main-color !important;
+}
+
+
+.badge {
+    padding: 8px 6px 4px 6px;
 }
