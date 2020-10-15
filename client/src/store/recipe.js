@@ -82,6 +82,26 @@ export default {
                     reject(err);
                 });
             });
+        },
+
+        getRecipes(context) {
+            return new Promise((resolve, reject) => {
+                axios.get(`/recipes/recipes`, {
+                    headers: {
+                        authorization: context.getters.token
+                    }
+                })
+                .then((response) =>  {
+                    if(response.data.error) {
+                        reject(response.data.error);
+                    } else {
+                        resolve(response.data);
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+            });
         }
     }
 };

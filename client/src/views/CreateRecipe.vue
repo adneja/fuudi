@@ -2,13 +2,16 @@
 	<div class="createrecipe d-flex justify-content-center">
 		<div class="createrecipe-container">
 			<!-- Details -->
-			<Window title="New recipe" icon="fas fa-info-circle" class="mb-5">
+			<div class="dark mb-2">
+				<!--<i class="fas fa-info-circle mr-1"></i>-->
+				<span>New recipe info</span>
+			</div>
+
+			<Window title="" icon="" class="mb-5">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-4 pl-md-0 p-0 pr-md-3 mb-md-0 mb-3 mt-md-0 mt-3">
-							<div 
-								v-bind:class="[!uploadedFile ? 'uploadImageContainer' : '']"
-								class="d-flex justify-content-center align-items-center h-100">
+						<div class="col-md-4 mb-md-0 mb-3 mt-md-0 mt-2">
+							<div class="h-100" v-bind:class="[!uploadedFile ? 'uploadImageContainer' : '']">
 								<div 
 									v-if="!uploadedFile" 
 									class="text-center p-3 pointer" 
@@ -48,40 +51,40 @@
 
 						<div class="col-md-8">
 							<div class="row">
-								<div class="col-12 p-0">
+								<div class="col-12">
 									<div class="mb-1 muted">Title</div>
 									<input class="form-control form-control-sm mb-3" type="text" v-model="name" placeholder="">
 								</div>
 							</div>
 
 							<div class="row">
-								<div class="col-12 p-0">
+								<div class="col-12">
 									<div class="mb-1 muted">Description</div>
 									<textarea placeholder="" class="form-control form-control-sm mb-3" type="text" rows="4" v-model="description"></textarea>
 								</div>
 							</div>
 
 							<div class="row">
-								<div class="col-md-6 p-md-0 pr-md-1 p-0 mb-3">
+								<div class="col-md-6 mb-3">
 									<div class="mb-1 muted">Cooking Time <small>(minutes)</small></div>
 									<input placeholder="" v-model="cookingTime" class="form-control form-control-sm" type="number">
 								</div>
 
-								<div class="col-md-6 p-md-0 pl-md-1 p-0 mb-3">
+								<div class="col-md-6 mb-3">
 									<div class="mb-1 muted">Portions</div>
 									<input placeholder="" v-model="portions" class="form-control form-control-sm " type="number">
 								</div>
 							</div>
 
 							<div class="row">
-								<div class="col-12 p-0 d-flex flex-wrap">
-									<div class="custom-control custom-checkbox mr-3">
+								<div class="col-12 d-flex flex-wrap">
+									<div class="custom-control custom-checkbox mr-3 mb-md-0 mb-1">
 										<input v-model="vegan" type="checkbox" class="custom-control-input" id="vegan">
 										<label class="custom-control-label" for="vegan">
 											<span class="muted">Vegan</span>
 										</label>
 									</div>
-									<div class="custom-control custom-checkbox mr-3">
+									<div class="custom-control custom-checkbox mr-3 mb-md-0 mb-1">
 										<input v-model="vegetarian" type="checkbox" class="custom-control-input" id="vegetarian">
 										<label class="custom-control-label " for="vegetarian">										
 											<span class="muted">Vegetarian</span>
@@ -102,170 +105,170 @@
 			</Window>
 
 			<!-- Ingredients -->
-			<Window title="Ingredients" icon="fas fa-pepper-hot" class="mb-5">
-				<table>
-					<thead class="invisible">
-						<tr>
-							<td class=" " style="width: 60%"></td>
-							<td class="amountPadding" style="width: 20%"></td>
-							<td class=" " style="width: 20%"> <!--<i title="Unit of measurement (e.g. tbsp)" class="pointer far fa-question-circle"></i>--></td>
-							<td></td>
-						</tr>
-					</thead>
-					<tbody>
-						<!-- Data -->
-						<tr v-for="(ingredient, index) in ingredients" v-bind:key="index">
-							<td>
-								<SearchField 
-									action="searchFoodItems" 
-									displayField="name"
-									placeholder=""
-									prompt="Change ingredient"
-									v-bind:enableCreatePrompt="true"
-									v-bind:bottomPadding="true"
-									v-bind:startValue="ingredient.foodItem.name"
-									v-on:item-selected="updateFoodItem(index, $event)">
-								</SearchField>
-							</td>
+			<div class="dark mb-2">
+				<!--<i class="fas fa-pepper-hot mr-1"></i>-->
+				<span>Ingredients</span>
+			</div>
 
-							<td class="amountPadding">
-								<input class="form-control form-control-sm " v-model="ingredient.amount">
-							</td>
+			<Window title="" icon="" class="mb-5">
+				<div class="container-fluid">
+					<!-- Data -->
+					<div 
+						class="row" 
+						v-bind:class="[index === ingredients.length - 1 ? 'mb-2' : 'mb-md-2 mb-4']" 
+						v-for="(ingredient, index) in ingredients" 
+						v-bind:key="index">
 
-							<td class="unitSpacing">
-								<SearchField 
-									action="searchMeasurements" 
-									displayField="name"
-									placeholder=""
-									prompt="Change unit"
-									v-bind:bottomPadding="true"
-									v-bind:startValue="ingredient.measurement.name"
-									v-on:item-selected="updateMeasurement(index, $event)">
-								</SearchField>
-							</td>
+						<div class="col-md-6 col-12 pr-md-1 mb-md-0 mb-2">
+							<SearchField 
+								action="searchFoodItems" 
+								displayField="name"
+								placeholder=""
+								prompt="Change ingredient"
+								v-bind:enableCreatePrompt="true"
+								v-bind:bottomPadding="true"
+								v-bind:startValue="ingredient.foodItem.name"
+								v-on:item-selected="updateFoodItem(index, $event)">
+							</SearchField>
+						</div>
 
-							<td>
-								<button class="btn btn-outline-light btn-sm" v-on:click="removeIngredient(index)">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-						</tr>
+						<div class="col-md-3 col-6 px-md-1 pr-1">
+							<input class="form-control form-control-sm " v-model="ingredient.amount">
+						</div>
 
-						<!-- Inputs -->
-						<tr>
-							<td>
-								<SearchField 
-									ref="searchfooditems"
-									action="searchFoodItems" 
-									displayField="name"
-									placeholder="Ingredient"
-									prompt="Select ingredient"
-									v-bind:enableCreatePrompt="true"
-									v-on:item-selected="selectFoodItem"
-									v-on:create-item="createFoodItem">
-								</SearchField>	
-							</td>
+						<div class="col-md-3 col-6 d-flex pl-md-1 pl-1">
+							<SearchField 
+								action="searchMeasurements" 
+								displayField="name"
+								placeholder=""
+								prompt="Change unit"
+								v-bind:bottomPadding="true"
+								v-bind:startValue="ingredient.measurement.name"
+								v-on:item-selected="updateMeasurement(index, $event)">
+							</SearchField>
 
-							<td class="amountPadding">
-								<input 
-									ref="amount" 
-									v-model="newIngredient.amount" 
-									type="number" 
-									class="form-control form-control-sm " 
-									placeholder="Amount"
-									v-on:keyup.enter="$refs.searchmeasurements.focus()">
-							</td>
+							<button class="btn btn-outline-light btn-sm ml-2" v-on:click="removeIngredient(index)">
+								<i class="fas fa-trash-alt"></i>
+							</button>
+						</div>
+					</div>
 
-							<td class="unitSpacing">
-								<SearchField
-									ref="searchmeasurements" 
-									action="searchMeasurements" 
-									displayField="name"
-									placeholder="Unit"
-									prompt="Select unit"
-									v-on:item-selected="selectMeasurement">
-								</SearchField>	
-							</td>
-							<td>
-								<button class="btn btn-outline-light btn-sm" v-on:click="addIngredient">
-									<i class="fas fa-plus"></i>
-								</button>
-							</td>
-						</tr>
-						
-					</tbody>
-				</table>
+					<hr v-if="ingredients.length > 0">
+
+					<!-- Input -->
+					<div class="row">
+						<div class="col-md-6 col-12 pr-md-1 mb-md-0 mb-2">
+							<SearchField 
+								ref="searchfooditems"
+								action="searchFoodItems" 
+								displayField="name"
+								placeholder="Ingredient"
+								prompt="Select ingredient"
+								v-bind:enableCreatePrompt="true"
+								v-on:item-selected="selectFoodItem"
+								v-on:create-item="createFoodItem">
+							</SearchField>	
+						</div>
+
+						<div class="col-md-3 col-6 px-md-1 pr-1">
+							<input 
+								ref="amount" 
+								v-model="newIngredient.amount" 
+								type="number" 
+								class="form-control form-control-sm " 
+								placeholder="Amount"
+								v-on:keyup.enter="$refs.searchmeasurements.focus()">
+						</div>
+
+						<div class="col-md-3 col-6 d-flex pl-md-1 pl-1">
+							<SearchField
+								ref="searchmeasurements" 
+								action="searchMeasurements" 
+								displayField="name"
+								placeholder="Unit"
+								prompt="Select unit"
+								v-on:item-selected="selectMeasurement">
+							</SearchField>	
+
+							<button class="btn btn-outline-light btn-sm ml-2" v-on:click="addIngredient">
+								<i class="fas fa-plus"></i>
+							</button>
+						</div>
+					</div>
+				</div>
 			</Window>
 
 			<!-- Instructions -->
-			<Window title="Instructions" icon="fas fa-list-ol" class="mb-5">
-				<table>
-					<thead class="invisible">
-						<tr>
-							<td style="width: 100%" class="heightZero"></td>
-							<td></td>
-						</tr>
-					</thead>
+			<div class="dark mb-2">
+				<!--<i class="fas fa-list-ol mr-1"></i>-->
+				<span>Instructions</span>
+			</div>
 
-					<tbody>
-						<!-- Data -->
-						<tr v-for="(instruction, index) in sortedInstructions" v-bind:key="index">
-							<td class="unitSpacing">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<button title="Move" class="btn orderButton btn-sm btn-outline-light">{{index + 1}}</button>
-									</div>
-									<input type="text" class="form-control form-control-sm " v-model="instruction.instruction">
-									<div class="input-group-append" v-if="sortedInstructions.length > 1">
-										<button 
-											title="Move down" 
-											class="btn btn-sm btn-outline-light"
-											v-on:click="moveInstructionDown(index)">
-
-											<i class="fas fa-caret-down"></i>
-										</button>
-										<button 
-											title="Move up" 
-											class="btn btn-sm btn-outline-light"
-											v-on:click="moveInstructionUp(index)">
-
-											<i class="fas fa-caret-up"></i>
-										</button>
-									</div>
+			<Window title="" icon="" class="mb-5">
+				<div class="container-fluid">
+					<!-- Data -->
+					<div class="row mb-2" v-for="(instruction, index) in sortedInstructions" v-bind:key="index">
+						<div class="col-12 d-flex">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<button title="Move" class="btn orderButton btn-sm btn-outline-light">{{index + 1}}</button>
 								</div>
-							</td>
-							<td>
-								<button class="btn btn-sm btn-outline-light" v-on:click="removeInstruction(index)">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</td>
-						</tr>
+								<input type="text" class="form-control form-control-sm " v-model="instruction.instruction">
+								<div class="input-group-append" v-if="sortedInstructions.length > 1">
+									<button 
+										title="Move down" 
+										class="btn btn-sm btn-outline-light"
+										v-on:click="moveInstructionDown(index)">
 
-						<!-- Inputs -->
-						<tr>
-							<td class="unitSpacing">
-								<input 
-									v-model="newInstruction.instruction" 
-									type="text" 
-									placeholder="Instruction" 
-									class="form-control form-control-sm "
-									ref="instruction"
-									v-on:keyup.enter="addInstruction">
-							</td>
-							<td>
-								<button v-on:click="addInstruction" class="btn btn-sm btn-outline-light">
-									<i class="fas fa-plus"></i>
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+										<i class="fas fa-caret-down"></i>
+									</button>
+									<button 
+										title="Move up" 
+										class="btn btn-sm btn-outline-light"
+										v-on:click="moveInstructionUp(index)">
+
+										<i class="fas fa-caret-up"></i>
+									</button>
+								</div>
+							</div>
+
+							<button class="btn btn-sm btn-outline-light ml-2" v-on:click="removeInstruction(index)">
+								<i class="fas fa-trash-alt"></i>
+							</button>
+						</div>
+					</div>
+
+					<hr v-if="instructions.length > 0">
+
+					<!-- Inputs -->
+					<div class="row">
+						<div class="col-12 d-flex">
+							<input 
+								v-model="newInstruction.instruction" 
+								type="text" 
+								placeholder="Instruction" 
+								class="form-control form-control-sm "
+								ref="instruction"
+								v-on:keyup.enter="addInstruction">
+
+							<button v-on:click="addInstruction" class="btn btn-sm btn-outline-light ml-2">
+								<i class="fas fa-plus"></i>
+							</button>
+						</div>
+					</div>
+				</div>
 			</Window>
 
-			<Window class="mb-4" title="Allergens" icon="fas fa-exclamation-triangle">
+			<!-- Allergens -->
+			<div class="dark mb-2">
+				<!--<i class="fas fa-exclamation-triangle mr-1"></i>-->
+				<span>Allergens</span>
+			</div>
+
+			<Window class="mb-4" title="" icon="">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 p-0 d-flex flex-wrap">
+						<div class="col-12 d-flex flex-wrap">
 							<div class="custom-control custom-checkbox mr-3">
 								<input v-model="milk" type="checkbox" class="custom-control-input" id="milk">
 								<label class="custom-control-label " for="milk">
@@ -323,7 +326,7 @@
 			<div class="d-flex justify-content-end">
 				<button 
 					v-on:click="createRecipe"
-					class="btn btn-success shadow">
+					class="btn btn-success">
 
 					<i v-if="creatingRecipe" class="fas fa-circle-notch fa-spin"></i>
 					<span v-else>Create</span>
@@ -400,7 +403,7 @@
 			},
 
 			uploadedFilePath() {
-				return `http://localhost:3333/api/files/img/${this.uploadedFile}`;
+				return `http://10.0.0.34:3333/api/files/img/${this.uploadedFile}`;
 			}
 		},
 
@@ -598,10 +601,6 @@
 		padding: @main-padding-horizontal;
 	}
 
-	td {
-		vertical-align: top;
-	}
-
 	.file {
 		height: 0px;
 		width: 0px;
@@ -617,54 +616,23 @@
 		border-top-right-radius: 0.25rem;
 	}
 
-	
-	table {
-		border-collapse: separate;
-		border-spacing: 0px 7px;
-		margin-top: -7px;
-	}
-
-
-	.custom-control-label::before  {
-		background-color: @main-background !important;
-		border-color: @main-color;
-	}
-
-	.custom-control-input:checked~.custom-control-label::before  {
-		background-color: @main-background !important;
-		border-color: @main-color;
-	}
-
-	.custom-control-input:focus ~ .custom-control-label::before {
-		box-shadow:none !important;
-		outline: none !important;
-		border-color: @main-color;
-	}
-
-
 	.uploadImageContainer {
 		border: 1px dashed white;
 		border-radius: 0.25rem;
-	}
-
-	.amountPadding {
-		padding-left: 7px;
-		padding-right: 7px;
-	}
-
-	.unitSpacing { 
-		padding-right: 7px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.window {
-		margin-bottom: 30px !important;
-	}
-
-	.invisible {
-		visibility: collapse !important;
+		margin-bottom: 20px !important;
 	}
 
 	.orderButton {
 		width: 35px;
+	}
+
+	.container-fluid {
+		padding: 0px;
 	}
 </style>

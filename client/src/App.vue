@@ -55,7 +55,7 @@
 		height: 100%;
 		font-family: 'Staatliches', cursive;
 		font-size: 13pt;
-		letter-spacing: 0.08rem;
+		letter-spacing: 0.04rem;
 	}
 
 	.slideDown-enter-active, .slideDown-leave-active {

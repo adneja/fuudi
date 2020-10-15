@@ -83,9 +83,9 @@ router.post('/api/recipes/recipe', verifyToken, (req, res) => {
 });
 
 
-// Get popular recipes
-router.get('/api/recipes/recipes', verifyToken, (req, res) => {
-    runQuery(queries.recipe_recipes_popular.sql, params, res, (result) => {
+// Get recipes
+router.get('/api/recipes/recipes', (req, res) => {
+    runQuery(queries.recipe_recipes_popular, [], res, (result) => {
         res.json(result.rows);
     });
 });

@@ -12,7 +12,7 @@
                 </div>
 
                 <button class="btn textButton" v-on:click="close">
-                    <i class="fas fa-times fa-2x"></i>
+                    <i class="fas fa-times closeButton"></i>
                 </button>
             </div>
 
@@ -221,6 +221,10 @@
     .emptySpace {
         width: auto;
         height: 100vh;
+    }
+
+    .closeButton {
+        font-size: 20pt;
     }
 
     .title {

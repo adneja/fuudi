@@ -7,17 +7,19 @@
     - tag recipe X
         - vegan/vegiterian/gluten free X
         - alergens X
+    - make it usable on mobile X
 
 
-- create user menu sidebar
-- create mobile menu sidebar
+- create user menu sidebar X
+- create mobile menu sidebar X
 
 
 /recipes
-    - list recipes 
+    - list recipes  X
     - sort options
         - popular
         - new
+        - top
     - filter options    
         - cooking time
         - vegan/vegiterian/gluten free
@@ -28,3 +30,9 @@
 - setup prod db 
 - create deploy script (github hook?)
 - auto update SSL cert
+
+
+      body {
+        background: url(<%= BASE_URL %>background.png);
+		    background-attachment: fixed;
+      }

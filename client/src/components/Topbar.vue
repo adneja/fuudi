@@ -41,13 +41,16 @@
                         </div>
 
                         <span v-else class="d-flex justify-content-end align-items-center">
-                            <span v-on:click="$store.commit('setShowUserMenu', true)" class="name pointer d-flex justify-content-start align-items-center">
+                            <span v-on:click="$store.commit('setShowUserMenu', true)" class="name pointer d-flex justify-content-end align-items-center">
                                 <span>{{$store.getters.userData.name}}</span>
+                                <i class="far fa-user-circle profile-img ml-1"></i>
                             </span>
-
+                            
+                            <!--
                             <span class="menu-item-desktop ml-3 pointer" title="Log out" v-on:click="logout">
                                 <i class="fas fa-sign-out-alt"></i>
                             </span>
+                            -->
                         </span>
                     </div>
 
@@ -93,7 +96,7 @@
         left: 0px;
         width: 100%;
         z-index: 99999;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }
 
     .topbar-content {
@@ -107,7 +110,7 @@
     } 
 
     .profile-img {
-        font-size: 16pt;
+        font-size: 15pt;
     }
 
     .logo, .menu-button {

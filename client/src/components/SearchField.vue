@@ -10,7 +10,7 @@
             v-on:keyup.enter="getMarkedItem"
             v-on:keyup.esc="clear"
             v-bind:placeholder="placeholder"
-            v-bind:class="[showResults ? 'borderShowResults' : '']">
+            v-bind:class="[showResults ? '' : '']">
         
         <div class="searching" v-if="searching && searchWord.trim().length > 0">
             <i class="text-dark fas fa-circle-notch fa-spin"></i>

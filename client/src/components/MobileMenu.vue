@@ -2,11 +2,11 @@
     <div class="mobilemenu">
         <div class="mobilemenu-panel">
             <!-- Title -->
-            <div class="title d-flex justify-content-between align-items-center mb-4">
+            <div class="title d-flex justify-content-between align-items-center mb-3">
                 <div>Menu</div>
 
                 <button class="btn textButton" v-on:click="close">
-                    <i class="fas fa-times fa-2x"></i>
+                    <i class="fas fa-times closeButton"></i>
                 </button>
             </div>
 
@@ -36,7 +36,13 @@
                 </div>
 
                 <div v-else>
-                    <div class="name mb-4">{{$store.getters.userData.name}}</div>
+                    <div class="name mb-3">{{$store.getters.userData.name}}</div>
+
+                    <div class="mb-2">
+                        <router-link to="/createrecipe" class="menu-item">
+                            Create recipe
+                        </router-link>
+                    </div>
 
                     <div class="mb-2">
                         <router-link to="/settings" class="menu-item">
@@ -116,8 +122,16 @@
     .menu-item{
         color: @main-color !important;
         margin-bottom: 8px;
-        font-size: 20pt;
+        font-size: 18pt;
         opacity: 0.7;
+    }
+
+    .menu-item:hover {
+        opacity: 1;
+    }
+
+    .closeButton {
+        font-size: 20pt;
     }
 
     .name {

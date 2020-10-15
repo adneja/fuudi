@@ -1,1 +1,1 @@
-SELECT * FROM tbl_recipes
+SELECT * FROM viw_recipes

@@ -6,8 +6,14 @@
                 <div class="">{{$store.getters.userData.name}}</div>
 
                 <button class="btn textButton" v-on:click="close">
-                    <i class="fas fa-times fa-2x"></i>
+                    <i class="fas fa-times closeButton"></i>
                 </button>
+            </div>
+
+            <div class="mb-2">
+                <router-link to="/createrecipe" class="menu-item">
+                    Create recipe
+                </router-link>
             </div>
 
             <div class="mb-2">
@@ -64,7 +70,7 @@
         right: 0px;
         height: 100vh;
         width: 100%;
-        max-width: 330px;
+        max-width: 300px;
         background-color: @main-background;
         box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
         z-index: 9999999;
@@ -86,7 +92,7 @@
     }
 
     .closeButton {
-        font-size: 14pt;
+        font-size: 20pt;
     }
 
     .menu-item{
@@ -94,6 +100,10 @@
         margin-bottom: 8px;
         font-size: 15pt;
         opacity: 0.7;
+    }
+
+    .menu-item:hover {
+        opacity: 1;
     }
 
     .name {
