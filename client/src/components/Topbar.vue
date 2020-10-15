@@ -43,7 +43,6 @@
                         <span v-else class="d-flex justify-content-end align-items-center">
                             <span v-on:click="$store.commit('setShowUserMenu', true)" class="name pointer d-flex justify-content-start align-items-center">
                                 <span>{{$store.getters.userData.name}}</span>
-                                <!--<i class="fas fa-user-circle ml-2 profile-img"></i>-->
                             </span>
 
                             <span class="menu-item-desktop ml-3 pointer" title="Log out" v-on:click="logout">

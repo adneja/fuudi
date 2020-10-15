@@ -68,7 +68,7 @@
         background-color: @main-background;
         box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
         z-index: 9999999;
-        padding: 40px 20px;
+        padding: 20px 20px;
     }
 
     .emptySpace {
