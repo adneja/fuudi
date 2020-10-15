@@ -76,9 +76,9 @@
 
 								<div class="recipe-description">
 									<div class="title">{{recipe.name}}</div>
-									<span class="normalFont">
-										<span class="by">by </span>
-										<span class="author">{{recipe.created_by}}</span>
+									<span class="normalFont author">
+										<span>by </span>
+										<span>{{recipe.created_by}}</span>
 									</span>
 									
 									<div class="description normalFont">{{recipe.description}}</div>
@@ -185,9 +185,7 @@
 		background-color: @main-color;
 		border-radius: 0.25rem;
 		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-		//margin-left: 20px;
-		//margin-right: 20px;
-		margin-bottom: 40px;
+		margin-bottom: 30px;
 		position: relative;
 		transition: transform .2s;
 	}
@@ -200,25 +198,6 @@
 	.recipe-description {
 		padding: 20px;
 		height: 190px;
-	}
-
-	.heart {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		background-color: white;
-		border-radius: 50%;
-		width: 25px;
-		height: 25px;
-		display: flex;
-		align-content: center;
-		justify-content: center;
-		padding-top: 4px;
-		padding-left: 1px;
-
-		i {
-			color: @main-background;
-		}
 	}
 
 	img {
@@ -237,8 +216,6 @@
 		font-size: 14pt;
 		margin-bottom: -2px;
 		line-height: 1.2rem;
-		//letter-spacing: 0.06rem;
-
 		overflow : hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
@@ -262,7 +239,7 @@
 	}
 
 	.searchWindow {
-		margin-bottom: 40px;
+		margin-bottom: 30px;
 	}
 
 	.description {
@@ -272,26 +249,11 @@
 		color: black;
 		margin-top: 5px;
 		height: 60px;
-
-		/*
-		overflow: hidden;
-		text-overflow: ellipsis;
-		*/
-
-		//margin-bottom: 20px;
-
 		overflow : hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
-	}
-	
-	.by {
-		font-size: 10pt !important;
-		color: @main-background-dark;
-		font-weight: 600;
-
 	}
 
 	.author {
@@ -313,22 +275,5 @@
 		font-size: 10pt;
 		margin-left: 4px;
 		opacity: 0.7;
-	}
-
-	.createRecipe {
-		position: fixed;
-		bottom: 10px;
-		right: 13px;
-
-		a {
-			color: @main-background-dark !important;
-		}
-
-		i {
-			font-size: 30pt;
-			background-color: white;
-			border-radius: 50%;
-			border: 2px solid white;
-		}
 	}
 </style>
