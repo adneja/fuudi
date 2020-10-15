@@ -75,8 +75,6 @@ router.post('/api/recipes/recipe', verifyToken, (req, res) => {
         JSON.stringify(recipeData.instructions), 
         req.user.id];
 
-    console.log(params);
-
     runQuery(queries.recipe_recipe_create, params, res, (result) => {
         res.json(result.rows[0]);
     });

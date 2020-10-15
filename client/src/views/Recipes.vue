@@ -92,7 +92,7 @@
 									
 									<div class="d-flex justify-content-end align-items-center" v-if="recipe.rating">
 										<Stars v-bind:stars="recipe.rating" max="5"></Stars>
-										<span class="numberOfRatings">({{recipe.number_of_ratings}})</span>
+										<span class="numberOfRatings">{{recipe.number_of_ratings}}</span>
 									</div>
 								</div>
 							</router-link>
@@ -101,14 +101,6 @@
 				</div>
 			</div>
 		</div>
-		
-		<!--
-		<div class="createRecipe">
-			<router-link to="/createrecipe" title="Create recipe">
-				<i class="fas fa-plus-circle"></i>
-			</router-link>
-		</div>
-		-->
 	</div>
 </template>
 
