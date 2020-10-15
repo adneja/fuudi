@@ -33,7 +33,7 @@
 
                     setTimeout(() => {
                         this.$store.commit('setSystemMessage', null);
-                    }, 3000);
+                    }, 2000);
                 }
             }
         }
@@ -58,6 +58,6 @@
     }
 
     .success {
-        background-color: @main-background;;
+        background-color: rgb(67, 116, 86);
     }
 </style>

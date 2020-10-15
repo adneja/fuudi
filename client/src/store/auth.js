@@ -5,7 +5,9 @@ axios.defaults.baseURL = 'http://10.0.0.34:3333/api/';
 export default {
     state: {
 		userData: JSON.parse(window.localStorage.getItem('userData')) || null,
-        token: window.localStorage.getItem('token') || null
+        token: window.localStorage.getItem('token') || null,
+        showLoginSidebar: false,
+        loginRedirect: null
     },
 
     getters: {
@@ -23,7 +25,15 @@ export default {
 			}
 
 			return context.token
-		}
+        },
+
+        showLoginSidebar(context) {
+            return context.showLoginSidebar;
+        },
+
+        loginRedirect(context) {
+            return context.loginRedirect;
+        }
     },
 
     mutations: {
@@ -35,7 +45,15 @@ export default {
 		setToken(context, token) {
 			context.token = token;
 			window.localStorage.setItem('token', token);
-		}
+        },
+        
+        setShowLoginSidebar(context, showLoginSidebar) {
+            context.showLoginSidebar = showLoginSidebar;
+        },
+
+        setLoginRedirect(context, loginRedirect) {
+            context.loginRedirect = loginRedirect;
+        }
     },
 
     actions: {
@@ -55,7 +73,11 @@ export default {
 			return new Promise((resolve, reject) => {
 				axios.post('/auth/register', data)
 				.then((response) =>  {
-					resolve(response.data);
+					if(response.data.error) {
+						reject(response.data.error);
+					} else {
+						resolve(response.data);
+					}
 				})
 				.catch((err) => {
 					reject(err);
@@ -79,9 +101,19 @@ export default {
 			});
 		},
 
-		logout(context, data) {
-			context.commit('setToken', null);
-			context.commit('setUserData', null);
+		logout(context, currentRoute) {
+            return new Promise((resolve, reject) => {
+                context.commit('setToken', null);
+                context.commit('setUserData', null);
+    
+                context.commit('setSystemMessage', {
+                    content: 'Logged out.',
+                    err: false
+                });
+    
+                resolve(currentRoute.meta.requiresAuth);
+            });
+
 		}
     }
 };

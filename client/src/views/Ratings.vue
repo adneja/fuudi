@@ -1,15 +1,17 @@
 <template>
-    <div class="footer">
+    <div class="ratings">
 
     </div>
 </template>
 
+
 <script>
     export default {
-        name: 'footer'
+        name: 'Ratings'
     }
 </script>
 
-<style lang="less" scoped>
+
+<style lang="lerr" scoped>
 
 </style>

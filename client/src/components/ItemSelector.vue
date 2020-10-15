@@ -1,5 +1,5 @@
 <template>
-    <div class="itemselection">
+    <div class="itemselector">
         <div class="d-flex justify-item-start flex-wrap">
             <div 
                 v-for="(item, index) in items" 
@@ -29,36 +29,33 @@
 
 <script>
     export default {
-        name: 'IngredientSelection',
+        name: 'ItemSelector',
         props: ['items', 'target'],
 
         data() {
             return {
                 markedItem: this.items[0] || null,
+                showAdd: false
             }
         },
 
         computed: {
             markedItemIndex() {
                 return this.items.indexOf(this.markedItem);
-            },
-
-            showAdd() {
-                if(this.items.length > 0) {
-                    if(this.target) {
-                        return this.items.filter((item) => {
-                            return item.toLowerCase() === this.target.trim().toLowerCase();
-                        }).length === 0;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
             }
         },
 
         methods: {
+            getShowAdd() {
+                if(this.target) {
+                    return this.items.filter((item) => {
+                        return item.toLowerCase() === this.target.trim().toLowerCase();
+                    }).length === 0;
+                } else {
+                    return false;
+                }
+            },
+
             markItemRight() {
                 if(this.markedItemIndex < (this.items.length - 1)) {
                     this.markedItem = this.items[this.markedItemIndex + 1];
@@ -92,12 +89,7 @@
 
             items() {
                 this.markedItem = this.items[0];
-
-                let targetExists = this.items.filter((item) => {
-                    return item.toLowerCase() === this.target.trim().toLowerCase();
-                }).length > 0;
-
-                this.$emit('exists', targetExists);
+                this.showAdd = this.getShowAdd();
             },
         }
     }

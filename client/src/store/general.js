@@ -1,7 +1,9 @@
 export default {
     state: {
         showNavbar: true,
-        systemMessage: null
+        systemMessage: null,
+        showMobileMenu: false,
+        showUserMenu: false,
     },
 
     getters: {
@@ -11,6 +13,14 @@ export default {
         
         systemMessage(context) {
             return context.systemMessage;
+        },
+
+        showMobileMenu(context) {
+            return context.showMobileMenu;
+        },
+
+        showUserMenu(context) {
+            return context.showUserMenu;
         }
     },
 
@@ -21,6 +31,14 @@ export default {
         
         setSystemMessage(context, systemMessage) {
             context.systemMessage = systemMessage;
+        },
+
+        setShowMobileMenu(context, showMobileMenu) {
+            context.showMobileMenu = showMobileMenu;
+        },
+
+        setShowUserMenu(context, showUserMenu) {
+            context.showUserMenu = showUserMenu;
         }
     }
 };

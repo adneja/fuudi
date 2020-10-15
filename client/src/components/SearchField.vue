@@ -8,6 +8,7 @@
             v-on:keydown.left.stop.prevent="moveMarkedItem(false)"
             v-on:blur="getMarkedItem"
             v-on:keyup.enter="getMarkedItem"
+            v-on:keyup.esc="clear"
             v-bind:placeholder="placeholder"
             v-bind:class="[showResults ? 'borderShowResults' : '']">
         
@@ -21,13 +22,12 @@
                 v-if="showResults"
                 v-bind:class="[bottomPadding ? 'mb-2' : '']">
 
-                <ItemSelection
+                <ItemSelector
                     ref='itemselection'
                     v-bind:items="items"
                     v-bind:target="enableCreatePrompt ? searchWord : null"
-                    v-on:item-clicked="itemClicked"
-                    v-on:exists="updateExists">
-                </ItemSelection>
+                    v-on:item-clicked="itemClicked">
+                </ItemSelector>
             </div>
         </transition>
     </div>
@@ -35,7 +35,8 @@
 
 
 <script>
-    import ItemSelection from './ItemSelection.vue';
+    import ItemSelector from './ItemSelector.vue';
+
     export default {
         name: 'SearchField',
         props: [
@@ -49,7 +50,7 @@
         ],
 
         components: {
-            ItemSelection
+            ItemSelector
         },
 
         data() {
@@ -61,17 +62,12 @@
 
                 items: [],
                 selectedItem: null,
-                exists: false,
 
                 currentTimeout: null
             }
         },
 
         methods: {
-            updateExists(exists) {
-                this.exists = exists;
-            },
-
             search(searchWord) {
                 if(this.searchWord.trim().length > 0) {
                     this.$store.dispatch(this.action, {
@@ -115,16 +111,18 @@
 
                         if(selectedItem) {
                             this.$emit('item-selected', this.searchResults[selectedItem]);
-                            this.showResults = false;
                             this.selectedItem = selectedItem;
                             this.searchWord = selectedItem;
                         } else {
                             let newName = this.capitalize(this.searchWord)
                             this.$emit('create-item', newName);
-                            this.showResults = false;
                             this.selectedItem = newName;
                             this.searchWord = newName;
                         }
+
+                        this.showResults = false;
+                        this.searchResults = {};
+                        this.items = [];
                     }
                 }
             },
@@ -134,6 +132,8 @@
                 this.showResults = false;
                 this.selectedItem = item;
                 this.searchWord = item;
+                this.searchResults = {};
+                this.items = [];
             },
 
             focus() {
@@ -163,18 +163,12 @@
 
         watch: {
             searchWord() {
-                console.log(this.exists);
                 clearTimeout(this.currentTimeout);
                 
                 if(this.selectedItem !== this.searchWord) {
                     if(this.searchWord.trim().length > 0) {
                         this.searching = true;
-
-                        if(this.searchResults.length > 0) {
-                            this.showResults = true;
-                        } else {
-                            this.showResults = false;
-                        }
+                        this.showResults = true;
                     } else {
                         this.showResults = false;
                         this.searching = false;
@@ -219,9 +213,7 @@
         border-top-left-radius: 0rem;
         border-top-right-radius: 0rem;
 
-        box-shadow: 5px 8px 8px rgba(0, 0, 0, 0.4);
-        //border: 1px solid black;
-        //border-top: none;
+        box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
     }
 
     .noBorderBottom {
@@ -230,7 +222,7 @@
     }
 
     .borderShowResults {
-        box-shadow: 5px 8px 8px rgba(0, 0, 0, 0.4) !important;
+        box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
         border-bottom-left-radius: 0rem !important;
         border-bottom-right-radius: 0rem !important;
     }

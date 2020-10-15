@@ -1,12 +1,13 @@
 DROP FUNCTION func_users_create;
 
 CREATE FUNCTION func_users_create(
-	p_email TEXT,
-	p_name TEXT,
-	p_password TEXT
+	p_email text,
+	p_name text,
+	p_password text,
+	p_repeat_password text
 ) RETURNS SETOF viw_users AS $$
 	DECLARE
-		v_new_user_id INTEGER;
+		v_new_user_id integer;
 	BEGIN
 		IF p_email IS NULL OR CHAR_LENGTH(p_email) = 0 THEN
 			RAISE EXCEPTION USING HINT = 'Missing email.';
@@ -18,6 +19,10 @@ CREATE FUNCTION func_users_create(
 		
 		IF p_password IS NULL OR CHAR_LENGTH(p_password) = 0 THEN
 			RAISE EXCEPTION USING HINT = 'Missing password.';
+		END IF;
+		
+		IF p_password <> p_repeat_password THEN 
+			RAISE EXCEPTION USING HINT = 'Passwords do not match.';
 		END IF;
 		
 		IF EXISTS(SELECT id FROM tbl_users WHERE email = p_email) THEN

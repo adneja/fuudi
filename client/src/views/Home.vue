@@ -1,7 +1,7 @@
 <template>
 	<div class="home d-flex justify-content-center">
 		<div class="home-container">
-
+			<!--<a href="fb-messenger://share/?link=https://vg.no">Send In Messenger</a>-->
 		</div>
 	</div>
 </template>

@@ -8,11 +8,11 @@
 						<div class="col-md-4 pl-md-0 p-0 pr-md-3 mb-md-0 mb-3 mt-md-0 mt-3">
 							<div 
 								v-bind:class="[!uploadedFile ? 'uploadImageContainer' : '']"
-								class=" d-flex justify-content-center align-items-center h-100">
+								class="d-flex justify-content-center align-items-center h-100">
 								<div 
 									v-if="!uploadedFile" 
 									class="text-center p-3 pointer" 
-									v-on:click="chooseFile" 
+									v-on:click="chooseFile"
 									title="Click to upload image">
 									
 									<i v-if="!uploadingFile" class="fas fa-upload fa-2x"></i>
@@ -27,7 +27,7 @@
 										<button 
 											type="button"
 											title="Remove image"
-											class="w-50 btn btn-outline-light changeFileButton"
+											class="w-50 btn btn-sm btn-outline-light changeFileButton"
 											v-on:click="removeFile">
 											<i class="fas fa-trash-alt d-md-none d-inline"></i>
 											<span class="d-md-inline d-none">Delete</span>
@@ -37,7 +37,7 @@
 											type="button"
 											title="Upload new image"
 											v-on:click="chooseFile" 
-											class="w-50 btn btn-outline-light  changeFileButton">
+											class="w-50 btn btn-sm btn-outline-light  changeFileButton">
 											<i class="fas fa-upload d-md-none d-inline"></i>
 											<span class="d-md-inline d-none">Change</span>
 										</button>
@@ -49,26 +49,26 @@
 						<div class="col-md-8">
 							<div class="row">
 								<div class="col-12 p-0">
-									<div class="mb-1  ">Title</div>
+									<div class="mb-1 muted">Title</div>
 									<input class="form-control form-control-sm mb-3" type="text" v-model="name" placeholder="">
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="col-12 p-0">
-									<div class="mb-1  ">Description</div>
+									<div class="mb-1 muted">Description</div>
 									<textarea placeholder="" class="form-control form-control-sm mb-3" type="text" rows="4" v-model="description"></textarea>
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="col-md-6 p-md-0 pr-md-1 p-0 mb-3">
-									<div class="mb-1  ">Cooking Time <small>(minutes)</small></div>
+									<div class="mb-1 muted">Cooking Time <small>(minutes)</small></div>
 									<input placeholder="" v-model="cookingTime" class="form-control form-control-sm" type="number">
 								</div>
 
 								<div class="col-md-6 p-md-0 pl-md-1 p-0 mb-3">
-									<div class="mb-1  ">Portions</div>
+									<div class="mb-1 muted">Portions</div>
 									<input placeholder="" v-model="portions" class="form-control form-control-sm " type="number">
 								</div>
 							</div>
@@ -77,21 +77,21 @@
 								<div class="col-12 p-0 d-flex flex-wrap">
 									<div class="custom-control custom-checkbox mr-3">
 										<input v-model="vegan" type="checkbox" class="custom-control-input" id="vegan">
-										<label class="custom-control-label " for="vegan">
-											<span>Vegan</span>
+										<label class="custom-control-label" for="vegan">
+											<span class="muted">Vegan</span>
 										</label>
 									</div>
 									<div class="custom-control custom-checkbox mr-3">
 										<input v-model="vegetarian" type="checkbox" class="custom-control-input" id="vegetarian">
 										<label class="custom-control-label " for="vegetarian">										
-											<span>Vegetarian</span>
+											<span class="muted">Vegetarian</span>
 										</label>
 									</div>
 
 									<div class="custom-control custom-checkbox mr-3">
 										<input v-model="glutenFree" type="checkbox" class="custom-control-input" id="gluten">
 										<label class="custom-control-label " for="gluten">
-											<span>Gluten free</span>
+											<span class="muted">Gluten free</span>
 										</label>
 									</div>
 								</div>
@@ -104,11 +104,11 @@
 			<!-- Ingredients -->
 			<Window title="Ingredients" icon="fas fa-pepper-hot" class="mb-5">
 				<table>
-					<thead>
+					<thead class="invisible">
 						<tr>
-							<td class=" " style="width: 60%">Ingredient</td>
-							<td class="amountPadding" style="width: 20%">Amount</td>
-							<td class=" " style="width: 20%">Unit</td>
+							<td class=" " style="width: 60%"></td>
+							<td class="amountPadding" style="width: 20%"></td>
+							<td class=" " style="width: 20%"> <!--<i title="Unit of measurement (e.g. tbsp)" class="pointer far fa-question-circle"></i>--></td>
 							<td></td>
 						</tr>
 					</thead>
@@ -158,7 +158,7 @@
 									ref="searchfooditems"
 									action="searchFoodItems" 
 									displayField="name"
-									placeholder=""
+									placeholder="Ingredient"
 									prompt="Select ingredient"
 									v-bind:enableCreatePrompt="true"
 									v-on:item-selected="selectFoodItem"
@@ -172,7 +172,7 @@
 									v-model="newIngredient.amount" 
 									type="number" 
 									class="form-control form-control-sm " 
-									placeholder=""
+									placeholder="Amount"
 									v-on:keyup.enter="$refs.searchmeasurements.focus()">
 							</td>
 
@@ -181,7 +181,7 @@
 									ref="searchmeasurements" 
 									action="searchMeasurements" 
 									displayField="name"
-									placeholder=""
+									placeholder="Unit"
 									prompt="Select unit"
 									v-on:item-selected="selectMeasurement">
 								</SearchField>	
@@ -213,7 +213,7 @@
 							<td class="unitSpacing">
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<button title="Move" class="btn  btn-sm btn-outline-light">{{index + 1}}</button>
+										<button title="Move" class="btn orderButton btn-sm btn-outline-light">{{index + 1}}</button>
 									</div>
 									<input type="text" class="form-control form-control-sm " v-model="instruction.instruction">
 									<div class="input-group-append" v-if="sortedInstructions.length > 1">
@@ -247,7 +247,7 @@
 								<input 
 									v-model="newInstruction.instruction" 
 									type="text" 
-									placeholder="" 
+									placeholder="Instruction" 
 									class="form-control form-control-sm "
 									ref="instruction"
 									v-on:keyup.enter="addInstruction">
@@ -268,37 +268,51 @@
 						<div class="col-12 p-0 d-flex flex-wrap">
 							<div class="custom-control custom-checkbox mr-3">
 								<input v-model="milk" type="checkbox" class="custom-control-input" id="milk">
-								<label class="custom-control-label " for="milk">Milk</label>
+								<label class="custom-control-label " for="milk">
+									<span class="muted">Milk</span>
+								</label>
 							</div>
 
 							<div class="custom-control custom-checkbox mr-3">
 								<input v-model="egg" type="checkbox" class="custom-control-input" id="egg">
-								<label class="custom-control-label " for="egg">Egg</label>
+								<label class="custom-control-label " for="egg">
+									<span class="muted">Egg</span>
+								</label>
 							</div>
 
 							<div class="custom-control custom-checkbox mr-3">
 								<input v-model="nuts" type="checkbox" class="custom-control-input" id="nuts">
-								<label class="custom-control-label " for="nuts">Nuts</label>
+								<label class="custom-control-label " for="nuts">
+									<span class="muted">Nuts</span>
+								</label>
 							</div>
 
 							<div class="custom-control custom-checkbox mr-3">
 								<input v-model="wheat" type="checkbox" class="custom-control-input" id="wheat">
-								<label class="custom-control-label " for="wheat">Wheat</label>
+								<label class="custom-control-label " for="wheat">
+									<span class="muted">Wheat</span>
+								</label>
 							</div>
 
 							<div class="custom-control custom-checkbox mr-3">
 								<input v-model="soy" type="checkbox" class="custom-control-input" id="soy">
-								<label class="custom-control-label " for="soy">Soy</label>
+								<label class="custom-control-label " for="soy">
+									<span class="muted">Soy</span>
+								</label>
 							</div>
 
 							<div class="custom-control custom-checkbox mr-3">
 								<input v-model="fish" type="checkbox" class="custom-control-input" id="fish">
-								<label class="custom-control-label " for="fish">Fish</label>
+								<label class="custom-control-label " for="fish">
+									<span class="muted">Fish</span>
+								</label>
 							</div>
 
 							<div class="custom-control custom-checkbox mr-3">
 								<input v-model="shellfish" type="checkbox" class="custom-control-input" id="shellfish">
-								<label class="custom-control-label " for="shellfish">Shellfish</label>
+								<label class="custom-control-label " for="shellfish">
+									<span class="muted">Shellfish</span>
+								</label>
 							</div>
 						</div>
 					</div>
@@ -309,7 +323,7 @@
 			<div class="d-flex justify-content-end">
 				<button 
 					v-on:click="createRecipe"
-					class="btn btn-success">
+					class="btn btn-success shadow">
 
 					<i v-if="creatingRecipe" class="fas fa-circle-notch fa-spin"></i>
 					<span v-else>Create</span>
@@ -495,6 +509,19 @@
 					description: this.description,
 					cooking_time: this.cookingTime,
 					file_id: this.fileId,
+
+					vegan: this.vegan,
+					vegetarian: this.vegetarian,
+					gluten_free: this.glutenFree,
+
+					allergen_milk: this.milk,
+					allergen_egg: this.egg,
+					allergen_nuts: this.nuts,
+					allergen_wheat: this.wheat,
+					allergen_soy: this.soy,
+					allergen_fish: this.fish,
+					allergen_shellfish: this.shellfish,
+
 					portions: this.portions,
 					ingredients: this.ingredients,
 					instructions: this.instructions
@@ -635,5 +662,9 @@
 
 	.invisible {
 		visibility: collapse !important;
+	}
+
+	.orderButton {
+		width: 35px;
 	}
 </style>

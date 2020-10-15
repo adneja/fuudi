@@ -4,12 +4,10 @@ import VueRouter from 'vue-router';
 import store from '../store/index.js';
 
 import Home from '../views/Home.vue';
-import SignIn from '../views/SignIn.vue';
-import Register from '../views/Register.vue';
-import Logout from '../views/Logout.vue';
 import ResetPassword from '../views/ResetPassword.vue';
 import Plans from '../views/Plans.vue';
 import Recipes from '../views/Recipes.vue';
+import Ratings from '../views/Ratings.vue';
 import CreatePlan from '../views/CreatePlan.vue';
 import CreateRecipe from '../views/CreateRecipe.vue';
 
@@ -23,26 +21,8 @@ const routes = [
 		meta: {requiresAuth: false, showNavbar: true}
 	},
 	{
-		path: '/signin',
-		name: 'SignIn',
-		component: SignIn,
-		meta: {requiresAuth: false, showNavbar: false}
-	},
-	{
-		path: '/register',
-		name: 'Register',
-		component: Register,
-		meta: {requiresAuth: false, showNavbar: false}
-	},
-	{
-		path: '/logout',
-		name: 'Logout',
-		component: Logout,
-		meta: {requiresAuth: true, showNavbar: false}
-	},
-	{
 		path: '/resetpassword',
-		name: 'ResetPassword',
+		name: 'Reset Password',
 		component: ResetPassword,
 		meta: {requiresAuth: false, showNavbar: false}
 	},
@@ -59,25 +39,29 @@ const routes = [
 		meta: {requiresAuth: false, showNavbar: true}
 	},
 	{
+		path: '/ratings',
+		name: 'Ratings',
+		component: Ratings,
+		meta: {requiresAuth: false, showNavbar: true}
+	},
+	{
 		path: '/createplan',
-		name: 'CreatePlan',
+		name: 'Create Plan',
 		component: CreatePlan,
 		meta: {requiresAuth: true, showNavbar: true}
 	},
 	{
 		path: '/createrecipe',
-		name: 'CreateRecipe',
+		name: 'Create Recipe',
 		component: CreateRecipe,
 		meta: {requiresAuth: true, showNavbar: true}
 	},
-	/*
 	{
 		path: '*',
 		name: 'All',
 		component: Home,
 		meta: {requiresAuth: false, showNavbar: true}
 	}
-	*/
 ];
 
 
@@ -98,18 +82,20 @@ router.beforeEach((to, from, next) => {
 	if(to.meta.requiresAuth) {
 		if(store.getters.token) {
 			next();
+			store.commit('setShowMobileMenu', false);
+			store.commit('setShowUserMenu', false);
 		} else {
 			if(!from.name || from.meta.requiresAuth) {
 				router.push({name: 'Home'});
 			} else {
-				store.commit('setSystemMessage', {
-					content: 'Please login to use this feature.',
-					error: true
-				});
+				store.commit('setShowLoginSidebar', true);
+				store.commit('setLoginRedirect', to);
 			}
 		}
 	} else {
 		next();
+		store.commit('setShowMobileMenu', false);
+		store.commit('setShowUserMenu', false);
 	}
 });
 

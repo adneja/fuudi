@@ -1,6 +1,6 @@
 // global variables
 @main-background: rgb(53, 124, 118);//rgb(66, 56, 95);
-@main-background-dark:rgb(33, 71, 54);
+@main-background-dark:rgb(26, 97, 91);
 @main-color: white;
 @main-padding-vertical: 10px;
 @main-padding-horizontal: 30px;
@@ -19,16 +19,21 @@
 }
 
 .btn-success:hover {
-    background-color:  rgb(43, 104, 76);
+    background-color: @main-background;
 }
 
 .btn-success:focus {
     box-shadow: none;
-    background-color: rgb(43, 104, 76);    
+    background-color: @main-background;  
 }
 
 .btn-success:active {
-    background-color:  rgb(59, 112, 88) !important;
+    background-color: @main-background !important;
+    box-shadow: none !important;
+}
+
+// btn outline light
+.btn:focus, .btn:active {
     box-shadow: none !important;
 }
 
@@ -80,26 +85,45 @@ hr {
     border-top: 1px solid @main-background-dark !important;
 }
 
-.btn {
-    //border: none !important;
-}
 
 .badge-success {
     background-color: @main-background !important;
 }
 
-input {
+input, textarea {
     border-color: @main-color;
     border-color: @main-color;
-    letter-spacing: 0.035rem;
-    font-size: 11pt;
+    //letter-spacing: 0.035rem;
+    font-size: 12pt;
+    font-family: 'Ubuntu', sans-serif;
 }
 
-input:focus {
+input:focus, textarea:focus {
     border-color: @main-color !important;
 }
 
 
 .badge {
     padding: 8px 6px 4px 6px;
+}
+
+.shadow {
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+.normalFont {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.textButton {
+    padding: 0px;
+    color: @main-color;
+}
+
+.textButton:hover {
+    text-decoration: underline;
+}
+
+.muted {
+    opacity: 0.8;
 }

@@ -55,12 +55,27 @@ router.post('/api/recipes/recipe', verifyToken, (req, res) => {
     let params = [
         recipeData.name, 
         recipeData.description, 
-        parseInt(recipeData.cooking_time), 
-        parseInt(recipeData.portions), 
-        parseInt(recipeData.file_id) || null, 
+        parseInt(recipeData.cooking_time) || null, 
+        parseInt(recipeData.portions) || null, 
+        parseInt(recipeData.file_id) || null,
+        
+        recipeData.vegan,
+        recipeData.vegetarian,
+        recipeData.gluten_free,
+        
+        recipeData.allergen_milk,
+        recipeData.allergen_egg,
+        recipeData.allergen_nuts,
+        recipeData.allergen_wheat,
+        recipeData.allergen_soy,
+        recipeData.allergen_fish,
+        recipeData.allergen_shellfish,
+
         JSON.stringify(recipeData.ingredients), 
         JSON.stringify(recipeData.instructions), 
         req.user.id];
+
+    console.log(params);
 
     runQuery(queries.recipe_recipe_create, params, res, (result) => {
         res.json(result.rows[0]);

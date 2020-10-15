@@ -1,13 +1,13 @@
 <template>
     <div class="window">
-        <div class="title-container">
+        <div class="title-container shadow">
             <span class="title">
-                <i v-bind:class="[icon]" class="mr-2"></i>
+                <i v-if="icon" v-bind:class="[icon]" class="mr-2"></i>
                 <span>{{title}}</span>
             </span>
         </div>
 
-        <div class="body">
+        <div class="body shadow">
             <slot></slot>
         </div>
     </div>
@@ -31,7 +31,6 @@
         padding: 15px 20px;
         border-top-left-radius: 0.25rem;
         border-top-right-radius: 0.25rem;
-        //box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
     }
 
     .title {
@@ -41,7 +40,6 @@
 
     .body {
         color: @main-color;
-        //box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
         background-color:@main-background;//rgba(53, 124, 91, 0.03);//rgb(247, 247, 247);
         padding: 20px;
         padding-top: 5px;
