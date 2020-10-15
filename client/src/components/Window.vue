@@ -27,7 +27,6 @@
 
     .title-container {
         background-color: @main-background;
-        //background-color: @main-background-dark;
         padding: 15px 20px;
         padding-bottom: 0px;
         border-top-left-radius: 0.25rem;
@@ -36,14 +35,12 @@
 
     .title {
         color: @main-color;
-        //opacity: 0.6;
     }
 
     .body {
         color: @main-color;
-        background-color:@main-background;//rgba(53, 124, 91, 0.03);//rgb(247, 247, 247);
-        padding: 20px;
-        //padding-top: 5px;
+        background-color:@main-background;
+        padding: 15px;
         border-bottom-left-radius: 0.25rem;
         border-bottom-right-radius: 0.25rem;
     }
