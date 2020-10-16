@@ -33,7 +33,7 @@
 
                     setTimeout(() => {
                         this.$store.commit('setSystemMessage', null);
-                    }, 2000);
+                    }, 3000);
                 }
             }
         }
@@ -48,7 +48,7 @@
         top: 0px; 
         right: 0px;
         width: 100%;
-        height: 50px;
+        height: 48px;
         z-index: 999999999999;
         color: white;
     }

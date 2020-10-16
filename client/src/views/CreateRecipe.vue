@@ -1,13 +1,7 @@
 <template>
-	<div class="createrecipe d-flex justify-content-center">
-		<div class="createrecipe-container">
-			<!-- Details -->
-			<div class="dark mb-2">
-				<!--<i class="fas fa-info-circle mr-1"></i>-->
-				<span>New recipe info</span>
-			</div>
-
-			<Window title="" icon="" class="mb-5">
+	<div class="createrecipe">
+		<div class="details d-flex justify-content-center">
+			<div class="details-container px-md-5 py-md-4 p-4">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-4 mb-md-0 mb-3 mt-md-0 mt-2">
@@ -30,7 +24,7 @@
 										<button 
 											type="button"
 											title="Remove image"
-											class="w-50 btn btn-sm btn-outline-light changeFileButton"
+											class="w-50 btn btn-outline-light changeFileButton"
 											v-on:click="removeFile">
 											<i class="fas fa-trash-alt d-md-none d-inline"></i>
 											<span class="d-md-inline d-none">Delete</span>
@@ -40,7 +34,7 @@
 											type="button"
 											title="Upload new image"
 											v-on:click="chooseFile" 
-											class="w-50 btn btn-sm btn-outline-light  changeFileButton">
+											class="w-50 btn btn-outline-light  changeFileButton">
 											<i class="fas fa-upload d-md-none d-inline"></i>
 											<span class="d-md-inline d-none">Change</span>
 										</button>
@@ -52,65 +46,63 @@
 						<div class="col-md-8">
 							<div class="row">
 								<div class="col-12">
-									<div class="mb-1 muted">Title</div>
-									<input class="form-control form-control-sm mb-3" type="text" v-model="name" placeholder="">
+									<div class="mb-1 ">Title</div>
+									<input class="form-control  mb-3" type="text" v-model="name" placeholder="">
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="col-12">
-									<div class="mb-1 muted">Description</div>
-									<textarea placeholder="" class="form-control form-control-sm mb-3" type="text" rows="4" v-model="description"></textarea>
+									<div class="mb-1 ">Description</div>
+									<textarea placeholder="" class="form-control  mb-3" type="text" rows="4" v-model="description"></textarea>
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="col-md-6 mb-3">
-									<div class="mb-1 muted">Cooking Time <small>(minutes)</small></div>
-									<input placeholder="" v-model="cookingTime" class="form-control form-control-sm" type="number">
+									<div class="mb-1 ">Cooking Time <small>(minutes)</small></div>
+									<input placeholder="" v-model="cookingTime" class="form-control " type="number">
 								</div>
 
 								<div class="col-md-6 mb-3">
-									<div class="mb-1 muted">Portions</div>
-									<input placeholder="" v-model="portions" class="form-control form-control-sm " type="number">
+									<div class="mb-1 ">Portions</div>
+									<input placeholder="" v-model="portions" class="form-control " type="number">
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="col-12 d-flex flex-wrap">
-									<div class="custom-control custom-checkbox mr-3 mb-md-0 mb-1">
-										<input v-model="vegan" type="checkbox" class="custom-control-input" id="vegan">
-										<label class="custom-control-label" for="vegan">
-											<span class="muted">Vegan</span>
-										</label>
-									</div>
-									<div class="custom-control custom-checkbox mr-3 mb-md-0 mb-1">
-										<input v-model="vegetarian" type="checkbox" class="custom-control-input" id="vegetarian">
-										<label class="custom-control-label " for="vegetarian">										
-											<span class="muted">Vegetarian</span>
-										</label>
+									<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="vegan = !vegan">
+										<div class="cb">
+											<i v-if="vegan" class="fas fa-check"></i>
+										</div>
+										<span class="cb-label">Vegan</span>
 									</div>
 
-									<div class="custom-control custom-checkbox mr-3">
-										<input v-model="glutenFree" type="checkbox" class="custom-control-input" id="gluten">
-										<label class="custom-control-label " for="gluten">
-											<span class="muted">Gluten free</span>
-										</label>
+									<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="vegetarian = !vegetarian">
+										<div class="cb">
+											<i v-if="vegetarian" class="fas fa-check"></i>
+										</div>
+										<span class="cb-label">Vegetarian</span>
+									</div>
+
+									<div class="cb-container pointer mr-3" v-on:click="glutenFree = !glutenFree">
+										<div class="cb">
+											<i v-if="glutenFree" class="fas fa-check"></i>
+										</div>
+										<span class="cb-label">Gluten Free</span>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</Window>
-
-			<!-- Ingredients -->
-			<div class="dark mb-2">
-				<!--<i class="fas fa-pepper-hot mr-1"></i>-->
-				<span>Ingredients</span>
 			</div>
+		</div>
 
-			<Window title="" icon="" class="mb-5">
+		<div class="d-flex justify-content-center">
+		<div class="createrecipe-container px-md-5 py-md-4 p-0">
+			<Window title="Ingredients" icon="fas fa-pepper-hot" class="mb-md-4 mb-0">
 				<div class="container-fluid">
 					<!-- Data -->
 					<div 
@@ -133,7 +125,7 @@
 						</div>
 
 						<div class="col-md-3 col-6 px-md-1 pr-1">
-							<input class="form-control form-control-sm " v-model="ingredient.amount">
+							<input class="form-control " v-model="ingredient.amount">
 						</div>
 
 						<div class="col-md-3 col-6 d-flex pl-md-1 pl-1">
@@ -147,7 +139,7 @@
 								v-on:item-selected="updateMeasurement(index, $event)">
 							</SearchField>
 
-							<button class="btn btn-outline-light btn-sm ml-2" v-on:click="removeIngredient(index)">
+							<button class="btn btn-outline-light  ml-2" v-on:click="removeIngredient(index)">
 								<i class="fas fa-trash-alt"></i>
 							</button>
 						</div>
@@ -175,7 +167,7 @@
 								ref="amount" 
 								v-model="newIngredient.amount" 
 								type="number" 
-								class="form-control form-control-sm " 
+								class="form-control" 
 								placeholder="Amount"
 								v-on:keyup.enter="$refs.searchmeasurements.focus()">
 						</div>
@@ -190,7 +182,7 @@
 								v-on:item-selected="selectMeasurement">
 							</SearchField>	
 
-							<button class="btn btn-outline-light btn-sm ml-2" v-on:click="addIngredient">
+							<button class="btn btn-outline-light ml-2" v-on:click="addIngredient">
 								<i class="fas fa-plus"></i>
 							</button>
 						</div>
@@ -198,33 +190,27 @@
 				</div>
 			</Window>
 
-			<!-- Instructions -->
-			<div class="dark mb-2">
-				<!--<i class="fas fa-list-ol mr-1"></i>-->
-				<span>Instructions</span>
-			</div>
-
-			<Window title="" icon="" class="mb-5">
+			<Window title="Instructions" icon="fas fa-list-ol " class="mb-md-4 mb-0">
 				<div class="container-fluid">
 					<!-- Data -->
 					<div class="row mb-2" v-for="(instruction, index) in sortedInstructions" v-bind:key="index">
 						<div class="col-12 d-flex">
 							<div class="input-group">
 								<div class="input-group-prepend">
-									<button title="Move" class="btn orderButton btn-sm btn-outline-light">{{index + 1}}</button>
+									<button title="Move" class="btn orderButton  btn-outline-light">{{index + 1}}</button>
 								</div>
-								<input type="text" class="form-control form-control-sm " v-model="instruction.instruction">
+								<input type="text" class="form-control  " v-model="instruction.instruction">
 								<div class="input-group-append" v-if="sortedInstructions.length > 1">
 									<button 
 										title="Move down" 
-										class="btn btn-sm btn-outline-light"
+										class="btn  btn-outline-light"
 										v-on:click="moveInstructionDown(index)">
 
 										<i class="fas fa-caret-down"></i>
 									</button>
 									<button 
 										title="Move up" 
-										class="btn btn-sm btn-outline-light"
+										class="btn  btn-outline-light"
 										v-on:click="moveInstructionUp(index)">
 
 										<i class="fas fa-caret-up"></i>
@@ -232,7 +218,7 @@
 								</div>
 							</div>
 
-							<button class="btn btn-sm btn-outline-light ml-2" v-on:click="removeInstruction(index)">
+							<button class="btn  btn-outline-light ml-2" v-on:click="removeInstruction(index)">
 								<i class="fas fa-trash-alt"></i>
 							</button>
 						</div>
@@ -247,11 +233,11 @@
 								v-model="newInstruction.instruction" 
 								type="text" 
 								placeholder="Instruction" 
-								class="form-control form-control-sm "
+								class="form-control  "
 								ref="instruction"
 								v-on:keyup.enter="addInstruction">
 
-							<button v-on:click="addInstruction" class="btn btn-sm btn-outline-light ml-2">
+							<button v-on:click="addInstruction" class="btn  btn-outline-light ml-2">
 								<i class="fas fa-plus"></i>
 							</button>
 						</div>
@@ -259,63 +245,57 @@
 				</div>
 			</Window>
 
-			<!-- Allergens -->
-			<div class="dark mb-2">
-				<!--<i class="fas fa-exclamation-triangle mr-1"></i>-->
-				<span>Allergens</span>
-			</div>
-
-			<Window class="mb-4" title="" icon="">
+			<Window class="mb-4" title="Allergens" icon="fas fa-exclamation-triangle ">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 d-flex flex-wrap">
-							<div class="custom-control custom-checkbox mr-3">
-								<input v-model="milk" type="checkbox" class="custom-control-input" id="milk">
-								<label class="custom-control-label " for="milk">
-									<span class="muted">Milk</span>
-								</label>
+							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="milk = !milk">
+								<div class="cb">
+									<i v-if="milk" class="fas fa-check"></i>
+								</div>
+								<span class="cb-label">Milk</span>
 							</div>
 
-							<div class="custom-control custom-checkbox mr-3">
-								<input v-model="egg" type="checkbox" class="custom-control-input" id="egg">
-								<label class="custom-control-label " for="egg">
-									<span class="muted">Egg</span>
-								</label>
+							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="egg = !egg">
+								<div class="cb">
+									<i v-if="egg" class="fas fa-check"></i>
+								</div>
+								<span class="cb-label">Egg</span>
 							</div>
 
-							<div class="custom-control custom-checkbox mr-3">
-								<input v-model="nuts" type="checkbox" class="custom-control-input" id="nuts">
-								<label class="custom-control-label " for="nuts">
-									<span class="muted">Nuts</span>
-								</label>
+							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="nuts = !nuts">
+								<div class="cb">
+									<i v-if="nuts" class="fas fa-check"></i>
+								</div>
+								<span class="cb-label">Nuts</span>
 							</div>
 
-							<div class="custom-control custom-checkbox mr-3">
-								<input v-model="wheat" type="checkbox" class="custom-control-input" id="wheat">
-								<label class="custom-control-label " for="wheat">
-									<span class="muted">Wheat</span>
-								</label>
+							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="wheat = !wheat">
+								<div class="cb">
+									<i v-if="wheat" class="fas fa-check"></i>
+								</div>
+								<span class="cb-label">Wheat</span>
 							</div>
 
-							<div class="custom-control custom-checkbox mr-3">
-								<input v-model="soy" type="checkbox" class="custom-control-input" id="soy">
-								<label class="custom-control-label " for="soy">
-									<span class="muted">Soy</span>
-								</label>
+							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="soy = !soy">
+								<div class="cb">
+									<i v-if="soy" class="fas fa-check"></i>
+								</div>
+								<span class="cb-label">Soy</span>
 							</div>
 
-							<div class="custom-control custom-checkbox mr-3">
-								<input v-model="fish" type="checkbox" class="custom-control-input" id="fish">
-								<label class="custom-control-label " for="fish">
-									<span class="muted">Fish</span>
-								</label>
+							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="fish = !fish">
+								<div class="cb">
+									<i v-if="fish" class="fas fa-check"></i>
+								</div>
+								<span class="cb-label">Fish</span>
 							</div>
 
-							<div class="custom-control custom-checkbox mr-3">
-								<input v-model="shellfish" type="checkbox" class="custom-control-input" id="shellfish">
-								<label class="custom-control-label " for="shellfish">
-									<span class="muted">Shellfish</span>
-								</label>
+							<div class="cb-container pointer" v-on:click="shellfish = !shellfish">
+								<div class="cb">
+									<i v-if="shellfish" class="fas fa-check"></i>
+								</div>
+								<span class="cb-label">Shellfish</span>
 							</div>
 						</div>
 					</div>
@@ -323,23 +303,24 @@
 			</Window>
 
 			<!-- Actions -->
-			<div class="d-flex justify-content-end">
+			<div class="d-flex justify-content-md-end justify-content-center">
 				<button 
 					v-on:click="createRecipe"
 					class="btn btn-success">
 
 					<i v-if="creatingRecipe" class="fas fa-circle-notch fa-spin"></i>
-					<span v-else>Create</span>
+					<span v-else>Create recipe!</span>
 				</button>
 			</div>
 
 			<input 
 				v-on:change="handleFileChange" 
 				accept="image/*" 
-				class="file" 
+				class="file invisible" 
 				ref="file" 
 				type="file"
 				name="recipe">
+		</div>
 		</div>
 	</div>
 </template>
@@ -592,13 +573,26 @@
 	@import "../assets/global.less";
 	
 	.createrecipe {
-		padding-top: 50px;
+		padding-top: 48px;
 	}
 
 	.createrecipe-container {
 		width: 100%;
 		max-width: @main-content-width;
-		padding: @main-padding-horizontal;
+	}
+
+	@media screen and (max-width: 750px) {
+		.createrecipe-container {
+			width: calc(100vw + 3px) !important;
+			margin-left: -1px !important;
+			margin-right: -3px !important;
+		}
+	}
+
+	.details-container {
+		width: 100%;
+		max-width: @main-content-width;
+		color: @main-background;
 	}
 
 	.file {
@@ -617,15 +611,10 @@
 	}
 
 	.uploadImageContainer {
-		border: 1px dashed white;
-		border-radius: 0.25rem;
+		border: 1px dashed @main-background;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-	}
-
-	.window {
-		margin-bottom: 20px !important;
 	}
 
 	.orderButton {
@@ -634,5 +623,33 @@
 
 	.container-fluid {
 		padding: 0px;
+	}
+
+	input, textarea {
+		border: 1px solid @main-background;
+	}
+
+	input:focus, textarea:focus {
+		border: 1px solid @main-background !important;
+	}
+
+	.btn-outline-light {
+		border-color: @main-background;
+		color: @main-background;
+	}
+
+	.btn-outline-light:hover {
+		background-color: @main-background;
+		color: @main-color;
+	}
+
+	.btn-outline-light:active {
+		background-color: @main-background-dark !important;
+		border-color: @main-background-dark !important;
+		color: @main-color !important;
+	}
+
+	.title {
+		font-size: 16pt;
 	}
 </style>

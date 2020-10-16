@@ -76,7 +76,7 @@
                 
                 this.$store.dispatch('logout', this.$route)
                 .then((response) => {
-                    if(response.meta.requiresAuth) {
+                    if(response) {
                         this.$router.push({name: 'Home'});
                     }
                 });

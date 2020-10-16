@@ -1,6 +1,6 @@
 <template>
     <div class="topbar d-flex justify-content-center">
-        <div class="topbar-content">
+        <div class="topbar-content px-md-5 px-4">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="left d-flex justify-content-start align-items-center">
                     <!-- Logo -->
@@ -11,13 +11,15 @@
                         </router-link>
                     </div>
 
+                    <!--
                     <div class="location d-md-none d-block">
                         <i class="fas fa-angle-right mx-2"></i>
                         <span>{{$route.name}}</span>
                     </div>
+                    -->
 
                     <!-- Desktop menu items -->
-                    <div class="ml-4 d-md-block d-none">
+                    <div class="ml-4 d-md-block d-none desktop-items">
                         <router-link to="/recipes" title="Browse all recipes" class="menu-item-desktop mr-3">
                             <span>Recipes</span>
                         </router-link>
@@ -28,6 +30,10 @@
 
                         <router-link to="/ratings" title="My meal plans" class="menu-item-desktop mr-3">
                             <span>Ratings</span>
+                        </router-link>
+
+                        <router-link v-if="$store.getters.token" to="/createrecipe" title="My meal plans" class="menu-item-desktop mr-3">
+                            <span>Create recipe</span>
                         </router-link>
                     </div>
                 </div>
@@ -43,7 +49,7 @@
                         <span v-else class="d-flex justify-content-end align-items-center">
                             <span v-on:click="$store.commit('setShowUserMenu', true)" class="name pointer d-flex justify-content-end align-items-center">
                                 <span>{{$store.getters.userData.name}}</span>
-                                <i class="far fa-user-circle profile-img ml-1"></i>
+                                <i class="far fa-user-circle profile-img ml-2"></i>
                             </span>
                             
                             <!--
@@ -96,12 +102,12 @@
         left: 0px;
         width: 100%;
         z-index: 99999;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        //box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }
 
     .topbar-content {
         width: @main-content-width;
-        padding: @main-padding-vertical @main-padding-horizontal;
+        padding: @main-padding-vertical;
         position: relative;
     }
 
@@ -110,11 +116,12 @@
     } 
 
     .profile-img {
-        font-size: 15pt;
+        font-size: 16pt;
+        margin-top: -1px;
     }
 
     .logo, .menu-button {
-        font-size: 15pt;
+        font-size: 14pt;
     }
 
     a {
@@ -123,15 +130,16 @@
 
     a:hover {
         text-decoration: none;
+        color: inherit;
     }
 
     .menu-item-desktop {
-        font-size: 13pt;
+        font-size: 14pt;
         opacity: 0.6;
     }
 
     .name {
-        font-size: 13pt;
+        font-size: 14pt;
     }
 
     .router-link-active {
@@ -141,4 +149,9 @@
     .menu-item-desktop:hover {
         opacity: 1;
     }
+
+    .location {
+        font-size: 14pt;
+    }
+
 </style>

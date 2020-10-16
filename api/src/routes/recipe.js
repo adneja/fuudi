@@ -82,8 +82,25 @@ router.post('/api/recipes/recipe', verifyToken, (req, res) => {
 
 
 // Get recipes
-router.get('/api/recipes/recipes', (req, res) => {
-    runQuery(queries.recipe_recipes_popular, [], res, (result) => {
+router.get('/api/recipes/recipes/:search/:sort_order/:filters', (req, res) => {
+    let filters = JSON.parse(req.params.filters),
+        params = [
+        req.params.search.trim(), 
+        req.params.sort_order,
+        req.params.vegan,
+        req.params.vegetarian,
+        req.params.glutenFree,
+        req.params.milk,
+        req.params.egg,
+        req.params.nuts,
+        req.params.wheat,
+        req.params.soy,
+        req.params.fish,
+        req.params.shellfish
+    ];
+
+
+    runQuery(queries.recipe_recipes_popular, params, res, (result) => {
         res.json(result.rows);
     });
 });

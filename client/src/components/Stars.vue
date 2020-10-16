@@ -37,5 +37,7 @@
 
 
 <style lang="less" scoped>
-
+    i {
+        font-size: 10pt;
+    }
 </style>

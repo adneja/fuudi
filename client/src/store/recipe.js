@@ -84,9 +84,9 @@ export default {
             });
         },
 
-        getRecipes(context) {
+        getRecipes(context, data) {
             return new Promise((resolve, reject) => {
-                axios.get(`/recipes/recipes`, {
+                axios.get(`/recipes/recipes/${data.search || ' '}/${data.sort_order}/${data.filters}`, {
                     headers: {
                         authorization: context.getters.token
                     }

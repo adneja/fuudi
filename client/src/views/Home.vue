@@ -1,6 +1,6 @@
 <template>
 	<div class="home d-flex justify-content-center">
-		<div class="home-container">
+		<div class="home-container px-md-5 py-md-4 p-4">
 			<!--<a href="fb-messenger://share/?link=https://vg.no">Send In Messenger</a>-->
 		</div>
 	</div>
@@ -18,7 +18,7 @@
 	@import "../assets/global.less";
 
 	.home {
-		padding-top: 50px;
+		padding-top: 48px;
 		height: 100%;
 	}
 
@@ -26,7 +26,7 @@
 		width: 100%;
 		height: 100%;
 		max-width: @main-content-width;
-		padding: @main-padding-horizontal;
+		//padding: @main-padding-horizontal;
 	}
 
 	.placeholder {

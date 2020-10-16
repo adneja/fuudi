@@ -4,7 +4,7 @@
             <div 
                 v-for="(item, index) in items" 
                 v-bind:key="index"
-                class="badge badge-dark mr-2 my-1 pointer"
+                class=" mr-2 my-1 pointer"
                 v-bind:class="[markedItem === item ? 'underline' : '']"
                 v-on:click="$emit('item-clicked', item);"
                 v-on:mouseenter="markedItem = item">
@@ -13,8 +13,8 @@
             </div>
 
             <div    
-                class="badge badge-success mr-2 my-1 pointer"
-                v-bind:class="[!markedItem ? 'underline' : '']"
+                class="add mr-2 my-1 pointer"
+                v-bind:class="[!markedItem ? 'addSelected' : '']"
                 v-if="showAdd"
                 v-on:mouseenter="markedItem = null">
 
@@ -101,5 +101,19 @@
 
     .underline {
         text-decoration: underline;
+    }
+
+    .itemselector {
+        padding: 0px 6px;
+    }
+
+    .add { 
+        border: 1px solid @main-background;
+        padding: 0px 5px;
+    }
+
+    .addSelected {
+        background-color: @main-background;
+        color: @main-color;
     }
 </style>

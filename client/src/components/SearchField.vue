@@ -2,7 +2,7 @@
     <div class="searchfield">
         <input  
             ref="input"
-            class="form-control form-control-sm"
+            class="form-control"
             v-model="searchWord" 
             v-on:keydown.right.stop.prevent="moveMarkedItem(true)"
             v-on:keydown.left.stop.prevent="moveMarkedItem(false)"
@@ -13,7 +13,7 @@
             v-bind:class="[showResults ? '' : '']">
         
         <div class="searching" v-if="searching && searchWord.trim().length > 0">
-            <i class="text-dark fas fa-circle-notch fa-spin"></i>
+            <i class="fas fa-circle-notch fa-spin"></i>
         </div>
         
         <transition name="fade">
@@ -197,23 +197,26 @@
         position: absolute;
         top: 4px;
         right: 4px;
+        color: @main-background-dark;
     }
 
     .resultsContainer {
         position: absolute;
-        top: 26px;
+        top: 29px;
         left: 0px;
         z-index: 999;
         width: 100%;
 
         background-color: white;
         padding: 4px 8px;
-        border-radius: 0.25rem;
+        //border-radius: 0.25rem;
+        border: 1px solid @main-background;
+        border-top: none;
 
         border-top-left-radius: 0rem;
         border-top-right-radius: 0rem;
 
-        box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
+        //box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
     }
 
     .noBorderBottom {
@@ -222,7 +225,7 @@
     }
 
     .borderShowResults {
-        box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
+        //box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
         border-bottom-left-radius: 0rem !important;
         border-bottom-right-radius: 0rem !important;
     }
@@ -234,4 +237,12 @@
     .fade-enter, .fade-leave-to {
         opacity: 0;
     }
+
+    input, textarea {
+		border: 1px solid @main-background;
+	}
+
+	input:focus, textarea:focus {
+		border: 1px solid @main-background !important;
+	}
 </style>

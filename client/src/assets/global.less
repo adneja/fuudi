@@ -1,6 +1,6 @@
 // global variables
-@main-background: rgb(53, 124, 118);//rgb(66, 56, 95);
-@main-background-dark:rgb(26, 97, 91);
+@main-background: rgb(18, 75, 85);//rgb(53, 124, 118);//rgb(66, 56, 95);
+@main-background-dark:rgb(13, 53, 50);
 @main-color: white;
 @main-padding-vertical: 10px;
 @main-padding-horizontal: 30px;
@@ -14,21 +14,22 @@
 
 // btn success
 .btn-success {
-    background-color: @main-background;
+    background-color: @main-background !important;
+    color: @main-color !important;
     border: 1px solid @main-background;
 }
 
 .btn-success:hover {
-    background-color: @main-background;
+    background-color: @main-background !important;
 }
 
 .btn-success:focus {
     box-shadow: none;
-    background-color: @main-background;  
+    background-color: @main-background !important;  
 }
 
 .btn-success:active {
-    background-color: @main-background !important;
+    background-color: @main-background-dark !important;
     box-shadow: none !important;
 }
 
@@ -104,6 +105,11 @@ input, textarea {
     //letter-spacing: 0.035rem;
     font-size: 12pt;
     font-family: 'Ubuntu', sans-serif;
+    border-radius: 0rem;
+}
+
+.btn {
+    border-radius: 0rem;
 }
 
 input:focus, textarea:focus {
@@ -112,7 +118,7 @@ input:focus, textarea:focus {
 
 
 .badge {
-    padding: 8px 6px 4px 6px;
+    padding: 4px 6px 4px 6px;
 }
 
 .shadow {
@@ -122,6 +128,7 @@ input:focus, textarea:focus {
 .normalFont {
     font-family: 'Ubuntu', sans-serif;
     font-family: 'Roboto', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
 }
 
 .textButton {
@@ -143,16 +150,71 @@ input:focus, textarea:focus {
 
 .custom-control-label::before  {
     background-color: @main-background !important;
-    border-color: @main-color;
+    border-color: @main-background;
 }
 
 .custom-control-input:checked~.custom-control-label::before  {
     background-color: @main-background !important;
-    border-color: @main-color;
+    border-color: @main-background;
 }
 
 .custom-control-input:focus ~ .custom-control-label::before {
-    box-shadow:none !important;
+    box-shadow: none !important;
     outline: none !important;
-    border-color: @main-color;
+    border-color: @main-background;
+    
+}
+
+.cb-container {
+    display: flex;
+}
+
+.cb {	
+    width: 25px;
+    height: 25px;
+    border: 1px solid @main-background;
+    //border-radius: 0.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    background-color: @main-color;
+}
+
+.cb-label {
+    opacity: 0.8;
+    font-size: 12pt;
+}
+
+.muted {
+    opacity: 0.7;
+}
+
+.lightblue {
+    background-color: rgb(231, 238, 241);
+}
+
+
+
+input[type="range"], input[type="range"]:active {
+    -webkit-appearance: none;
+      appearance: none;
+    background: @main-background;
+    border-radius: 0.5rem;
+    height: 2px;
+
+}
+
+input[type="range"]:focus {
+    outline: none !important;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 20px; 
+    height: 20px; 
+    border-radius: 50%;
+    background: @main-background-dark; 
+    cursor: pointer;
 }

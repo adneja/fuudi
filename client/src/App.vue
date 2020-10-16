@@ -56,6 +56,9 @@
 		font-family: 'Staatliches', cursive;
 		font-size: 13pt;
 		letter-spacing: 0.04rem;
+		//background-color: rgba(225, 239, 240, 0.9);
+		//background-color: rgba(224, 234, 236, 0.9);
+		//background-color: rgba(241, 227, 206, 0.9);
 	}
 
 	.slideDown-enter-active, .slideDown-leave-active {

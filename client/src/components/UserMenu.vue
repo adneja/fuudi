@@ -11,6 +11,12 @@
             </div>
 
             <div class="mb-2">
+                <router-link to="/cookbook" class="menu-item">
+                    My cookbook
+                </router-link>
+            </div>
+
+            <div class="mb-2">
                 <router-link to="/createrecipe" class="menu-item">
                     Create recipe
                 </router-link>
@@ -22,7 +28,9 @@
                 </router-link>
             </div>
 
-            <div title="Log out" class="menu-item pointer" v-on:click="logOut">Log out</div>
+            <div title="Log out" class="menu-item pointer" v-on:click="logOut">
+                Log out
+            </div>
         </div>
 
         <div class="emptySpace" v-on:click="close"></div>
@@ -40,10 +48,10 @@
 
             logOut() {
                 this.close();
-                
+                console.log(this.$route);
                 this.$store.dispatch('logout', this.$route)
                 .then((response) => {
-                    if(response.meta.requiresAuth) {
+                    if(response) {
                         this.$router.push({name: 'Home'});
                     }
                 });
@@ -98,8 +106,12 @@
     .menu-item{
         color: @main-color !important;
         margin-bottom: 8px;
-        font-size: 15pt;
+        font-size: 14pt;
         opacity: 0.7;
+
+        i {
+            width: 19px;
+        }
     }
 
     .menu-item:hover {
