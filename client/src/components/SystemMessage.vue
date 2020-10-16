@@ -15,7 +15,8 @@
         data() {
             return {
                 currentMessage: '',
-                error: false
+                error: false,
+                currentTimeout: false
             }
         },
 
@@ -28,10 +29,11 @@
         watch: {
             systemMessage() {
                 if(this.systemMessage !== null) {
+                    clearTimeout(this.currentTimeout);
                     this.currentMessage = this.systemMessage.content;
                     this.error = this.systemMessage.error;
 
-                    setTimeout(() => {
+                    this.currentTimeout = setTimeout(() => {
                         this.$store.commit('setSystemMessage', null);
                     }, 3000);
                 }

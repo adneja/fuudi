@@ -16,7 +16,7 @@ module.exports = {
 
         if(!token) {
             res.json({
-                error: 'Access Denied'
+                error: 'This action requires authentication'
             });
         } else {
             try {
@@ -25,9 +25,27 @@ module.exports = {
                 next();
             } catch (err) {
                 res.json({
-                    error: 'Invalid Token'
+                    error: 'This action requires authentication'
                 });
             }
+        }
+    },
+
+    // Get user data if valid token, proceed if not
+    optionalToken: (req, res, next) => {
+        const token = req.header('authorization');
+
+        if(token) {
+            try {
+                const verified = jwt.verify(token, process.env.JWT_SECRET);
+                req.user = verified;
+                next();
+            } catch (err) {
+                req.user = {};
+                next();
+            }
+        } else {
+            next();
         }
     }
 };

@@ -1,0 +1,1 @@
+SELECT func_recipes_togglebookmark($1, $2) AS bookmarked

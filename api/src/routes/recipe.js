@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {verifyToken} = require('../util/jwt.js');
+const {verifyToken, optionalToken} = require('../util/jwt.js');
 const {runQuery, queries} = require('../util/db.js');
 
 
@@ -82,26 +82,36 @@ router.post('/api/recipes/recipe', verifyToken, (req, res) => {
 
 
 // Get recipes
-router.get('/api/recipes/recipes/:search/:sort_order/:filters', (req, res) => {
+router.get('/api/recipes/recipes/:search/:sort_order/:filters', optionalToken, (req, res) => {
     let filters = JSON.parse(req.params.filters),
         params = [
         req.params.search.trim(), 
         req.params.sort_order,
-        req.params.vegan,
-        req.params.vegetarian,
-        req.params.glutenFree,
-        req.params.milk,
-        req.params.egg,
-        req.params.nuts,
-        req.params.wheat,
-        req.params.soy,
-        req.params.fish,
-        req.params.shellfish
+        filters.vegan,
+        filters.vegetarian,
+        filters.glutenFree,
+        filters.milk,
+        filters.egg,
+        filters.nuts,
+        filters.wheat,
+        filters.soy,
+        filters.fish,
+        filters.shellfish,
+        req.user.id || null
     ];
-
 
     runQuery(queries.recipe_recipes_popular, params, res, (result) => {
         res.json(result.rows);
+    });
+});
+
+
+// Toggle bookmark
+router.post('/api/recipes/recipe/bookmark', verifyToken, (req, res) => {
+    let params = [req.body.id, req.user.id];
+
+    runQuery(queries.recipe_recipe_bookmark, params, res, (result) => {
+        res.json(result.rows[0].bookmarked);
     });
 });
 

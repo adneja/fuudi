@@ -4,7 +4,7 @@
 		<div class="d-flex justify-content-center ">
 			<!-- Search & filter window -->
 			<div class="filters-container px-md-5 py-md-4 px-4 py-4">
-				<div class="input-group filterRow mb-2">
+				<div class="input-group filterRow mb-3">
 					<input v-model="search" class="form-control" placeholder="Search">
 
 					<div class="input-group-append">
@@ -50,7 +50,7 @@
 					</div>
 					
 					<!-- Allergens -->
-					<div class="mb-2 filterTitle">Allergens</div>
+					<div class="mb-2 filterTitle">Exclude allergens</div>
 					<div class="d-flex flex-wrap mb-3">
 						<div class="allergen cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="filters.milk = !filters.milk">
 							<div class="cb">
@@ -116,50 +116,45 @@
 					</div>
 				</div>
 
-				<div class="container-fluid p-0 filterRow">
-					<div class="row">
-						<div class="col-md-7 col-7 pr-0 text-left">
-							<span class="clickable">
-								<i class="fas fa-pepper-hot mr-1"></i>
-								<span v-bind:class="[ingredients.lenght > 0 ? 'font-weight-bold' : '']">Ingredient search</span>
-								<span v-if="ingredients.lenght > 0 " class="font-weight-bold">: {{ingredients.length}}</span>
-							</span>
-						</div>
-						
-						<!-- Sort order-->
-						<div class="col-md-5 col-5 pl-0  d-flex justify-content-end">
-							<div 
-								class="sortOrder d-flex justify-content-end align-items-center"
-								id="dropdownMenu1" 
-								aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
+				<div class="d-flex justify-content-between">
+					<span class="clickable">
+						<!--<i class="fas fa-pepper-hot mr-1"></i>-->
+						<i class="fas fa-search mr-1"></i>
+						<span v-bind:class="[ingredients.lenght > 0 ? 'font-weight-bold' : '']">Search by Ingredients</span>
+						<span v-if="ingredients.lenght > 0 " class="font-weight-bold">: {{ingredients.length}}</span>
+					</span>
+				
+					<!-- Sort order-->
+					<div 
+						class="sortOrder d-flex justify-content-end align-items-center"
+						id="dropdownMenu1" 
+						aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
 
-								<span>{{sortOrder}}</span>
-								<i class="fas fa-sort ml-2"></i>
-							</div>
+						<span>{{sortOrder}}</span>
+						<i class="fas fa-sort ml-2"></i>
+					</div>
 
-							<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-								<a 
-									class="dropdown-item" 
-									href="#!" 
-									v-on:click="sortOrder = 'popular'">
-									Popular
-								</a>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<a 
+							class="dropdown-item" 
+							href="#!" 
+							v-on:click="sortOrder = 'popular'">
+							Popular
+						</a>
 
-								<a 
-									class="dropdown-item" 
-									href="#!" 
-									v-on:click="sortOrder = 'rating'">
-									Rating
-								</a>
+						<a 
+							class="dropdown-item" 
+							href="#!" 
+							v-on:click="sortOrder = 'rating'">
+							Rating
+						</a>
 
-								<a 
-									class="dropdown-item" 
-									href="#!" 
-									v-on:click="sortOrder = 'new'">
-									New
-								</a>
-							</div>
-						</div>
+						<a 
+							class="dropdown-item" 
+							href="#!" 
+							v-on:click="sortOrder = 'new'">
+							New
+						</a>
 					</div>
 				</div>
 			</div>
@@ -178,7 +173,10 @@
 											<span>{{recipe.created_by}}</span>
 										</div>
 
-										<i class="fas fa-ellipsis-h"></i>
+										<span v-on:click="bookmark(recipe)" class="pointer" title="Add to cookbook">
+											<i v-if="!recipe.bookmarked" class="far fa-star bookmark"></i>
+											<i v-else class="fas fa-star bookmark"></i>
+										</span>
 									</div>
 
 									<router-link class="clickable" v-bind:to="'/recipes/recipe/' + recipe.id">
@@ -200,11 +198,11 @@
 											
 											<div class="d-flex justify-content-between align-items-center">
 												<div>
-													<i class="far fa-clock mr-1"></i>
+													<i class="far fa-clock mr-1 d-none"></i>
 													<span class="normalFont cookingTime font-weight-bold">{{formatCookingTime(recipe.cooking_time)}}</span>
 												</div>
 
-												<div class="created normalFont">{{timeFromEpoch(recipe.created_epoch)}}</div>
+												<div class="font-weight-bold cookingTime normalFont">{{timeFromEpoch(recipe.created_epoch)}}</div>
 											</div>
 										</div>
 								</router-link>
@@ -278,6 +276,10 @@
 				});
 
 				return num;
+			},
+
+			isLoggedIn() {
+				return this.$store.getters.token !== null;
 			}
 		},
 
@@ -331,6 +333,25 @@
 				let date = new Date(timestamp * 1000);
 
 				return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+			},
+
+			bookmark(recipe) {
+				this.$store.dispatch('bookmark', {
+					id: recipe.id
+				})
+				.then((response) => {
+					recipe.bookmarked = response;
+					this.$store.commit('setSystemMessage', {
+						content: `Recipe ${response ? 'added to' : 'removed from'} favorites.`,
+						error: false
+					});
+				})
+				.catch((err) => {
+					this.$store.commit('setSystemMessage', {
+						content: err,
+						error: true
+					});
+				});
 			}
 		},
 
@@ -349,6 +370,10 @@
 				this.updateRecipes();
 				window.localStorage.setItem('recipe-filters', this.filtersString);
 			},
+
+			isLoggedIn() {
+				this.updateRecipes();
+			}
 		},
 
 		activated() {
@@ -369,7 +394,7 @@
 	.recipes-content {
 		width: 100%;
 		max-width: @main-content-width;
-		margin-top: -23px;
+		margin-top: -14px;
 	}
 
 	.filters-container {
@@ -383,7 +408,7 @@
 		border-top: none;
 		padding: 12px 12px;
 		margin-bottom: 10px;
-		margin-top: -10px;
+		margin-top: -16px;
 	}
 
 	.filterTitle {
@@ -412,8 +437,14 @@
 		color: @main-color;
 		padding: 8px 20px;
 
+		font-size: 12pt;
+
 		i {
-			font-size: 16pt;
+			font-size: 14pt;
+		}
+
+		.bookmark {
+			font-size: 14pt;
 		}
 	}
 
@@ -453,7 +484,7 @@
 
 	.description {
 		font-size: 11pt;
-		opacity: 0.9;
+		opacity: 1;
 		word-wrap: normal;
 		color: @main-background-dark;
 		margin-top: 15px;
@@ -576,5 +607,15 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
+	}
+
+	.btn-outline-light:focus, .btn-outline-light:active, .btn-outline-light:hover {
+		background-color:@main-color !important;
+		color: @main-background !important;
+	}
+
+	.btn-outline-light:active {
+		background-color:@main-color !important;
+		color: @main-background !important;
 	}
 </style>

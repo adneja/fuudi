@@ -48,7 +48,6 @@
 
             logOut() {
                 this.close();
-                console.log(this.$route);
                 this.$store.dispatch('logout', this.$route)
                 .then((response) => {
                     if(response) {
