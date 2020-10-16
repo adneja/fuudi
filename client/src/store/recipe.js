@@ -86,7 +86,7 @@ export default {
 
         getRecipes(context, data) {
             return new Promise((resolve, reject) => {
-                axios.get(`/recipes/recipes/${data.search || ' '}/${data.sort_order}/${data.filters}`, {
+                axios.get(`/recipes/recipes/${data.search || ' '}/${data.sort_order}/${data.filters}/${data.max_cooking_time}`, {
                     headers: {
                         authorization: context.getters.token
                     }

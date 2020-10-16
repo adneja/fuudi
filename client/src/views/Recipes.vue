@@ -173,9 +173,9 @@
 											<span>{{recipe.created_by}}</span>
 										</div>
 
-										<span v-on:click="bookmark(recipe)" class="pointer" title="Add to cookbook">
-											<i v-if="!recipe.bookmarked" class="far fa-star bookmark"></i>
-											<i v-else class="fas fa-star bookmark"></i>
+										<span v-on:click="bookmark(recipe)" class="pointer">
+											<i v-if="!recipe.bookmarked" title="Add to favorites" class="far fa-heart bookmark"></i>
+											<i v-else title="Remove from favorites" class="fas fa-heart bookmark"></i>
 										</span>
 									</div>
 
@@ -288,7 +288,8 @@
 				this.$store.dispatch('getRecipes', {
 					search: this.search,
 					sort_order: this.sortOrder,
-					filters: this.filtersString
+					filters: this.filtersString,
+					max_cooking_time: this.maxCookingTime
 				})
 				.then((response) => {
 					this.recipes = response;

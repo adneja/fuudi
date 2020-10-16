@@ -4,7 +4,7 @@ SELECT
 FROM 
     viw_recipes AS r
     LEFT JOIN tbl_users_recipes AS ur
-        ON r.id = ur.recipe_id AND ur.created_by = $13
+        ON r.id = ur.recipe_id AND ur.created_by = $14
 WHERE
     -- search
     (LOWER(name) LIKE '%' || LOWER($1) || '%'
@@ -22,6 +22,8 @@ WHERE
     AND (r.allergen_soy = false AND $10 = true OR $10 = false)
     AND (r.allergen_fish = false AND $11 = true OR $11 = false)
     AND (r.allergen_shellfish = false AND $12 = true  OR $12 = false)
+
+    AND (r.cooking_time <= $13 OR $13 >= 120)
 
 -- sort order
 ORDER BY

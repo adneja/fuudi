@@ -82,7 +82,7 @@ router.post('/api/recipes/recipe', verifyToken, (req, res) => {
 
 
 // Get recipes
-router.get('/api/recipes/recipes/:search/:sort_order/:filters', optionalToken, (req, res) => {
+router.get('/api/recipes/recipes/:search/:sort_order/:filters/:max_cooking_time', optionalToken, (req, res) => {
     let filters = JSON.parse(req.params.filters),
         params = [
         req.params.search.trim(), 
@@ -97,6 +97,7 @@ router.get('/api/recipes/recipes/:search/:sort_order/:filters', optionalToken, (
         filters.soy,
         filters.fish,
         filters.shellfish,
+        parseInt(req.params.max_cooking_time),
         req.user.id || null
     ];
 
