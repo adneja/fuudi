@@ -182,7 +182,7 @@
 									<router-link class="clickable" v-bind:to="'/recipes/recipe/' + recipe.id">
 										<img v-bind:alt="`Image of meal: ${recipe.name}`" width="100%" v-if="recipe.file_id" v-bind:src="getImgUrl(recipe)">
 
-										<div class="recipe-description lightblue">
+										<div class="recipe-description">
 											<div class="title d-flex justify-content-between align-items-start">
 												<span class="recipeTitle">{{recipe.name}}</span>
 
@@ -422,6 +422,11 @@
 		transition: transform .2s;
 		box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
 		margin-bottom: 32px;
+		border: 1px solid @main-background;
+
+		img {
+			border-bottom: 1px solid @main-background;
+		}
 	}
 
 	.recipe:hover {
@@ -435,8 +440,10 @@
 	}
 
 	.authorRow {
-		background-color: @main-background;
-		color: @main-color;
+		background-color: @main-color;
+		color: @main-background;
+		border-bottom: 1px solid @main-background;
+		
 		padding: 8px 20px;
 
 		font-size: 12pt;
