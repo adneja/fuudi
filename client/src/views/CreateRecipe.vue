@@ -1,7 +1,8 @@
 <template>
 	<div class="createrecipe">
 		<div class="details d-flex justify-content-center">
-			<div class="details-container px-md-5 py-md-4 p-4">
+			<div class="details-container px-md-5 py-md-4 p-3">
+				<div class="title">New Recipe</div>
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-4 mb-md-0 mb-3 mt-md-0 mt-2">
@@ -101,8 +102,8 @@
 		</div>
 
 		<div class="d-flex justify-content-center">
-		<div class="createrecipe-container px-md-5 py-md-4 p-0">
-			<Window title="Ingredients" icon="fas fa-pepper-hot" class="mb-md-4 mb-0">
+		<div class="createrecipe-container px-md-5 py-md-4 p-3">
+			<Window title="Ingredients" icon="fas fa-pepper-hot" class="mb-md-4 mb-3">
 				<div class="container-fluid">
 					<!-- Data -->
 					<div 
@@ -149,7 +150,7 @@
 
 					<!-- Input -->
 					<div class="row">
-						<div class="col-md-6 col-12 pr-md-1 mb-md-0 mb-2">
+						<div class="col-md-6 col-12 pr-md-1 mb-md-0 mb-3">
 							<SearchField 
 								ref="searchfooditems"
 								action="searchFoodItems" 
@@ -190,7 +191,7 @@
 				</div>
 			</Window>
 
-			<Window title="Instructions" icon="fas fa-list-ol " class="mb-md-4 mb-0">
+			<Window title="Instructions" icon="fas fa-list-ol " class="mb-md-4 mb-3">
 				<div class="container-fluid">
 					<!-- Data -->
 					<div class="row mb-2" v-for="(instruction, index) in sortedInstructions" v-bind:key="index">
@@ -581,6 +582,7 @@
 		max-width: @main-content-width;
 	}
 
+	/*
 	@media screen and (max-width: 750px) {
 		.createrecipe-container {
 			width: calc(100vw + 3px) !important;
@@ -588,11 +590,13 @@
 			margin-right: -3px !important;
 		}
 	}
+	*/
 
 	.details-container {
 		width: 100%;
 		max-width: @main-content-width;
 		color: @main-background;
+		//border-bottom: 1px solid @main-background;
 	}
 
 	.file {
@@ -650,6 +654,7 @@
 	}
 
 	.title {
-		font-size: 16pt;
+		font-size: 20pt;
+		margin-bottom: 10px;
 	}
 </style>

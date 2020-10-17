@@ -7,6 +7,7 @@ import Home from '../views/Home.vue';
 import ResetPassword from '../views/ResetPassword.vue';
 import Plans from '../views/Plans.vue';
 import Recipes from '../views/Recipes.vue';
+import Recipe from '../views/Recipe.vue';
 import Ratings from '../views/Ratings.vue';
 import CreatePlan from '../views/CreatePlan.vue';
 import CreateRecipe from '../views/CreateRecipe.vue';
@@ -17,7 +18,7 @@ const routes = [
 	{
 		path: '/',
 		name: 'Home',
-		component: Home,
+		component: Recipes,
 		meta: {requiresAuth: false, showNavbar: true}
 	},
 	{
@@ -36,6 +37,12 @@ const routes = [
 		path: '/recipes',
 		name: 'Recipes',
 		component: Recipes,
+		meta: {requiresAuth: false, showNavbar: true},
+	},
+	{
+		path: '/recipes/recipe/:id',
+		component: Recipe,
+		props: true,
 		meta: {requiresAuth: false, showNavbar: true}
 	},
 	{

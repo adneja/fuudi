@@ -3,7 +3,7 @@
 	<div class="recipes">
 		<div class="d-flex justify-content-center ">
 			<!-- Search & filter window -->
-			<div class="filters-container px-md-5 py-md-4 px-4 py-4">
+			<div class="filters-container px-md-5 py-md-4 px-3 py-4">
 				<div class="input-group filterRow mb-3">
 					<input v-model="search" class="form-control" placeholder="Search">
 
@@ -162,18 +162,18 @@
 
 		<!-- Recipes -->
 		<div class="d-flex justify-content-center">
-			<div class="recipes-content px-md-5 p-2">
-				<div class="container-fluid px-md-0 px-4">
+			<div class="recipes-content px-md-5 px-2">
+				<div class="container-fluid px-md-0 px-3">
 					<div class="row">
 						<div v-for="(recipe, index) in recipes" v-bind:key="index" class="col-lg-4 col-md-6 px-md-3 px-2">
-							<div class="recipe mb-md-4 mb-4">
+							<div class="recipe">
 									<div class="authorRow d-flex justify-content-between align-items-center">
 										<div class="d-flex justify-content-start align-items-center">
 											<i class="far fa-user-circle mr-2"></i>
 											<span>{{recipe.created_by}}</span>
 										</div>
 
-										<span v-on:click="bookmark(recipe)" class="pointer">
+										<span v-on:click="bookmark(recipe)" class="pointer d-flex align-items-center">
 											<i v-if="!recipe.bookmarked" title="Add to favorites" class="far fa-heart bookmark"></i>
 											<i v-else title="Remove from favorites" class="fas fa-heart bookmark"></i>
 										</span>
@@ -182,7 +182,7 @@
 									<router-link class="clickable" v-bind:to="'/recipes/recipe/' + recipe.id">
 										<img v-bind:alt="`Image of meal: ${recipe.name}`" width="100%" v-if="recipe.file_id" v-bind:src="getImgUrl(recipe)">
 
-										<div class="recipe-description">
+										<div class="recipe-description lightblue">
 											<div class="title d-flex justify-content-between align-items-start">
 												<span class="recipeTitle">{{recipe.name}}</span>
 
@@ -395,7 +395,7 @@
 	.recipes-content {
 		width: 100%;
 		max-width: @main-content-width;
-		margin-top: -14px;
+		//margin-top: -12px;
 	}
 
 	.filters-container {
@@ -421,6 +421,7 @@
 		position: relative;
 		transition: transform .2s;
 		box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
+		margin-bottom: 32px;
 	}
 
 	.recipe:hover {
@@ -487,7 +488,7 @@
 		font-size: 11pt;
 		opacity: 1;
 		word-wrap: normal;
-		color: @main-background-dark;
+		
 		margin-top: 15px;
 		margin-bottom: 10px;
 		height: 90px;
@@ -496,6 +497,7 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 4;
 		-webkit-box-orient: vertical;
+		color: @main-background;
 	}
 
 	.created {

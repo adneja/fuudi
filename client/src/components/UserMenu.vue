@@ -126,4 +126,8 @@
     a:hover {
         text-decoration: none;
     }
+
+    .router-link-active {
+        opacity: 1;
+    }
 </style>
