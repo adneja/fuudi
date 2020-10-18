@@ -6,7 +6,7 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-4 mb-md-0 mb-3 mt-md-0 mt-2">
-							<div class="h-100" v-bind:class="[!uploadedFile ? 'uploadImageContainer' : '']">
+							<div class="h-100" v-bind:class="[!uploadedFile ? 'upload-image-container' : '']">
 								<div 
 									v-if="!uploadedFile" 
 									class="text-center p-3 pointer" 
@@ -19,13 +19,13 @@
 								</div>
 
 								<div v-else>
-									<img class="recipeImage" ref="img" width="100%" v-bind:src="uploadedFilePath">
+									<img class="recipe-image" ref="img" width="100%" v-bind:src="uploadedFilePath">
 									
 									<div class="btn-group w-100">
 										<button 
 											type="button"
 											title="Remove image"
-											class="w-50 btn btn-outline-light changeFileButton"
+											class="w-50 btn btn-outline-light change-file-button"
 											v-on:click="removeFile">
 											<i class="fas fa-trash-alt d-md-none d-inline"></i>
 											<span class="d-md-inline d-none">Delete</span>
@@ -35,7 +35,7 @@
 											type="button"
 											title="Upload new image"
 											v-on:click="chooseFile" 
-											class="w-50 btn btn-outline-light  changeFileButton">
+											class="w-50 btn btn-outline-light  change-file-button">
 											<i class="fas fa-upload d-md-none d-inline"></i>
 											<span class="d-md-inline d-none">Change</span>
 										</button>
@@ -72,27 +72,12 @@
 							</div>
 
 							<div class="row">
-								<div class="col-12 d-flex flex-wrap">
-									<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="vegan = !vegan">
-										<div class="cb">
-											<i v-if="vegan" class="fas fa-check"></i>
-										</div>
-										<span class="cb-label">Vegan</span>
-									</div>
-
-									<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="vegetarian = !vegetarian">
-										<div class="cb">
-											<i v-if="vegetarian" class="fas fa-check"></i>
-										</div>
-										<span class="cb-label">Vegetarian</span>
-									</div>
-
-									<div class="cb-container pointer mr-3" v-on:click="glutenFree = !glutenFree">
-										<div class="cb">
-											<i v-if="glutenFree" class="fas fa-check"></i>
-										</div>
-										<span class="cb-label">Gluten Free</span>
-									</div>
+								<div class="col-12 d-flex">
+									<CheckboxCollection
+										class="mb-2" 
+										v-bind:checkboxItems="diataryConstraints"
+										v-on:change="items => diataryConstraints = items">
+									</CheckboxCollection>
 								</div>
 							</div>
 						</div>
@@ -198,7 +183,7 @@
 						<div class="col-12 d-flex">
 							<div class="input-group">
 								<div class="input-group-prepend">
-									<button title="Move" class="btn orderButton  btn-outline-light">{{index + 1}}</button>
+									<button title="Move" class="btn order-button  btn-outline-light">{{index + 1}}</button>
 								</div>
 								<input type="text" class="form-control  " v-model="instruction.instruction">
 								<div class="input-group-append" v-if="sortedInstructions.length > 1">
@@ -247,60 +232,11 @@
 			</Window>
 
 			<Window class="mb-4" title="Allergens" icon="fas fa-exclamation-triangle ">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-12 d-flex flex-wrap">
-							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="milk = !milk">
-								<div class="cb">
-									<i v-if="milk" class="fas fa-check"></i>
-								</div>
-								<span class="cb-label">Milk</span>
-							</div>
-
-							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="egg = !egg">
-								<div class="cb">
-									<i v-if="egg" class="fas fa-check"></i>
-								</div>
-								<span class="cb-label">Egg</span>
-							</div>
-
-							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="nuts = !nuts">
-								<div class="cb">
-									<i v-if="nuts" class="fas fa-check"></i>
-								</div>
-								<span class="cb-label">Nuts</span>
-							</div>
-
-							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="wheat = !wheat">
-								<div class="cb">
-									<i v-if="wheat" class="fas fa-check"></i>
-								</div>
-								<span class="cb-label">Wheat</span>
-							</div>
-
-							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="soy = !soy">
-								<div class="cb">
-									<i v-if="soy" class="fas fa-check"></i>
-								</div>
-								<span class="cb-label">Soy</span>
-							</div>
-
-							<div class="cb-container pointer mr-3 mb-md-0 mb-2" v-on:click="fish = !fish">
-								<div class="cb">
-									<i v-if="fish" class="fas fa-check"></i>
-								</div>
-								<span class="cb-label">Fish</span>
-							</div>
-
-							<div class="cb-container pointer" v-on:click="shellfish = !shellfish">
-								<div class="cb">
-									<i v-if="shellfish" class="fas fa-check"></i>
-								</div>
-								<span class="cb-label">Shellfish</span>
-							</div>
-						</div>
-					</div>
-				</div>
+				<CheckboxCollection
+					class="mb-2" 
+					v-bind:checkboxItems="allergens"
+					v-on:change="items => allergens = items">
+				</CheckboxCollection>
 			</Window>
 
 			<!-- Actions -->
@@ -330,13 +266,16 @@
 <script>
 	import SearchField from '../components/SearchField.vue';
 	import Window from '../components/Window.vue';
+	import CheckboxCollection from '../components/CheckboxCollection.vue';
+	import checkboxItems from '../utils/checkboxItems.js';
 
 	export default {
 		name: 'CreateRecipe',
 
 		components: {
 			SearchField,
-			Window
+			Window,
+			CheckboxCollection
 		},
 		
 		data() {
@@ -347,16 +286,8 @@
 				portions: null,
 				fileId: null,
 
-				vegan: false,
-				vegetarian: false,
-				glutenFree: false,
-				milk: false,
-				egg: false,
-				nuts: false,
-				wheat: false,
-				soy: false,
-				fish: false,
-				shellfish: false,
+				diataryConstraints: checkboxItems.diataryConstraints,
+				allergens: checkboxItems.allergens,
 				
 				ingredients: [],
 				newIngredient: {
@@ -486,8 +417,18 @@
 				}
 			},
 
+			checkboxArrayToObject(array) {
+				let obj = {};
+
+				array.forEach(item => obj[item.key] = item.checked);
+
+				return obj;
+			},
+
 			createRecipe() {
 				this.creatingRecipe = true;
+				let diataryConstraints = this.checkboxArrayToObject(this.diataryConstraints),
+					allergens = this.checkboxArrayToObject(this.allergens);
 
 				this.$store.dispatch('createRecipe', {
 					name: this.name,
@@ -495,17 +436,17 @@
 					cooking_time: this.cookingTime,
 					file_id: this.fileId,
 
-					vegan: this.vegan,
-					vegetarian: this.vegetarian,
-					gluten_free: this.glutenFree,
+					vegan: diataryConstraints.vegan,
+					vegetarian: diataryConstraints.vegetarian,
+					gluten_free: diataryConstraints.glutenFree,
 
-					allergen_milk: this.milk,
-					allergen_egg: this.egg,
-					allergen_nuts: this.nuts,
-					allergen_wheat: this.wheat,
-					allergen_soy: this.soy,
-					allergen_fish: this.fish,
-					allergen_shellfish: this.shellfish,
+					allergen_milk: allergens.milk,
+					allergen_egg: allergens.egg,
+					allergen_nuts: allergens.nuts,
+					allergen_wheat: allergens.wheat,
+					allergen_soy: allergens.soy,
+					allergen_fish: allergens.fish,
+					allergen_shellfish: allergens.shellfish,
 
 					portions: this.portions,
 					ingredients: this.ingredients,
@@ -516,6 +457,8 @@
 						content: 'Recipe created!',
 						error: false
 					});
+
+					this.$router.push({name: 'recipe', props: {id: response.id}});
 				})
 				.catch((err) => {
 					this.$store.commit('setSystemMessage', {
@@ -582,21 +525,10 @@
 		max-width: @main-content-width;
 	}
 
-	/*
-	@media screen and (max-width: 750px) {
-		.createrecipe-container {
-			width: calc(100vw + 3px) !important;
-			margin-left: -1px !important;
-			margin-right: -3px !important;
-		}
-	}
-	*/
-
 	.details-container {
 		width: 100%;
 		max-width: @main-content-width;
 		color: @main-background;
-		//border-bottom: 1px solid @main-background;
 	}
 
 	.file {
@@ -604,24 +536,24 @@
 		width: 0px;
 	}
 
-	.changeFileButton {
+	.change-file-button {
 		border-top-left-radius: 0rem;
 		border-top-right-radius: 0rem;
 	}
 
-	.recipeImage {
+	.recipe-image {
 		border-top-left-radius: 0.25rem;
 		border-top-right-radius: 0.25rem;
 	}
 
-	.uploadImageContainer {
+	.upload-image-container {
 		border: 1px dashed @main-background;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
 
-	.orderButton {
+	.order-button {
 		width: 35px;
 	}
 

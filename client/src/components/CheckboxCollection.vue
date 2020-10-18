@@ -1,0 +1,47 @@
+<template>
+    <div class="checkboxcollection d-flex">
+        <div 
+            class="cb-container pointer mr-3 mb-md-0 mb-2" 
+            v-for="item in items"
+            v-bind:key="item.key"
+            v-on:click="item.checked = !item.checked">
+            <div class="cb">
+                <i v-if="item.checked" class="fas fa-check"></i>
+            </div>
+            <span class="cb-label">{{item.label}}</span>
+        </div>
+    </div>
+</template>
+
+
+<script>
+    export default {
+        name: 'CheckboxCollection',
+        props: {
+            checkboxItems: Array
+        },
+
+        data() {
+            return {
+                items: this.checkboxItems
+            }
+        },
+
+        computed: {
+            itemsStringified() {
+                return JSON.stringify(this.items);
+            }
+        },
+
+        watch: {
+            itemsStringified() {
+                this.$emit('change', this.items);
+            }
+        }
+    }
+</script>
+
+
+<style lang="less" scoped>
+    @import "../assets/global.less";
+</style>

@@ -51,12 +51,6 @@
                                 <span>{{$store.getters.userData.name}}</span>
                                 <i class="far fa-user-circle profile-img ml-2"></i>
                             </span>
-                            
-                            <!--
-                            <span class="menu-item-desktop ml-3 pointer" title="Log out" v-on:click="logout">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </span>
-                            -->
                         </span>
                     </div>
 

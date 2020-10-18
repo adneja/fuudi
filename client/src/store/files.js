@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://10.0.0.34:3333/api/';
+axios.defaults.baseURL = `${process.env.VUE_APP_REST_ADDR}/api/`;
 
 export default {
     actions: {

@@ -42,9 +42,9 @@ SELECT
 	f.id AS file_id,
 	f.name AS file_name,
 	f.mimetype AS file_type,
-	COALESCE(ratings.rating, 0) AS rating,
-	COALESCE(ratings.number_of_ratings, 0) AS number_of_ratings,
-	COALESCE(saves.saves, 0) AS saves
+	COALESCE(ratings.rating, 0)::float AS rating,
+	COALESCE(ratings.number_of_ratings, 0)::float AS number_of_ratings,
+	COALESCE(saves.saves, 0)::float AS saves
 FROM
 	tbl_recipes AS r
 	INNER JOIN tbl_users AS u
