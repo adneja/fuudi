@@ -22,7 +22,9 @@
 								v-bind:author="recipe.created_by"
 								v-bind:isFavorite="recipe.bookmarked"
 								v-bind:fileId="recipe.file_id"
-								v-bind:fileType="recipe.file_type"></Recipe>
+								v-bind:fileType="recipe.file_type"
+								v-bind:matchCount="recipe.match_count"
+								v-bind:numOfIngredients="recipe.num_of_ingredients"></Recipe>
 						</div>
 					</div>
 				</div>

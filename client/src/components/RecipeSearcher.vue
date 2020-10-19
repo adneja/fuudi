@@ -21,19 +21,19 @@
         </div>
         
         <div class="filters lightblue" v-if="showFilters">
-            <div class="mb-2 filter-title">Dietary constraints</div>
+            <div class="mb-1 filter-title">Dietary constraints</div>
             <i title="Close" @click="showFilters = false" class="close-section pointer fas fa-times"></i>
 
             <CheckboxCollection
-                class="mb-2" 
+                class="mb-3" 
                 v-bind:checkboxItems="diataryConstraints"
                 @change="items => diataryConstraints = items">
             </CheckboxCollection>
 
             
-            <div class="mb-2 filter-title">Exclude allergens</div>
+            <div class="mb-1 filter-title">Exclude allergens</div>
             <CheckboxCollection
-                class="mb-2" 
+                class="mb-3" 
                 v-bind:checkboxItems="allergens"
                 @change="items => allergens = items">
             </CheckboxCollection>
@@ -96,21 +96,21 @@
     
         <div class="ingredients-search mt-2 lightblue" v-if="showIngredientsSearch">
             <div class="mb-2 normalFont">
-                <small>Searching by ingredients allow you to find recipes that uses ingredients you already have.</small>
+                <small>Searching by ingredients allows you to find recipes that uses ingredients you already have.</small>
             </div>
 
             <i @click="showIngredientsSearch = false" class="close-section pointer fas fa-times"></i>
-
+       
             <SearchField 
                 ref="searchfooditems"
                 action="searchFoodItems" 
                 displayField="name"
                 placeholder="Ingredient.."
                 prompt="Select ingredient"
-                v-bind:enableCreatePrompt="true"
+                v-bind:enableCreatePrompt="false"
                 @item-selected="addSearchIngredient">
             </SearchField>	
-
+        
             <div v-for="(ingredient, index) in ingredients" v-bind:key="index" class="mt-2">
                 <i title="Close" class="fas fa-times-circle mr-2 pointer" @click="removeIngredient(index)"></i>{{ingredient.name}}
             </div> 
@@ -141,7 +141,8 @@
                 searchTimeout: null,
 				searching: false,
                 showFilters: false,
-                showIngredientsSearch: false
+                showIngredientsSearch: false,
+                numOfResults: null
             }
         },
 
@@ -211,13 +212,20 @@
                     ingredients: JSON.stringify(this.ingredients.map(i => i.id))
 				})
 				.then((response) => {
-					this.$emit('updated', response);
+                    this.$emit('updated', response);
+
+                    if(this.search.length > 0 || this.numAppliedFilters > 0 || this.ingredients.length > 0) {
+                        this.numOfResults = response.length;
+                    } else {
+                        this.numOfResults = null;   
+                    }
+                    
 				})
 				.catch((err) => {
 					this.$store.commit('setSystemMessage', {
 						content: err,
 						error: true
-					});
+                    });
 				})
 				.finally(() => {
 					this.searching = false;
@@ -300,7 +308,11 @@
 		border: 1px solid @main-background;
 		padding: 12px 12px;
 		margin-bottom: 10px;
-		margin-top: -16px;
+        margin-top: -16px;
+    }
+
+    .ingredients-search-add  {
+        border-left: none !important;
     }
 
     .close-section {
@@ -387,14 +399,21 @@
 	.ingredient-search:hover {
 		text-decoration: underline;
 	}
+    
+    .btn-outline-light {
+		border-color: @main-background;
+		color: @main-background;
+	}
 
-	.btn-outline-light:focus, .btn-outline-light:active, .btn-outline-light:hover {
-		background-color:@main-color !important;
-		color: @main-background !important;
+	.btn-outline-light:hover {
+		background-color: @main-background;
+		color: @main-color;
 	}
 
 	.btn-outline-light:active {
-		background-color:@main-color !important;
-		color: @main-background !important;
+		background-color: @main-background-dark !important;
+		border-color: @main-background-dark !important;
+		color: @main-color !important;
 	}
+
 </style>

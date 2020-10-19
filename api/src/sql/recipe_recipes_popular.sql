@@ -3,15 +3,30 @@ WITH ingredients AS (
         to_json(value)::text::int AS fooditem_id
     FROM
         json_array_elements($15) 
+), ingredients_matches AS (
+    SELECT  
+        r.id,
+        (SELECT
+			COUNT(fooditem_id)
+			FROM tbl_recipes_ingredients
+		 	WHERE recipe_id = r.id AND fooditem_id IN (SELECT fooditem_id FROM ingredients)
+		)AS match_count
+    FROM
+        tbl_recipes AS r
 )
 
 SELECT 
     r.*,
-    (CASE WHEN ur.created_by IS NULL THEN false ELSE true END) AS bookmarked
+    (CASE WHEN ur.created_by IS NULL THEN false ELSE true END) AS bookmarked,
+    rm.match_count::int
+
 FROM 
     viw_recipes AS r
     LEFT JOIN tbl_users_recipes AS ur
         ON r.id = ur.recipe_id AND ur.created_by = $14
+    INNER JOIN ingredients_matches AS rm
+		ON r.id = rm.id
+    
 WHERE
     -- search
     (LOWER(name) LIKE '%' || LOWER($1) || '%'
@@ -34,22 +49,12 @@ WHERE
     -- max cooking time
     AND (r.cooking_time <= $13 OR $13 >= 120)
 
-    -- ingredients search
-    AND (CASE 
-        WHEN EXISTS(SELECT fooditem_id FROM ingredients) THEN
-            EXISTS(
-                SELECT 
-                    * 
-                FROM 
-                    tbl_recipes_ingredients AS ri 
-                WHERE 
-                    ri.recipe_id = r.id 
-                    AND fooditem_id IN (SELECT fooditem_id FROM ingredients))
-        ELSE true
-    END) = true
-
 -- sort order
 ORDER BY
+    (CASE
+        WHEN EXISTS(SELECT fooditem_id FROM ingredients) THEN rm.match_count
+        ELSE 1
+    END) DESC,
     (CASE
         WHEN $2 = 'rating' THEN r.rating
         WHEN $2 = 'new' THEN EXTRACT(epoch FROM r.created) 

@@ -14,6 +14,8 @@
         
         <router-link class="clickable" v-bind:to="'/recipes/recipe/' + id">
             <img v-bind:src="imgURL" width="100%">
+
+
             
             <div class="recipe-details">
                 <div class="d-flex justify-content-between align-items-start">
@@ -30,9 +32,20 @@
                 </div>
 
                 <div class="time normalFont d-flex justify-content-between align-items-center">
-                    <span class="font-weight-bold">{{formattedCookingTime}}</span>
+                    <span class="font-weight-bold d-flex align-items-center">
+                        <i class="fas fa-stopwatch mr-1"></i>
+                        <span>{{formattedCookingTime}}</span>
+                    </span>
                     <span class="muted">{{timeFromEpoch}}</span>
                 </div>
+            </div>
+
+            <div class="matching-ingredients normalFont text-center" v-if="matchCount > 0">
+                <span>
+                    <i class="fas fa-check mr-1"></i>
+                    <strong>{{matchCount}}</strong> 
+                    <span> matching ingredient{{matchCount > 1 ? 's' : ''}}</span>
+                </span>
             </div>
         </router-link>
     </div>
@@ -56,7 +69,9 @@
             author: String,
             isFavorite: Boolean,
             fileId: Number,
-            fileType: String
+            fileType: String,
+            matchCount: Number,
+            numOfIngredients: Number
         },
         
         data() {
@@ -149,16 +164,18 @@
     }
     
     .recipe-details {
+        position: relative;
         background-color: white;
         color: @main-background;
         padding: 15px 20px;
+        height: 200px;
     }
     
 	.title {
 		width: calc(100% - 115px);
-		height: 45px;
+		//height: 45px;
         overflow : hidden;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
 		text-overflow: ellipsis;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
@@ -175,11 +192,11 @@
         word-wrap: normal;
 		
 		margin-bottom: 10px;
-		height: 90px;
+		//height: 90px;
 		overflow : hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
-		-webkit-line-clamp: 4;
+		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
 		color: @main-background;
     }
@@ -187,5 +204,18 @@
     .time {
 		font-size: 10pt;
         color: @main-background;
+        position: absolute;
+        bottom: 15px;
+        left: 0px;
+        width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .matching-ingredients  {
+        font-size: 10pt;
+        background-color: @main-background;
+        color: @main-color;
+        padding: 6px 20px;
     }
 </style>

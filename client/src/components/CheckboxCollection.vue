@@ -1,5 +1,5 @@
 <template>
-    <div class="checkboxcollection d-flex">
+    <div class="checkboxcollection d-flex flex-wrap">
         <div 
             class="cb-container pointer mr-3 mb-md-0 mb-2" 
             v-for="item in items"
