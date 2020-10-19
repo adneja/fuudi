@@ -18,13 +18,7 @@
             <SystemMessage v-show="$store.getters.systemMessage"></SystemMessage>
         </transition>
 
-		<transition name="fadeIn" mode="out-in">
-			<keep-alive>
-				<router-view/>
-			</keep-alive>
-		</transition>
-
-		<Footer></Footer>
+		<router-view/>
 	</div>
 </template>
 
@@ -57,8 +51,6 @@
 		font-size: 13pt;
 		letter-spacing: 0.04rem;
 		//background-color: rgba(225, 239, 240, 0.9);
-		//background-color: rgba(224, 234, 236, 0.9);
-		background-color: rgba(241, 227, 206);
 	}
 
 	.slideDown-enter-active, .slideDown-leave-active {

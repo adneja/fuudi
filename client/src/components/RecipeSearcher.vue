@@ -48,7 +48,7 @@
             </div>
 
             <div class="slidecontainer">
-                <input @change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" value="120" class="slider w-100" id="myRange">
+                <input @change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" class="slider w-100" id="myRange">
             </div>
         </div>
 
@@ -284,7 +284,12 @@
 		activated() {
 			this.searching = true;
 			this.getRecipes();
-		}
+        },
+        
+        mounted() {
+            this.searching = true;
+			this.getRecipes();
+        }
     }
 </script>
 

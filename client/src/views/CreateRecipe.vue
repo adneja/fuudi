@@ -55,7 +55,7 @@
 							<div class="row">
 								<div class="col-12">
 									<div class="mb-1 ">Description</div>
-									<textarea placeholder="" class="form-control  mb-3" type="text" rows="4" v-model="description"></textarea>
+									<textarea class="form-control  mb-3" rows="4" v-model="description"></textarea>
 								</div>
 							</div>
 

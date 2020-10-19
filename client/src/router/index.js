@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 import store from '../store/index.js';
 
@@ -11,8 +10,6 @@ import Recipe from '../views/Recipe.vue';
 import Ratings from '../views/Ratings.vue';
 import CreatePlan from '../views/CreatePlan.vue';
 import CreateRecipe from '../views/CreateRecipe.vue';
-
-Vue.use(VueRouter)
 
 const routes = [
 	{
@@ -64,7 +61,7 @@ const routes = [
 		meta: {requiresAuth: true, showNavbar: true}
 	},
 	{
-		path: '*',
+		path: '/:pathMatch(.*)*',
 		name: 'All',
 		component: Home,
 		meta: {requiresAuth: false, showNavbar: true}
@@ -72,10 +69,9 @@ const routes = [
 ];
 
 
-const router = new VueRouter({
-	mode: 'history',
-	base: process.env.BASE_URL,
-	routes
+const router = createRouter({
+    history: createWebHistory(process.env.BASE_URL),
+    routes
 });
 
 
