@@ -6,6 +6,7 @@
     </div>
 </template>
 
+
 <script>
     export default {
         name: 'Recipe',
@@ -22,6 +23,7 @@
         }
     }
 </script>
+
 
 <style lang="less" scoped>
     @import "../assets/global.less";

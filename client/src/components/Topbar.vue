@@ -41,13 +41,13 @@
                 <!-- Right side of navbar -->
                 <div class="right">
                     <div class="d-md-flex  d-none justify-content-end align-items-center">
-                        <div v-on:click="showLogin" title="Log in" class="menu-item-desktop pointer mr-3" v-if="!$store.getters.token">
+                        <div @click="showLogin" title="Log in" class="menu-item-desktop pointer mr-3" v-if="!$store.getters.token">
                             <i class="fas fa-sign-in-alt mr-1"></i>
                             <span>Login</span>
                         </div>
 
                         <span v-else class="d-flex justify-content-end align-items-center">
-                            <span v-on:click="$store.commit('setShowUserMenu', true)" class="name pointer d-flex justify-content-end align-items-center">
+                            <span @click="$store.commit('setShowUserMenu', true)" class="name pointer d-flex justify-content-end align-items-center">
                                 <span>{{$store.getters.userData.name}}</span>
                                 <i class="far fa-user-circle profile-img ml-2"></i>
                             </span>
@@ -56,7 +56,7 @@
 
                     <!-- Mobile menu button-->
                     <div class="d-md-none d-flex justify-content-end align-items-center">
-                        <i v-on:click="$store.commit('setShowMobileMenu', true)" class="fas fa-bars menu-button"></i>
+                        <i @click="$store.commit('setShowMobileMenu', true)" class="fas fa-bars menu-button"></i>
                     </div>
                 </div>
             </div>

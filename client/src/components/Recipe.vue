@@ -21,7 +21,7 @@
 
                     <span class="d-flex justify-content-end align-items-center" v-if="numOfRatings > 0">
                         <Stars v-bind:stars="rating" max="5"></Stars>
-                        <span class="number-of-ratings ml-2">({{numOfRatings}})</span>
+                        <span class="number-of-ratings muted ml-2">({{numOfRatings}})</span>
                     </span>
                 </div>
 
@@ -30,8 +30,8 @@
                 </div>
 
                 <div class="time normalFont d-flex justify-content-between align-items-center">
-                    <span>{{formattedCookingTime}}</span>
-                    <span>{{timeFromEpoch}}</span>
+                    <span class="font-weight-bold">{{formattedCookingTime}}</span>
+                    <span class="muted">{{timeFromEpoch}}</span>
                 </div>
             </div>
         </router-link>
@@ -151,7 +151,7 @@
     .recipe-details {
         background-color: white;
         color: @main-background;
-        padding: 8px 20px;
+        padding: 15px 20px;
     }
     
 	.title {
@@ -167,6 +167,7 @@
     
     .number-of-ratings {
         font-size: 11pt;
+        margin-bottom: -2px;
     }
 
     .description {
@@ -186,6 +187,5 @@
     .time {
 		font-size: 10pt;
         color: @main-background;
-        font-weight: 600;
     }
 </style>

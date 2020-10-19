@@ -2,14 +2,14 @@
     <div class="recipesearcher">
         <div class="input-group search-row mb-3">
             <input v-model="search" class="form-control" placeholder="Search">
-            <i class="search-indicator fas fa-circle-notch fa-spin"></i>
+            <!--<i class="search-indicator fas fa-circle-notch fa-spin"></i>-->
 
             <div class="input-group-append">
                 <button 
                     type="button" 
                     class="btn w-100 filterButton" 
                     v-bind:class="[showFilters ? 'btn-success ' : 'btn-outline-light']"
-                    v-on:click="showFilters = !showFilters">
+                    @click="showFilters = !showFilters">
 
                     <i class="fas fa-filter mr-1"></i>
                     <span class="">
@@ -22,10 +22,12 @@
         
         <div class="filters lightblue" v-if="showFilters">
             <div class="mb-2 filter-title">Dietary constraints</div>
+            <i title="Close" @click="showFilters = false" class="close-section pointer fas fa-times"></i>
+
             <CheckboxCollection
                 class="mb-2" 
                 v-bind:checkboxItems="diataryConstraints"
-                v-on:change="items => diataryConstraints = items">
+                @change="items => diataryConstraints = items">
             </CheckboxCollection>
 
             
@@ -33,7 +35,7 @@
             <CheckboxCollection
                 class="mb-2" 
                 v-bind:checkboxItems="allergens"
-                v-on:change="items => allergens = items">
+                @change="items => allergens = items">
             </CheckboxCollection>
 
             <!-- Max cooking time -->
@@ -46,16 +48,16 @@
             </div>
 
             <div class="slidecontainer">
-                <input v-on:change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" value="120" class="slider w-100" id="myRange">
+                <input @change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" value="120" class="slider w-100" id="myRange">
             </div>
         </div>
 
         <div class="d-flex justify-content-between">
             <!-- Ingredients search -->
-            <span class="pointer ingredient-search">
+            <span class="pointer ingredient-search" @click="showIngredientsSearch = !showIngredientsSearch">
                 <i class="fas fa-search mr-1"></i>
-                <span v-bind:class="[ingredients.lenght > 0 ? 'font-weight-bold' : '']">Search by Ingredients</span>
-                <span v-if="ingredients.lenght > 0 " class="font-weight-bold">: {{ingredients.length}}</span>
+                <span>Search by Ingredients</span>
+                <span v-if="ingredients.length > 0" class="muted"> ({{ingredients.length}})</span>
             </span>
         
             <!-- Sort order-->
@@ -72,56 +74,92 @@
                 <a 
                     class="dropdown-item" 
                     href="#!" 
-                    v-on:click="sortOrder = 'popular'">
+                    @click="sortOrder = 'popular'">
                     Popular
                 </a>
 
                 <a 
                     class="dropdown-item" 
                     href="#!" 
-                    v-on:click="sortOrder = 'rating'">
+                    @click="sortOrder = 'rating'">
                     Rating
                 </a>
 
                 <a 
                     class="dropdown-item" 
                     href="#!" 
-                    v-on:click="sortOrder = 'new'">
+                    @click="sortOrder = 'new'">
                     New
                 </a>
             </div>
+        </div>
+    
+        <div class="ingredients-search mt-2 lightblue" v-if="showIngredientsSearch">
+            <div class="mb-2 normalFont">
+                <small>Searching by ingredients allow you to find recipes that uses ingredients you already have.</small>
+            </div>
+
+            <i @click="showIngredientsSearch = false" class="close-section pointer fas fa-times"></i>
+
+            <SearchField 
+                ref="searchfooditems"
+                action="searchFoodItems" 
+                displayField="name"
+                placeholder="Ingredient.."
+                prompt="Select ingredient"
+                v-bind:enableCreatePrompt="true"
+                @item-selected="addSearchIngredient">
+            </SearchField>	
+
+            <div v-for="(ingredient, index) in ingredients" v-bind:key="index" class="mt-2">
+                <i title="Close" class="fas fa-times-circle mr-2 pointer" @click="removeIngredient(index)"></i>{{ingredient.name}}
+            </div> 
         </div>
     </div>
 </template>
 
 
 <script>
-	import CheckboxCollection from '../components/CheckboxCollection.vue';
-    import checkboxItems from '../utils/checkboxItems.js';
+    import CheckboxCollection from '../components/CheckboxCollection.vue';
+    import SearchField from '../components/SearchField.vue';
+    import checkboxItems, { diataryConstraints } from '../utils/checkboxItems.js';
     
     export default {
         name: 'RecipeSearcher',
         props: [],
-        components: {CheckboxCollection},
+        components: {CheckboxCollection, SearchField},
 
         data() {
             return {
-                search: '',
-                sortOrder: 'popular',
-                maxCookingTime: 120,
-				diataryConstraints: checkboxItems.diataryConstraints,
-                allergens: checkboxItems.allergens,
-                ingredients: [],
+                search: window.localStorage.getItem('recipes-search') || '',
+                sortOrder: window.localStorage.getItem('recipes-sort-order') || 'popular',
+                maxCookingTime: window.localStorage.getItem('recipes-max-cooking-time') || 120,
+				diataryConstraints: JSON.parse(window.localStorage.getItem('recipes-diatary-constraints')) || checkboxItems.diataryConstraints,
+                allergens: JSON.parse(window.localStorage.getItem('recipes-allergens')) || checkboxItems.allergens,
+                ingredients: JSON.parse(window.localStorage.getItem('recipes-ingredients')) || [],
                 
                 searchTimeout: null,
 				searching: false,
-				showFilters: false,
+                showFilters: false,
+                showIngredientsSearch: false
             }
         },
 
 		computed: {
 			numAppliedFilters() {
 				let num = this.maxCookingTime < 120 ? 1 : 0;
+                
+                this.diataryConstraints.forEach((constraint) => {
+                    if(constraint.checked) {
+                        num++;
+                    }
+                });
+
+                this.allergens.forEach((constraint) => {
+                    if(constraint.checked) {
+                        num++;
+                    }
+                });
 
 				return num;
 			},
@@ -151,13 +189,26 @@
         },
         
         methods: {
+            addSearchIngredient(ingredient) {
+                this.ingredients.push(ingredient);
+                
+                this.$nextTick(() => {
+                    this.$refs.searchfooditems.clear();
+                });
+            },
+
+            removeIngredient(ingredient) {
+                this.ingredients.splice(this.ingredients.indexOf(ingredient), 1);
+            },
+
 			getRecipes() {
 				this.$store.dispatch('getRecipes', {
 					search: this.search,
 					sort_order: this.sortOrder,
 					diatary_constraints: JSON.stringify(this.checkboxArrayToObject(this.diataryConstraints)),
 					allergens: JSON.stringify(this.checkboxArrayToObject(this.allergens)),
-					max_cooking_time: this.maxCookingTime
+                    max_cooking_time: this.maxCookingTime,
+                    ingredients: JSON.stringify(this.ingredients.map(i => i.id))
 				})
 				.then((response) => {
 					this.$emit('updated', response);
@@ -194,21 +245,28 @@
 		watch: {
 			search() {
 				this.updateRecipes();
-				window.localStorage.setItem('recipe-search', this.search);
+				window.localStorage.setItem('recipes-search', this.search);
 			},
 
 			sortOrder() {
 				this.updateRecipes();
-				window.localStorage.setItem('recipe-sort-order', this.sortOrder);
+				window.localStorage.setItem('recipes-sort-order', this.sortOrder);
 			},
 
 			diataryConstraintsStringified() {
-				this.getRecipes();
+                this.getRecipes();
+                window.localStorage.setItem('recipes-diatary-constraints', this.diataryConstraintsStringified);
 			},
 
 			allergensStringified() {
-				this.getRecipes();
-			},
+                this.getRecipes();
+                window.localStorage.setItem('recipes-allergens', this.allergensStringified);
+            },
+            
+            ingredients() {
+                this.getRecipes();
+                window.localStorage.setItem('recipes-ingredients', JSON.stringify(this.ingredients));
+            },
 
 			isLoggedIn() {
 				this.updateRecipes();
@@ -226,14 +284,30 @@
 <style lang="less" scoped>
     @import "../assets/global.less";
 
-	.filters {
+	.filters{
+        position: relative;
 		color: @main-background;
 		border: 1px solid @main-background;
 		border-top: none;
 		padding: 12px 12px;
 		margin-bottom: 10px;
 		margin-top: -16px;
-	}
+    }
+    
+    .ingredients-search  {
+        position: relative;
+        color: @main-background;
+		border: 1px solid @main-background;
+		padding: 12px 12px;
+		margin-bottom: 10px;
+		margin-top: -16px;
+    }
+
+    .close-section {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
 
 	.filter-title {
 		font-size: 12pt;
@@ -276,8 +350,9 @@
     
     .search-indicator {
         position: absolute;
-        top: 0px;
-        right: 0px;
+        top: 10px;
+        right: 150px;
+        color: @main-background;
     }
 
 	.dropdown-item  {

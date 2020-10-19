@@ -4,7 +4,7 @@
             class="cb-container pointer mr-3 mb-md-0 mb-2" 
             v-for="item in items"
             v-bind:key="item.key"
-            v-on:click="item.checked = !item.checked">
+            @click="item.checked = !item.checked">
             <div class="cb">
                 <i v-if="item.checked" class="fas fa-check"></i>
             </div>

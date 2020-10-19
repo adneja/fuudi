@@ -2,11 +2,10 @@
 	<div class="recipes">
 		<div class="d-flex justify-content-center">
 			<div class="filters-container px-md-5 py-md-4 px-3 py-4">
-				<RecipeSearcher v-on:updated="result => recipes = result"></RecipeSearcher>
+				<RecipeSearcher @updated="result => recipes = result"></RecipeSearcher>
 			</div>
 		</div>
 
-		<!-- Recipes -->
 		<div class="d-flex justify-content-center">
 			<div class="recipes-content px-md-5 px-2">
 				<div class="container-fluid px-md-0 px-3">

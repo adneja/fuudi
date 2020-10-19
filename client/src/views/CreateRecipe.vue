@@ -10,7 +10,7 @@
 								<div 
 									v-if="!uploadedFile" 
 									class="text-center p-3 pointer" 
-									v-on:click="chooseFile"
+									@click="chooseFile"
 									title="Click to upload image">
 									
 									<i v-if="!uploadingFile" class="fas fa-upload fa-2x"></i>
@@ -26,7 +26,7 @@
 											type="button"
 											title="Remove image"
 											class="w-50 btn btn-outline-light change-file-button"
-											v-on:click="removeFile">
+											@click="removeFile">
 											<i class="fas fa-trash-alt d-md-none d-inline"></i>
 											<span class="d-md-inline d-none">Delete</span>
 										</button>
@@ -34,7 +34,7 @@
 										<button 
 											type="button"
 											title="Upload new image"
-											v-on:click="chooseFile" 
+											@click="chooseFile" 
 											class="w-50 btn btn-outline-light  change-file-button">
 											<i class="fas fa-upload d-md-none d-inline"></i>
 											<span class="d-md-inline d-none">Change</span>
@@ -76,7 +76,7 @@
 									<CheckboxCollection
 										class="mb-2" 
 										v-bind:checkboxItems="diataryConstraints"
-										v-on:change="items => diataryConstraints = items">
+										@change="items => diataryConstraints = items">
 									</CheckboxCollection>
 								</div>
 							</div>
@@ -106,7 +106,7 @@
 								v-bind:enableCreatePrompt="true"
 								v-bind:bottomPadding="true"
 								v-bind:startValue="ingredient.foodItem.name"
-								v-on:item-selected="updateFoodItem(index, $event)">
+								@item-selected="updateFoodItem(index, $event)">
 							</SearchField>
 						</div>
 
@@ -122,10 +122,10 @@
 								prompt="Change unit"
 								v-bind:bottomPadding="true"
 								v-bind:startValue="ingredient.measurement.name"
-								v-on:item-selected="updateMeasurement(index, $event)">
+								@item-selected="updateMeasurement(index, $event)">
 							</SearchField>
 
-							<button class="btn btn-outline-light  ml-2" v-on:click="removeIngredient(index)">
+							<button class="btn btn-outline-light  ml-2" @click="removeIngredient(index)">
 								<i class="fas fa-trash-alt"></i>
 							</button>
 						</div>
@@ -143,8 +143,8 @@
 								placeholder="Ingredient"
 								prompt="Select ingredient"
 								v-bind:enableCreatePrompt="true"
-								v-on:item-selected="selectFoodItem"
-								v-on:create-item="createFoodItem">
+								@item-selected="selectFoodItem"
+								@create-item="createFoodItem">
 							</SearchField>	
 						</div>
 
@@ -155,7 +155,7 @@
 								type="number" 
 								class="form-control" 
 								placeholder="Amount"
-								v-on:keyup.enter="$refs.searchmeasurements.focus()">
+								@keyup.enter="$refs.searchmeasurements.focus()">
 						</div>
 
 						<div class="col-md-3 col-6 d-flex pl-md-1 pl-1">
@@ -165,10 +165,10 @@
 								displayField="name"
 								placeholder="Unit"
 								prompt="Select unit"
-								v-on:item-selected="selectMeasurement">
+								@item-selected="selectMeasurement">
 							</SearchField>	
 
-							<button class="btn btn-outline-light ml-2" v-on:click="addIngredient">
+							<button class="btn btn-outline-light ml-2" @click="addIngredient">
 								<i class="fas fa-plus"></i>
 							</button>
 						</div>
@@ -190,21 +190,21 @@
 									<button 
 										title="Move down" 
 										class="btn  btn-outline-light"
-										v-on:click="moveInstructionDown(index)">
+										@click="moveInstructionDown(index)">
 
 										<i class="fas fa-caret-down"></i>
 									</button>
 									<button 
 										title="Move up" 
 										class="btn  btn-outline-light"
-										v-on:click="moveInstructionUp(index)">
+										@click="moveInstructionUp(index)">
 
 										<i class="fas fa-caret-up"></i>
 									</button>
 								</div>
 							</div>
 
-							<button class="btn  btn-outline-light ml-2" v-on:click="removeInstruction(index)">
+							<button class="btn  btn-outline-light ml-2" @click="removeInstruction(index)">
 								<i class="fas fa-trash-alt"></i>
 							</button>
 						</div>
@@ -221,9 +221,9 @@
 								placeholder="Instruction" 
 								class="form-control  "
 								ref="instruction"
-								v-on:keyup.enter="addInstruction">
+								@keyup.enter="addInstruction">
 
-							<button v-on:click="addInstruction" class="btn  btn-outline-light ml-2">
+							<button @click="addInstruction" class="btn  btn-outline-light ml-2">
 								<i class="fas fa-plus"></i>
 							</button>
 						</div>
@@ -235,14 +235,14 @@
 				<CheckboxCollection
 					class="mb-2" 
 					v-bind:checkboxItems="allergens"
-					v-on:change="items => allergens = items">
+					@change="items => allergens = items">
 				</CheckboxCollection>
 			</Window>
 
 			<!-- Actions -->
 			<div class="d-flex justify-content-md-end justify-content-center">
 				<button 
-					v-on:click="createRecipe"
+					@click="createRecipe"
 					class="btn btn-success">
 
 					<i v-if="creatingRecipe" class="fas fa-circle-notch fa-spin"></i>
@@ -251,7 +251,7 @@
 			</div>
 
 			<input 
-				v-on:change="handleFileChange" 
+				@change="handleFileChange" 
 				accept="image/*" 
 				class="file invisible" 
 				ref="file" 

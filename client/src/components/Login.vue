@@ -1,5 +1,5 @@
 <template>
-    <div class="login" v-on:keyup.enter="submit">
+    <div class="login" @keyup.enter="submit">
         <div class="login-panel">
             <!-- Title -->
             <div class="title d-flex justify-content-between align-items-center mb-4">
@@ -11,7 +11,7 @@
                     <span v-else>Login</span>
                 </div>
 
-                <button class="btn textButton" v-on:click="close">
+                <button class="btn textButton" @click="close">
                     <i class="fas fa-times closeButton"></i>
                 </button>
             </div>
@@ -50,14 +50,14 @@
                 placeholder="Repeat password">
 
             <button 
-                v-on:click="submit" 
+                @click="submit" 
                 class="btn btn-outline-light w-100 mb-1 mt-4">
                 <i v-if="loading" class="fas fa-circle-notch fa-spin"></i>
                 <span v-else>Submit</span>
             </button>
 
             <div class="d-flex justify-content-between" v-if="!showRegister">
-                <button class="btn textButton" v-on:click="forgotPassword = true">
+                <button class="btn textButton" @click="forgotPassword = true">
                     <!--<small>Forgot you password?</small>-->
                     Forgot your password?
                 </button>
@@ -65,7 +65,7 @@
                 <button 
                     v-if="!showRegister" 
                     class="btn textButton" 
-                    v-on:click="showRegister = true">
+                    @click="showRegister = true">
                     <!--<small>Register</small>-->
                     Register
                 </button>
@@ -74,14 +74,14 @@
             <div class="d-flex justify-content-center" v-else>
                 <button 
                     class="btn textButton" 
-                    v-on:click="showRegister = false">
+                    @click="showRegister = false">
                     <!--<small>Already have a user?</small>-->
                     Already have a user?
                 </button>
             </div>
         </div>
 
-        <div class="emptySpace" v-on:click="close"></div>
+        <div class="emptySpace" @click="close"></div>
     </div>
 </template>
 

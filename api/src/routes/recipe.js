@@ -82,25 +82,26 @@ router.post('/api/recipes/recipe', verifyToken, (req, res) => {
 
 
 // Get recipes
-router.get('/api/recipes/recipes/:search/:sort_order/:diatary_constraints/:allergens/:max_cooking_time', optionalToken, (req, res) => {
+router.get('/api/recipes/recipes/:search/:sort_order/:diatary_constraints/:allergens/:max_cooking_time/:ingredients', optionalToken, (req, res) => {
     let diataryConstraints = JSON.parse(req.params.diatary_constraints),
         allergens = JSON.parse(req.params.allergens),
         params = [
-        req.params.search.trim(), 
-        req.params.sort_order,
-        diataryConstraints.vegan,
-        diataryConstraints.vegetarian,
-        diataryConstraints.glutenFree,
-        allergens.milk,
-        allergens.egg,
-        allergens.nuts,
-        allergens.wheat,
-        allergens.soy,
-        allergens.fish,
-        allergens.shellfish,
-        parseInt(req.params.max_cooking_time),
-        req.user.id || null
-    ];
+            req.params.search.trim(), 
+            req.params.sort_order,
+            diataryConstraints.vegan,
+            diataryConstraints.vegetarian,
+            diataryConstraints.glutenFree,
+            allergens.milk,
+            allergens.egg,
+            allergens.nuts,
+            allergens.wheat,
+            allergens.soy,
+            allergens.fish,
+            allergens.shellfish,
+            parseInt(req.params.max_cooking_time),
+            req.user.id || null,
+            req.params.ingredients
+        ];
 
     runQuery(queries.recipe_recipes_popular, params, res, (result) => {
         res.json(result.rows);

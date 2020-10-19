@@ -4,11 +4,11 @@
             ref="input"
             class="form-control"
             v-model="searchWord" 
-            v-on:keydown.right.stop.prevent="moveMarkedItem(true)"
-            v-on:keydown.left.stop.prevent="moveMarkedItem(false)"
-            v-on:blur="getMarkedItem"
-            v-on:keyup.enter="getMarkedItem"
-            v-on:keyup.esc="clear"
+            @keydown.right.stop.prevent="moveMarkedItem(true)"
+            @keydown.left.stop.prevent="moveMarkedItem(false)"
+            @blur="getMarkedItem"
+            @keyup.enter="getMarkedItem"
+            @keyup.esc="clear"
             v-bind:placeholder="placeholder"
             v-bind:class="[showResults ? '' : '']">
         
@@ -26,7 +26,7 @@
                     ref='itemselection'
                     v-bind:items="items"
                     v-bind:target="enableCreatePrompt ? searchWord : null"
-                    v-on:item-clicked="itemClicked">
+                    @item-clicked="itemClicked">
                 </ItemSelector>
             </div>
         </transition>
@@ -195,8 +195,8 @@
 
     .searching {
         position: absolute;
-        top: 4px;
-        right: 4px;
+        top: 8px;
+        right: 8px;
         color: @main-background-dark;
     }
 

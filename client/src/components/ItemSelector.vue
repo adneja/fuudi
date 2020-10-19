@@ -108,12 +108,14 @@
     }
 
     .add { 
-        border: 1px solid @main-background;
-        padding: 0px 5px;
+        //border: 1px solid @main-background;
+        padding: 0px 6px;
+        color: rgb(49, 99, 49);
     }
 
     .addSelected {
-        background-color: @main-background;
-        color: @main-color;
+        //background-color: @main-background;
+        //color: @main-color;
+        text-decoration: underline;
     }
 </style>

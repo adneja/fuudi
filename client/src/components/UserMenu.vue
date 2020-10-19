@@ -5,7 +5,7 @@
             <div class="title d-flex justify-content-between align-items-center mb-4">
                 <div class="">{{$store.getters.userData.name}}</div>
 
-                <button class="btn textButton" v-on:click="close">
+                <button class="btn textButton" @click="close">
                     <i class="fas fa-times closeButton"></i>
                 </button>
             </div>
@@ -28,12 +28,12 @@
                 </router-link>
             </div>
 
-            <div title="Log out" class="menu-item pointer" v-on:click="logOut">
+            <div title="Log out" class="menu-item pointer" @click="logOut">
                 Log out
             </div>
         </div>
 
-        <div class="emptySpace" v-on:click="close"></div>
+        <div class="emptySpace" @click="close"></div>
     </div>
 </template>
 

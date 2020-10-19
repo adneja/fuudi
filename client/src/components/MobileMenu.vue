@@ -5,7 +5,7 @@
             <div class="title d-flex justify-content-between align-items-center mb-3">
                 <div>Menu</div>
 
-                <button class="btn textButton" v-on:click="close">
+                <button class="btn textButton" @click="close">
                     <i class="fas fa-times closeButton"></i>
                 </button>
             </div>
@@ -32,7 +32,7 @@
 
             <div class="mt-4">
                 <div v-if="!$store.getters.token">
-                    <div title="Login" class="menu-item" v-on:click="showLogin">Login</div>
+                    <div title="Login" class="menu-item" @click="showLogin">Login</div>
                 </div>
 
                 <div v-else>
@@ -50,7 +50,7 @@
                         </router-link>
                     </div>
 
-                    <div title="Log out" class="menu-item" v-on:click="logOut">Log out</div>
+                    <div title="Log out" class="menu-item" @click="logOut">Log out</div>
                 </div>
             </div>
         </div>
