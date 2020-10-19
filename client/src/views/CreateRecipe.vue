@@ -436,17 +436,8 @@
 					cooking_time: this.cookingTime,
 					file_id: this.fileId,
 
-					vegan: diataryConstraints.vegan,
-					vegetarian: diataryConstraints.vegetarian,
-					gluten_free: diataryConstraints.glutenFree,
-
-					allergen_milk: allergens.milk,
-					allergen_egg: allergens.egg,
-					allergen_nuts: allergens.nuts,
-					allergen_wheat: allergens.wheat,
-					allergen_soy: allergens.soy,
-					allergen_fish: allergens.fish,
-					allergen_shellfish: allergens.shellfish,
+					diatary_constraints: diataryConstraints,
+					allergens: allergens,
 
 					portions: this.portions,
 					ingredients: this.ingredients,
