@@ -1,16 +1,16 @@
 <template>
 	<div class="recipes">
-		<div class="d-flex justify-content-center">
+		<div class="filtersbackground d-flex justify-content-center mb-md-4 mb-3">
 			<div class="filters-container px-md-5 py-md-4 px-3 py-4">
 				<RecipeSearcher @updated="result => recipes = result"></RecipeSearcher>
 			</div>
 		</div>
 
 		<div class="d-flex justify-content-center">
-			<div class="recipes-content px-md-5 px-2">
+			<div class="recipes-content px-md-5">
 				<div class="container-fluid px-md-0 px-3">
 					<div class="row">
-						<div v-for="(recipe, index) in recipes" v-bind:key="index" class="col-lg-4 col-md-6 px-md-3 px-2">
+						<div v-for="(recipe, index) in recipes" v-bind:key="index" class="col-lg-4 col-md-6 px-md-3 px-2 mb-md-4 mb-3">
 							<Recipe
 								v-bind:id="recipe.id"
 								v-bind:title="recipe.name"
@@ -61,6 +61,11 @@
 
 	.recipes {
 		padding-top: 48px;
+		background-color: rgb(227, 234, 235);
+	}
+
+	.filtersbackground {
+		background-color: white;
 	}
 
 	.recipes-content {

@@ -50,22 +50,21 @@
 		font-family: 'Staatliches', cursive;
 		font-size: 13pt;
 		letter-spacing: 0.04rem;
-		//background-color: rgba(225, 239, 240, 0.9);
 	}
 
 	.slideDown-enter-active, .slideDown-leave-active {
-        transition: margin 0.3s;
+        transition: all 0.3s;
     }
 
-    .slideDown-enter, .slideDown-leave-to {
-        margin-top: -50px;
+    .slideDown-enter-from, .slideDown-leave-to {
+		margin-top: -50px;
 	}
 	
 	.slideIn-enter-active, .slideIn-leave-active {
 		transition: margin 0.3s;
 	}
 
-	.slideIn-enter, .slideIn-leave-to {
+	.slideIn-enter-from, .slideIn-leave-to {
         margin-right: -400px;
 	}
 
@@ -73,7 +72,7 @@
 		transition: opacity 0.2s;
 	}
 
-	.fadeIn-enter, .fadeIn-leave-to {
+	.fadeIn-enter-from, .fadeIn-leave-to {
 		opacity: 0;
 	}
 </style>

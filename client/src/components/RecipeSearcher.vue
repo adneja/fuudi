@@ -112,7 +112,8 @@
             </SearchField>	
         
             <div v-for="(ingredient, index) in ingredients" v-bind:key="index" class="mt-2">
-                <i title="Close" class="fas fa-times-circle mr-2 pointer" @click="removeIngredient(index)"></i>{{ingredient.name}}
+                <i title="Close" class="fas fa-times-circle mr-2 pointer" @click="removeIngredient(index)"></i>
+                <span>{{ingredient.name}}</span>
             </div> 
         </div>
     </div>
@@ -122,7 +123,7 @@
 <script>
     import CheckboxCollection from '../components/CheckboxCollection.vue';
     import SearchField from '../components/SearchField.vue';
-    import checkboxItems, { diataryConstraints } from '../utils/checkboxItems.js';
+    import checkboxItems from '../utils/checkboxItems.js';
     
     export default {
         name: 'RecipeSearcher',
@@ -172,6 +173,10 @@
 			allergensStringified() {
 				return JSON.stringify(this.allergens);
             },
+
+            ingredientsStringified() {
+                return JSON.stringify(this.ingredients);
+            },
             
             isLoggedIn() {
 				return this.$store.getters.token !== null;
@@ -191,11 +196,13 @@
         
         methods: {
             addSearchIngredient(ingredient) {
-                this.ingredients.push(ingredient);
-                
-                this.$nextTick(() => {
-                    this.$refs.searchfooditems.clear();
-                });
+                if(ingredient) {
+                    this.ingredients.push(ingredient);
+                    
+                    this.$nextTick(() => {
+                        this.$refs.searchfooditems.clear();
+                    });
+                }
             },
 
             removeIngredient(ingredient) {
@@ -271,9 +278,9 @@
                 window.localStorage.setItem('recipes-allergens', this.allergensStringified);
             },
             
-            ingredients() {
+            ingredientsStringified() {
                 this.getRecipes();
-                window.localStorage.setItem('recipes-ingredients', JSON.stringify(this.ingredients));
+                window.localStorage.setItem('recipes-ingredients', this.ingredientsStringified);
             },
 
 			isLoggedIn() {
@@ -304,7 +311,7 @@
 		border-top: none;
 		padding: 12px 12px;
 		margin-bottom: 10px;
-		margin-top: -16px;
+        margin-top: -16px;
     }
     
     .ingredients-search  {
@@ -329,7 +336,6 @@
 	.filter-title {
 		font-size: 12pt;
 	}
-
 
 	.selected {
 		background-color: @main-background;

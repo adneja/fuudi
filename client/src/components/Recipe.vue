@@ -12,11 +12,14 @@
             </span>
         </div>
         
-        <router-link class="clickable" v-bind:to="'/recipes/recipe/' + id">
+        <router-link 
+            class="clickable" 
+            v-bind:to="'/recipes/recipe/' + id" 
+            @mouseenter="hover = true" 
+            @mouseleave="hover = false">
+
             <img v-bind:src="imgURL" width="100%">
 
-
-            
             <div class="recipe-details">
                 <div class="d-flex justify-content-between align-items-start">
                     <span class="title">{{title}}</span>
@@ -36,7 +39,7 @@
                         <i class="fas fa-stopwatch mr-1"></i>
                         <span>{{formattedCookingTime}}</span>
                     </span>
-                    <span class="muted">{{timeFromEpoch}}</span>
+                    <!--<span class="muted">{{timeFromEpoch}}</span>-->
                 </div>
             </div>
 
@@ -76,7 +79,8 @@
         
         data() {
             return {
-                showFavorite: this.isFavorite
+                showFavorite: this.isFavorite,
+                hover: false
             }
         },
 
@@ -136,7 +140,7 @@
 		background-color: @main-color;
 		transition: transform .2s;
 		box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
-		margin-bottom: 32px;
+		//margin-bottom: 32px;
 	}
 
 	.recipe:hover {
@@ -174,7 +178,6 @@
     
 	.title {
 		width: calc(100% - 115px);
-		//height: 45px;
         overflow : hidden;
         margin-bottom: 10px;
 		text-overflow: ellipsis;
@@ -191,9 +194,7 @@
     .description {
 		font-size: 10pt;
         word-wrap: normal;
-		
 		margin-bottom: 10px;
-		//height: 90px;
 		overflow : hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;

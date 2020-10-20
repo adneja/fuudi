@@ -7,7 +7,7 @@
             </span>
         </div>
 
-        <div class="body lightblue" v-bind:class="[!title && !icon ? 'noTitleBar' : '']">
+        <div class="body" v-bind:class="[!title && !icon ? 'noTitleBar' : '']">
             <slot></slot>
         </div>
     </div>
@@ -40,5 +40,6 @@
         box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
         padding: 28px 18px;
         border-top: none;
+        background-color: white;
     }
 </style>

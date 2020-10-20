@@ -86,8 +86,8 @@
 			</div>
 		</div>
 
-		<div class="d-flex justify-content-center">
-		<div class="createrecipe-container px-md-5 py-md-4 p-3">
+		<div class="d-flex justify-content-center extra-data">
+		<div class="createrecipe-container px-md-5 py-md-4 px-2 pt-3">
 			<Window title="Ingredients" icon="fas fa-pepper-hot" class="mb-md-4 mb-3">
 				<div class="container-fluid">
 					<!-- Data -->
@@ -579,5 +579,9 @@
 	.title {
 		font-size: 20pt;
 		margin-bottom: 10px;
+	}
+
+	.extra-data {
+		background-color: rgb(227, 234, 235);
 	}
 </style>
