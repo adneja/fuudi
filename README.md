@@ -1,6 +1,8 @@
+# Fuudi.io
+
 ![Cover photo](/cover.png)
 
-## About foodi.io
+## About
 I made this application to simplify my weekly grocery shopping. With fuudi.io all I have to do is select one of my meal plans and click "Generate shopping list". Then I check off on the ingredients I have at home, before I head to the store.
 
 ### Recipe filtering
