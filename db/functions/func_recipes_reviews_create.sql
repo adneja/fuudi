@@ -11,11 +11,9 @@ CREATE FUNCTION func_recipes_ratings_create (
 			RAISE EXCEPTION USING HINT = 'Invalid recipe reference.';
 		END IF;
 		
-		/*
 		IF EXISTS(SELECT rating FROM tbl_recipes_ratings WHERE recipe_id = p_recipe_id AND created_by = p_created_by) THEN
 			RAISE EXCEPTION USING HINT = 'You have already rated this recipe.';
 		END IF;
-		*/
 		
 		IF p_rating IS NULL THEN
 			RAISE EXCEPTION USING HINT = 'Missing rating.';

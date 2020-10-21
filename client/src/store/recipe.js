@@ -178,7 +178,11 @@ export default {
 
 		getRecipeRatings(context, data) {
 			return new Promise((resolve, reject) => {
-                axios.get(`/recipes/recipe/ratings/${data.id}`)
+                axios.get(`/recipes/recipe/ratings/${data.id}`, {
+					headers: {
+                        authorization: context.getters.token
+                    }
+				})
                 .then((response) =>  {
                     if(response.data.error) {
                         reject(response.data.error);

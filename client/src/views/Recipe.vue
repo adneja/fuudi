@@ -125,11 +125,12 @@
                                         </div>
 
                                         <div class="col-md-12 px-0" v-for="(review, index) in reviews" v-bind:key="index">
-                                            <div 
-                                                class="review"
-                                                v-bind:class="{'my-rating': review.my_review}">
+                                            <div class="review">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="author">{{review.author}}</div>
+                                                    <div class="author">
+                                                        <span>{{review.author}}</span>
+                                                        <span class="ml-2 my-rating" v-if="review.my_rating">(you)</span>
+                                                    </div>
                                                     <div class="normalFont letter-spacing date">{{timeFromEpoch(review.created_epoch)}}</div>
                                                 </div>
                                                 
@@ -434,11 +435,10 @@
     }
 
     .my-rating {
-        background-color: rgba(53, 133, 53, 0.2);
+        color: rgb(46, 136, 46);
     }
 
     .matching_ingredient {
-        //text-decoration: underline;
         font-weight: 600;
     }
 </style>
