@@ -24,7 +24,7 @@
                 <div class="d-flex justify-content-between align-items-start">
                     <span class="title">{{title}}</span>
 
-                    <span class="d-flex justify-content-end align-items-center" v-if="numOfRatings > 0">
+                    <span class="d-flex justify-content-end align-items-center">
                         <Stars v-bind:stars="rating" max="5"></Stars>
                         <span class="number-of-ratings muted ml-2">({{numOfRatings}})</span>
                     </span>
@@ -144,7 +144,7 @@
 	}
 
 	.recipe:hover {
-		transform: scale(1.02);
+		//transform: scale(1.02);
 	}
 
     .author {

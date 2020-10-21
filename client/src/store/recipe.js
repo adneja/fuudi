@@ -126,7 +126,7 @@ export default {
 
 		getRecipe(context, data) {
 			return new Promise((resolve, reject) => {
-                axios.get(`/recipes/recipe/${data.id}`, {
+                axios.get(`/recipes/recipe/info/${data.id}`, {
                     headers: {
                         authorization: context.getters.token
                     }
@@ -179,6 +179,26 @@ export default {
 		getRecipeRatings(context, data) {
 			return new Promise((resolve, reject) => {
                 axios.get(`/recipes/recipe/ratings/${data.id}`)
+                .then((response) =>  {
+                    if(response.data.error) {
+                        reject(response.data.error);
+                    } else {
+                        resolve(response.data);
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+            });
+		},
+
+		rateRecipe(context, data) {
+			return new Promise((resolve, reject) => {
+                axios.post(`/recipes/recipe/rate`, data, {
+                    headers: {
+                        authorization: context.getters.token
+                    }
+				})
                 .then((response) =>  {
                     if(response.data.error) {
                         reject(response.data.error);

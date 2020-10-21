@@ -26,16 +26,27 @@
                                 </div>
                                
                                <div class="title">{{recipeInfo.name}}</div>
-                               <span class="d-flex justify-content-start align-items-center mb-3">
+                               <span class="d-flex justify-content-start align-items-center mb-2">
                                     <Stars v-bind:stars="recipeInfo.rating" max="5"></Stars>
                                     <span class="number-of-ratings muted ml-2">({{recipeInfo.number_of_ratings}})</span>
                                 </span>
                                
-                                <div class="normalFont description letter-spacing muted">{{recipeInfo.description}}</div>
+                                <div class="normalFont description letter-spacing">{{recipeInfo.description}}</div>
                             
                                 <div class="pt-3">
-                                    <button class="btn btn-outline-light mr-2 mb-2"><i class="far fa-heart mr-1"></i>Add to favorites</button>
-                                    <button class="btn btn-outline-light mr-2 mb-2"><i class="far fa-calendar-check mr-1"></i>Add to meal plan</button>
+                                    <button 
+                                        class="btn btn-outline-light mr-2 mb-2"
+                                        @click="addToFavorites">
+                                        <i class="far fa-heart mr-1"></i>
+                                        <span>Add to favorites</span>
+                                    </button>
+
+                                    <button 
+                                        class="btn btn-outline-light mr-2 mb-2"
+                                        @click="addToPlan">
+                                        <i class="far fa-calendar-check mr-1"></i>
+                                        <span>Add to meal plan</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -53,34 +64,13 @@
                             <div class="ingredients-container">
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
                                 <Window v-else title="Ingredients" icon="fas fa-pepper-hot">
-                                    <!--
-                                    <table class="normalFont letter-spacing mb-5">
-                                        <thead>
-                                            <tr>
-                                                <th style="width:80%"></th>
-                                               
-                                                <th style="width:10%"></th>
-                                                <th style="width:10%"></th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <tr class="spaceUnder " v-for="(ingredient, index) in ingredients" v-bind:key="index">
-                                                <td class="spaceRight">{{ingredient.fooditem_name}}</td>
-                                                <td align="right" class="">{{ingredient.amount}}</td>
-                                                <td class="measurement">{{ingredient.measurement_name}}</td>
-                                            </tr>  
-                                        </tbody>
-                                    </table>
-                                    -->
-
                                     <div 
                                         class="d-flex align-items-end normalFont letter-spacing mb-2"
                                         v-for="(ingredient, index) in ingredients" v-bind:key="index">
 
                                         <div>{{ingredient.fooditem_name}}</div>
                                         <span class="dots">......................................................................</span>
-                                        <div class="d-flex justify-content-end">
+                                        <div class="d-flex justify-content-end muted">
                                             <span>{{ingredient.amount}}</span>
                                             <div class="text-left measurement">{{ingredient.measurement_name}}</div>
                                         </div>
@@ -121,12 +111,23 @@
                             <Window v-else title="Reviews" icon="fas fa-comment">
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <div class="col-12 px-0 mb-4">
-                                            <Rate v-bind:max="5"></Rate>
+                                        <div class="col-12 px-0 mb-4" v-if="isLoggedIn">
+                                            <Rate @rated="rated" v-bind:max="5" v-bind:recipeId="id"></Rate>
+                                        </div>
+
+                                        <div class="col-12 px-0 mb-4 d-flex justify-content-start align-items-center" v-else>
+                                            <button @click="$store.commit('setShowLoginSidebar', true)" class="btn btn-outline-light mr-2"><i class="fas fa-sign-in-alt mr-2"></i>Login</button>
+                                            <span>to leave a review</span>
+                                        </div>
+
+                                        <div class="col-md-12 px-0 normalFont letter-spacing text-left" v-if="reviews.length === 0">
+                                            Be the first to review this recipe!
                                         </div>
 
                                         <div class="col-md-12 px-0" v-for="(review, index) in reviews" v-bind:key="index">
-                                            <div class="review">
+                                            <div 
+                                                class="review"
+                                                v-bind:class="{'my-rating': review.my_review}">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="author">{{review.author}}</div>
                                                     <div class="normalFont letter-spacing date">{{timeFromEpoch(review.created_epoch)}}</div>
@@ -185,6 +186,10 @@
                 } else {
                     return null;
                 }
+            },
+
+            isLoggedIn() {
+                return this.$store.getters.token !== null;
             }
         },
 
@@ -253,7 +258,47 @@
 				let date = new Date(epoch * 1000);
 
 				return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-			},
+            },
+            
+            rated() {
+                this.getRecipeInfo();
+                this.getReviews();
+            },
+
+            addToFavorites() {
+                if(this.isLoggedIn) {
+
+                } else {
+                    this.$store.commit('setShowLoginSidebar', true);
+                }
+            },
+
+            addToPlan() {
+                if(this.isLoggedIn) {
+
+                } else {
+                    this.$store.commit('setShowLoginSidebar', true);
+                }
+            },
+
+            favorite() {
+				this.$store.dispatch('bookmark', {
+					id: parseInt(this.id)
+				})
+				.then((response) => {
+					this.showFavorite = response;
+					this.$store.commit('setSystemMessage', {
+						content: `Recipe ${response ? 'added to' : 'removed from'} favorites.`,
+						error: false
+					});
+				})
+				.catch((err) => {
+					this.$store.commit('setSystemMessage', {
+						content: err,
+						error: true
+					});
+				});
+			}
         },
 
         activated() {
@@ -302,6 +347,7 @@
 
     .description {
         font-size: 13pt;
+        font-style: italic;
     }
 
     .letter-spacing  {
@@ -349,7 +395,7 @@
     }
 
     .author {
-        font-size: 13pt;
+        font-size: 11pt;
     }
 
     .review {
@@ -373,12 +419,16 @@
     }
 
     .profile-icon {
-        font-size: 35pt;
+        font-size: 32pt;
     }
 
     .dots {
         flex: 1;
         overflow: hidden;
         opacity: 0.3;
+    }
+
+    .my-rating {
+        background-color: rgba(53, 133, 53, 0.2);
     }
 </style>

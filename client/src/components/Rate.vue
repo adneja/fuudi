@@ -17,7 +17,13 @@
                 <span class="ml-2 rating">{{hoverIndex || selectedIndex}}</span>
             </div>
 
-            <button class="btn btn-outline-light"><i class="fas fa-check mr-1"></i>Submit</button>
+            <button 
+                @click="rate" 
+                class="btn btn-outline-light">
+                
+                <i class="fas fa-check mr-1"></i>
+                <span>Submit</span>
+            </button>
         </div>
     </div>
 </template>
@@ -45,12 +51,31 @@
                 } else {
                     this.selectedIndex = index;
                 }   
-                
-                this.$emit('selected', index);
             },
 
             rate() {
+                this.$store.dispatch('rateRecipe', {
+                    id: parseInt(this.recipeId),
+                    rating: this.selectedIndex,
+                    comment: this.comment
+                })
+                .then((response) => {
+                    this.$store.commit('setSystemMessage', {
+                        content: `You gave this recipe ${this.selectedIndex} stars!`,
+                        error: false
+                    });
 
+                    this.$emit('rated');
+                    this.hoverIndex = null;
+                    this.selectedIndex = null;
+                    this.comment = '';
+                })
+                .catch((err) => {
+                    this.$store.commit('setSystemMessage', {
+                        content: err,
+                        error: true
+                    });
+                });
             }
         }
     }

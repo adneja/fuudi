@@ -120,7 +120,7 @@ router.post('/api/recipes/recipe/bookmark', verifyToken, (req, res) => {
 
 
 // Get recipe data
-router.get('/api/recipes/recipe/:id', optionalToken, (req, res) => {
+router.get('/api/recipes/recipe/info/:id', optionalToken, (req, res) => {
     let params = [req.params.id];
 
     if(req.user) {
@@ -161,6 +161,18 @@ router.get('/api/recipes/recipe/ratings/:id', (req, res) => {
 
     runQuery(queries.recipe_recipe_ratings, params, res, (result) => {
         res.json(result.rows);
+    });
+});
+
+
+// Review recipe
+router.post('/api/recipes/recipe/rate', verifyToken, (req, res) => {
+    let params = [parseInt(req.body.id), req.body.rating, req.body.comment, req.user.id];
+
+    console.log(params);
+
+    runQuery(queries.recipe_recipe_rate, params, res, (result) => {
+        res.json(result.rows[0]);
     });
 });
 
