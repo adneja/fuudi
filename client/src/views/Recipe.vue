@@ -61,7 +61,7 @@
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
                                 <Window v-else title="Ingredients" icon="fas fa-pepper-hot">
                                     <template v-slot:titlebar>
-                                        <span class="add-shopping pointer d-flex justify-content-end align-items-center">
+                                        <span title="Add to shopping list" class="add-shopping pointer d-flex justify-content-end align-items-center">
                                             <i class="fas fa-plus plus"></i>
                                             <i class="fas fa-shopping-basket"></i>
                                             <!--<span>Add to shopping list</span>-->
@@ -471,7 +471,7 @@
         opacity: 0.8;
 
         .plus {
-            font-size: 9pt;
+            font-size: 8pt;
             margin-right: 3px;
         }
     }
