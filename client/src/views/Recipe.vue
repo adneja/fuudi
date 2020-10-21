@@ -1,11 +1,12 @@
 <template>
     <div class="recipe">
-        <div class="details d-flex justify-content-center">
-            <div class="recipe-container px-md-5">
+        <div class="d-flex justify-content-center">
+            <div class="recipe-container px-md-5 pt-md-4 px-0 pt-0">
+                <div class="details">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6 p-0">
-                            <Placeholder v-if="!recipeInfo" height="350px" v-bind:amount="1" v-bind:spacing="0"></Placeholder>
+                            <Placeholder v-if="!recipeInfo" height="320px" v-bind:amount="1" v-bind:spacing="0"></Placeholder>
                             <img v-else v-bind:src="imgURL" width="100%">
                         </div>
 
@@ -16,40 +17,50 @@
                             </div>
 
                             <div v-else>
-                                <div class="title">{{recipeInfo.name}}</div>
-                                <span class="d-flex justify-content-start align-items-center mb-3">
+                                <div class="author d-flex justify-content-start align-items-center mb-3">
+                                    <i class="far fa-user-circle mr-1 profile-icon mr-2"></i>
+                                    <div>
+                                        <div>By {{recipeInfo.created_by}}</div>
+                                        <div class="normalFont date letter-spacing">{{timeFromEpoch(recipeInfo.created_epoch)}}</div>
+                                    </div>
+                                </div>
+                               
+                               <div class="title">{{recipeInfo.name}}</div>
+                               <span class="d-flex justify-content-start align-items-center mb-3">
                                     <Stars v-bind:stars="recipeInfo.rating" max="5"></Stars>
                                     <span class="number-of-ratings muted ml-2">({{recipeInfo.number_of_ratings}})</span>
                                 </span>
-                                <div class="mb-3 author">by {{recipeInfo.created_by}}</div>
-                                <div class="normalFont description letter-spacing ">{{recipeInfo.description}}</div>
-                            </div>
-
-                            <div class="col-12 px-0 pt-3">
-                                <button class="btn btn-outline-light mr-2 mb-2"><i class="far fa-heart mr-1"></i>Save to favorites</button>
-                                <button class="btn btn-outline-light mr-2 mb-2"><i class="far fa-calendar-check mr-1"></i>Add to meal plan</button>
-                                <button class="btn btn-outline-light mb-2"><i class="fas fa-shopping-basket mr-1"></i>Add to shopping list</button>
+                               
+                                <div class="normalFont description letter-spacing muted">{{recipeInfo.description}}</div>
+                            
+                                <div class="pt-3">
+                                    <button class="btn btn-outline-light mr-2 mb-2"><i class="far fa-heart mr-1"></i>Add to favorites</button>
+                                    <button class="btn btn-outline-light mr-2 mb-2"><i class="far fa-calendar-check mr-1"></i>Add to meal plan</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>
 
         <div class="d-flex justify-content-center">
-            <div class="recipe-container px-md-5 py-md-4 px-3 py-3">
+            <div class="recipe-container px-md-5 py-md-4 px-0 py-0">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-4 px-0 pr-md-3 mb-3">
+                        <div class="col-lg-5 col-md-6 px-0 pr-md-3 mb-md-3 mb-0">
                             <div class="ingredients-container">
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
-                                <Window title="Ingredients" icon="fas fa-pepper-hot">
-                                    <table class="normalFont letter-spacing">
+                                <Window v-else title="Ingredients" icon="fas fa-pepper-hot">
+                                    <!--
+                                    <table class="normalFont letter-spacing mb-5">
                                         <thead>
                                             <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
+                                                <th style="width:80%"></th>
+                                               
+                                                <th style="width:10%"></th>
+                                                <th style="width:10%"></th>
                                             </tr>
                                         </thead>
 
@@ -61,14 +72,31 @@
                                             </tr>  
                                         </tbody>
                                     </table>
+                                    -->
+
+                                    <div 
+                                        class="d-flex align-items-end normalFont letter-spacing mb-2"
+                                        v-for="(ingredient, index) in ingredients" v-bind:key="index">
+
+                                        <div>{{ingredient.fooditem_name}}</div>
+                                        <span class="dots">......................................................................</span>
+                                        <div class="d-flex justify-content-end">
+                                            <span>{{ingredient.amount}}</span>
+                                            <div class="text-left measurement">{{ingredient.measurement_name}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <button class="btn btn-outline-light"><i class="fas fa-shopping-basket mr-2"></i>Add to shopping list</button>
+                                    </div>
                                 </Window>
                             </div>
                         </div>
 
-                        <div class="col-md-8 px-0 pl-md-3">
+                        <div class="col-lg-7 col-md-6 px-0 pl-md-3">
                             <div class="instructions-container">
                                 <Placeholder v-if="!instructions" height="25px" v-bind:amount="6" v-bind:spacing="15"></Placeholder>
-                                <Window title="Instructions" icon="fas fa-list-ol">
+                                <Window v-else title="Instructions" icon="fas fa-list-ol">
                                     <table class="normalFont letter-spacing">
                                         <thead>
                                             <tr>
@@ -88,21 +116,30 @@
                             </div>
                         </div>
 
-                        <div class="col-12 px-0 mt-3">
-                            <Window title="Reviews" icon="fas fa-comment">
-                                
+                        <div class="col-12 px-0 mt-md-3 mt-0">
+                            <Placeholder v-if="!reviews" height="50px" v-bind:amount="3" v-bind:spacing="15"></Placeholder>
+                            <Window v-else title="Reviews" icon="fas fa-comment">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-12 px-0 mb-4">
+                                            <Rate v-bind:max="5"></Rate>
+                                        </div>
+
+                                        <div class="col-md-12 px-0" v-for="(review, index) in reviews" v-bind:key="index">
+                                            <div class="review">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="author">{{review.author}}</div>
+                                                    <div class="normalFont letter-spacing date">{{timeFromEpoch(review.created_epoch)}}</div>
+                                                </div>
+                                                
+                                                <Stars class="mb-3" v-bind:stars="review.rating" max="5"></Stars>
+                                                <div class="normalFont letter-spacing">{{review.comment}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </Window>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="d-flex justify-content-center">
-            <div class="recipe-container px-md-5 py-md-4 px-3 py-3">
-                <div class="container-fluid">
-                    <div class="row">
-
                     </div>
                 </div>
             </div>
@@ -115,13 +152,14 @@
     import Placeholder from  '../components/Placeholder.vue';
     import Stars from  '../components/Stars.vue';
     import Window from  '../components/Window.vue';
+    import Rate from  '../components/Rate.vue';
 
     export default {
         name: 'Recipe',
         props: {
             id: Number
         },
-        components: {Placeholder, Stars, Window},
+        components: {Placeholder, Stars, Window, Rate},
 
         data() {
             return {
@@ -140,6 +178,7 @@
 
             instructionsSorted() {
                 if(this.instructions) {
+
                     return this.instructions.sort((a, b) => {
                         return a.number - b.number;
                     });
@@ -196,8 +235,25 @@
             },
 
             getReviews() {
-
+                this.$store.dispatch('getRecipeRatings', {
+                    id: this.id
+                })
+                .then((response) => {
+                    this.reviews = response;
+                })
+                .catch((err) => {
+                    this.$store.commit('setSystemMessage', {
+                        content: err,
+                        error: true
+                    });
+                });
             },
+
+            timeFromEpoch(epoch) {
+				let date = new Date(epoch * 1000);
+
+				return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+			},
         },
 
         activated() {
@@ -208,6 +264,7 @@
             this.getRecipeInfo();
             this.getIngredients();
             this.getInstructions();
+            this.getReviews();
         }
     }
 </script>
@@ -234,7 +291,7 @@
     }
 
     img {
-        height: 350px;
+        height: 320px;
         width: 100%;
 		object-fit: cover;
     }
@@ -258,7 +315,8 @@
 
     .measurement {
         min-width: 50px;
-        font-style: italic;
+        //font-style: italic;
+        padding-left: 8px;
     }
 
     tr.spaceUnder>td {
@@ -291,6 +349,36 @@
     }
 
     .author {
-        font-size: 12pt;
+        font-size: 13pt;
+    }
+
+    .review {
+        //box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+        //padding: 10px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        border-top: 1px solid @main-background;
+    }
+
+    .date {
+        font-size: 10pt;
+    }
+
+    textarea  {
+        border-color: @main-background;
+    }
+
+    textarea:focus  {
+        border-color: @main-background !important;
+    }
+
+    .profile-icon {
+        font-size: 35pt;
+    }
+
+    .dots {
+        flex: 1;
+        overflow: hidden;
+        opacity: 0.3;
     }
 </style>

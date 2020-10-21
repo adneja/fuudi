@@ -21,42 +21,51 @@
         </div>
 
         <div class="filters" v-if="showFilters">
-            <div class="mb-1 filter-title">Dietary constraints</div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6 px-0">
+                        <div class="mb-1 filter-title">Allergens</div>
+                        
+                        <CheckboxCollection
+                            class="mb-3" 
+                            v-bind:checkboxItems="allergens"
+                            @change="items => allergens = items">
+                        </CheckboxCollection>
+                    </div>  
 
-            <CheckboxCollection
-                class="mb-3" 
-                v-bind:checkboxItems="diataryConstraints"
-                @change="items => diataryConstraints = items">
-            </CheckboxCollection>
+                    <div class="col-6 px-0">
+                        <div class="mb-1 filter-title">Constraints</div>
 
-            
-            <div class="mb-1 filter-title">Exclude allergens</div>
-            <CheckboxCollection
-                class="mb-3" 
-                v-bind:checkboxItems="allergens"
-                @change="items => allergens = items">
-            </CheckboxCollection>
+                        <CheckboxCollection
+                            class="mb-3" 
+                            v-bind:checkboxItems="diataryConstraints"
+                            @change="items => diataryConstraints = items">
+                        </CheckboxCollection>
+                    </div>
 
-            <!-- Max cooking time -->
-            <div class="filter-title">
-                <span>Max cooking time:</span>
-                <span class="ml-1 normalFont font-weight-bold">
-                    <span v-if="maxCookingTime >= 120">2h+</span>
-                    <span v-else>{{formattedCookingTime}}</span>
-                </span>
+                    <div class="col-12 px-0">
+                        <div class="filter-title">
+                            <span>Max cooking time:</span>
+                            <span class="ml-1 normalFont font-weight-bold">
+                                <span v-if="maxCookingTime >= 120">2h+</span>
+                                <span v-else>{{formattedCookingTime}}</span>
+                            </span>
+                        </div>
+
+                        <div class="slidecontainer">
+                            <input @change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" class="slider w-100" id="myRange">
+                        </div>
+
+                        <button 
+                            v-if="numAppliedFilters > 0"
+                            class="btn btn-outline-light mt-2"
+                            @click="clearFilters">
+                            
+                            Reset filters
+                        </button>
+                    </div>
+                </div>
             </div>
-
-            <div class="slidecontainer">
-                <input @change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" class="slider w-100" id="myRange">
-            </div>
-
-            <button 
-                v-if="numAppliedFilters > 0"
-                class="btn btn-outline-light mt-2"
-                @click="clearFilters">
-                
-                Reset filters
-            </button>
         </div>
 
         <div class="d-flex justify-content-between">

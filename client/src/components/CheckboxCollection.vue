@@ -1,7 +1,7 @@
 <template>
-    <div class="checkboxcollection d-flex flex-wrap">
+    <div class="checkboxcollection">
         <div 
-            class="cb-container pointer mr-3 mb-md-0 mb-2" 
+            class="cb-container pointer mr-3 mb-2"
             v-for="item in items"
             v-bind:key="item.key"
             @click="item.checked = !item.checked">

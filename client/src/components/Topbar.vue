@@ -7,16 +7,9 @@
                     <div class="logo">
                         <router-link to="/" title="Home" class="d-flex justify-content-start align-items-center">
                             <i class="fas fa-hamburger mr-1"></i>
-                            <span>Fuudhub</span>
+                            <span>Fuudi</span>
                         </router-link>
                     </div>
-
-                    <!--
-                    <div class="location d-md-none d-block">
-                        <i class="fas fa-angle-right mx-2"></i>
-                        <span>{{$route.name}}</span>
-                    </div>
-                    -->
 
                     <!-- Desktop menu items -->
                     <div class="ml-4 d-md-block d-none desktop-items">
@@ -26,10 +19,6 @@
 
                         <router-link to="/plans" title="My meal plans" class="menu-item-desktop mr-3">
                             <span>Plans</span>
-                        </router-link>
-
-                        <router-link to="/ratings" title="My meal plans" class="menu-item-desktop mr-3">
-                            <span>Ratings</span>
                         </router-link>
 
                         <router-link v-if="$store.getters.token" to="/createrecipe" title="My meal plans" class="menu-item-desktop mr-3">

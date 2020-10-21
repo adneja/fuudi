@@ -22,12 +22,6 @@
                 </router-link>
             </div>
 
-            <div>
-                <router-link to="/ratings" class="menu-item ">
-                    Ratings
-                </router-link>
-            </div>
-
             <hr class="my-4">
 
             <div class="mt-4">
@@ -37,6 +31,18 @@
 
                 <div v-else>
                     <div class="name mb-3">{{$store.getters.userData.name}}</div>
+
+                    <div class="mb-2">
+                        <router-link to="/cookbook" class="menu-item">
+                            My cookbook
+                        </router-link>
+                    </div>
+
+                    <div class="mb-2">
+                        <router-link to="/shoppinglist" class="menu-item">
+                            Shopping list
+                        </router-link>
+                    </div>
 
                     <div class="mb-2">
                         <router-link to="/createrecipe" class="menu-item">

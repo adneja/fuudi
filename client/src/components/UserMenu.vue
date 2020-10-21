@@ -18,7 +18,7 @@
 
             <div class="mb-2">
                 <router-link to="/shoppinglist" class="menu-item">
-                    My shopping list
+                    Shopping list
                 </router-link>
             </div>
 

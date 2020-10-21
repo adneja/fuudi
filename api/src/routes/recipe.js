@@ -149,9 +149,17 @@ router.get('/api/recipes/recipe/ingredients/:id', (req, res) => {
 router.get('/api/recipes/recipe/instructions/:id', (req, res) => {
     let params = [req.params.id];
 
-    console.log(queries);
-
     runQuery(queries.recipe_recipe_instructions, params, res, (result) => {
+        res.json(result.rows);
+    });
+});
+
+
+// Get recipe ratings
+router.get('/api/recipes/recipe/ratings/:id', (req, res) => {
+    let params = [req.params.id];
+
+    runQuery(queries.recipe_recipe_ratings, params, res, (result) => {
         res.json(result.rows);
     });
 });
