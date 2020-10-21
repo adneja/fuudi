@@ -1,16 +1,21 @@
-# fuudi.io
+![Cover photo](/cover.png)
 
-fuudio.io is a:
-  - recipe finder
-  - online cookbook
-  - meal planner
-  - food shopping assistant
-  
+## About foodi.io
 I made this application to simplify my weekly grocery shopping. With fuudi.io all I have to do is select one of my meal plans and click "Generate shopping list". Then I check off on the ingredients I have at home, before I head to the store.
 
-If I need 1 dl milk in one recipe and 2 dl milk in an other, fuud.io knows I need 3 dl milk in my shopping list. It also standardizeds units of measurements so that no matter what units a recipe author decides to use, the shopping list will display an acurate total.
+## Recipe filtering
+When searching through fuudi.io, you can filter by you diatary constraints and allergies. You're also able to set a max cooking time. 
+
+## Search by ingredients
+Want to find recipes that use ingredients you already have at home?
+
+## Meal planning
+Easly find, create and share meal plans!
+
+## Generate shopping lists
+Generate shopping lists from meal plans or individual recipes!
   
-  
+ 
 ## Stack
 Vue.js + Node.js + PostgreSQL + NGINX
 
