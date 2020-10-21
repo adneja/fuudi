@@ -19,7 +19,7 @@
                                 <div v-else>
                                     <div class="d-flex justify-content-between">
                                         <div class="title">{{recipeInfo.name}}</div>
-                                        <span class="d-flex justify-content-start align-items-center mb-3">
+                                        <span class="d-flex justify-content-start align-items-center">
                                             <Stars v-bind:stars="recipeInfo.rating" max="5"></Stars>
                                             <span class="number-of-ratings muted ml-2">({{recipeInfo.number_of_ratings}})</span>
                                         </span>
@@ -27,7 +27,7 @@
 
                                     <div class="d-flex justify-content-start align-items-center mb-3">
                                         <div>
-                                            <div class="author muted">By {{recipeInfo.created_by}}</div>
+                                            <div class="author">By {{recipeInfo.created_by}}</div>
                                             <div class="normalFont muted date letter-spacing">{{timeFromEpoch(recipeInfo.created_epoch)}}</div>
                                         </div>
                                     </div>
@@ -59,7 +59,8 @@
                         <div class="col-lg-5 col-md-6 px-0 pr-md-3 mb-md-3 mb-3">
                             <div class="ingredients-container">
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
-                                <Window v-else title="Ingredients" icon="fas fa-pepper-hot">
+                                
+                                <Window v-else title="Ingredients" icon="fas fa-pepper-hot" padding="0px">
                                     <template v-slot:titlebar>
                                         <span @click="addToShoppingList = true" title="Add to shopping list" class="add-shopping pointer d-flex justify-content-end align-items-center">
                                             <i class="fas fa-plus plus"></i>
@@ -68,16 +69,19 @@
                                     </template>
 
                                     <div v-if="!addToShoppingList">
-                                        <div
-                                            class="d-flex align-items-end normalFont letter-spacing mb-2"
-                                            v-for="(ingredient, index) in ingredients" v-bind:key="index">
+                                        <div v-for="(ingredient, index) in ingredients" v-bind:key="index">   
+                                            <div v-if="index === 0" class="ingredient-padding"></div>
 
-                                            <div v-bind:class="{'matching_ingredient': ingredientExistsInSearch(ingredient)}">{{ingredient.fooditem_name}}</div>
-                                            <span class="dots">......................................................................</span>
-                                            <div class="d-flex justify-content-end muted">
-                                                <span>{{ingredient.amount}}</span>
-                                                <div class="text-left measurement">{{ingredient.measurement_name}}</div>
+                                            <div class="ingredient normalFont letter-spacing d-flex justify-content-between">
+                                                <div v-bind:class="{'matching_ingredient': ingredientExistsInSearch(ingredient)}">{{ingredient.fooditem_name}}</div>
+                                                <div class="d-flex justify-content-end muted">
+                                                    <span class="mr-2">{{ingredient.amount}}</span>
+                                                    <div class="text-left ">{{ingredient.measurement_name}}</div>
+                                                </div>
                                             </div>
+
+                                            <hr v-if="index !== ingredients.length - 1">
+                                            <div v-else class="ingredient-padding"></div>
                                         </div>
                                     </div>
 
@@ -91,56 +95,57 @@
                         <div class="col-lg-7 col-md-6 px-0 pl-md-3 mb-3">
                             <div class="instructions-container">
                                 <Placeholder v-if="!instructions" height="25px" v-bind:amount="6" v-bind:spacing="15"></Placeholder>
-                                <Window v-else title="Instructions" icon="fas fa-list-ol">
-                                    <table class="normalFont letter-spacing">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
+                                
+                                <Window v-else title="Instructions" icon="fas fa-list-ol" padding="0px">
+                                    <div v-for="(instruction, index) in instructionsSorted" v-bind:key="index">
+                                        <div v-if="index === 0" class="ingredient-padding"></div>
+                                        <div class="instruction normalFont letter-spacing d-flex justify-content-start">
+                                            <div class="number muted">{{instruction.number}}.</div>
+                                            <div>{{instruction.instruction}}</div>
+                                        </div>
 
-                                        <tbody>
-                                            <tr class="spaceUnder" v-for="(instruction, index) in instructionsSorted" v-bind:key="index">
-                                                <td align="right" valign="top" class="spaceRight font-weight-bold">{{instruction.number}}.</td>
-                                                <td>{{instruction.instruction}}</td>
-                                            </tr>  
-                                        </tbody>
-                                    </table>
+                                        <hr v-if="index !== ingredients.length - 1">
+                                        <div v-else class="ingredient-padding"></div>
+                                    </div>
                                 </Window>
                             </div>
                         </div>
 
                         <div class="col-12 px-0 mt-md-3 mt-0">
                             <Placeholder v-if="!reviews" height="50px" v-bind:amount="3" v-bind:spacing="15"></Placeholder>
-                            <Window v-else title="Ratings" icon="fas fa-star">
-                                <div class="container-fluid">
+                            <Window v-else title="Ratings" icon="fas fa-star" padding="0px">
+                                <div class="container-fluid review-container">
                                     <div class="row">
-                                        <div class="col-12 px-0 mb-4" v-if="isLoggedIn">
+                                        <div class="col-12 px-3 pt-3" v-if="isLoggedIn">
                                             <Rate @rated="rated" v-bind:max="5" v-bind:recipeId="id"></Rate>
                                         </div>
 
-                                        <div class="col-12 px-0 mb-4 d-flex justify-content-start align-items-center" v-else>
+                                        <div class="col-12 px-3 pt-3 pb-1 d-flex justify-content-start align-items-center" v-else>
                                             <button @click="$store.commit('setShowLoginSidebar', true)" class="btn btn-outline-light mr-2"><i class="fas fa-sign-in-alt mr-2"></i>Login</button>
                                             <span>to leave a review</span>
                                         </div>
 
-                                        <div class="col-md-12 px-0 normalFont letter-spacing text-left" v-if="reviews.length === 0">
+                                        <div class="col-md-12 px-3 normalFont letter-spacing text-left" v-if="reviews.length === 0">
                                             Be the first to review this recipe!
                                         </div>
 
                                         <div class="col-md-12 px-0" v-for="(review, index) in reviewsSorted" v-bind:key="index">
+                                            <hr v-if="index === 0">
+
                                             <div class="review">
-                                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <div class="d-flex justify-content-between align-items-center">
                                                     <div>
                                                         <Stars v-bind:stars="review.rating" max="5"></Stars>
                                                     </div>
                                                     <div class="normalFont muted letter-spacing date">{{timeFromEpoch(review.created_epoch)}}</div>
                                                 </div>
 
-                                                <span class="author muted">{{review.author}}</span>
-                                                <div class="normalFont letter-spacing">{{review.comment}}</div>
+                                                <div class="author">{{review.author}}</div>
+                                                <div v-if="review.comment" class="normalFont letter-spacing mt-3">{{review.comment}}</div>
                                             </div>
+
+                                            <hr v-if="index !== reviewsSorted.length - 1">
+                                            <div v-else class="ingredient-padding"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +181,8 @@
                 comments: null,
                 ingredientsSearch: JSON.parse(window.localStorage.getItem('recipes-ingredients')) || [],
                 isBookmarked: false,
-                addToShoppingList: false
+                addToShoppingList: false,
+                showAddRating: false
             }
         },
 
@@ -422,13 +428,6 @@
         //opacity: 0.8;
     }
 
-    .review {
-        //box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
-        //padding: 10px;
-        padding-bottom: 10px;
-        padding-top: 10px;
-        border-top: 1px solid @main-background;
-    }
 
     .date {
         font-size: 10pt;
@@ -456,6 +455,22 @@
         color: rgb(46, 136, 46);
     }
 
+    .ingredient, .instruction, .review {
+        padding: 0px 16px;
+    }
+
+    .ingredients-container, .instructions-container, .review-container {
+        hr {
+            opacity: 0.15;
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+    }
+
+    .ingredient-padding {
+        height: 16px;
+    }
+
     .matching_ingredient {
         font-weight: 600;
     }
@@ -480,5 +495,11 @@
 
     .add-shopping:hover {
         opacity: 1;
+    }
+
+    .number {
+        min-width: 30px;
+        //margin-right: 10px;
+        //text-align: right;
     }
 </style>

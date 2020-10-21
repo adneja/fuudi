@@ -1,6 +1,6 @@
 <template>
     <div class="rate">
-        <textarea class="form-control" rows="2" placeholder="Comment.." v-model="comment"></textarea>
+        <textarea class="form-control" rows="2" placeholder="Comment" v-model="comment"></textarea>
         <div class="d-flex justify-content-between align-items-center mt-3">
             <div>
                 <span 
@@ -19,7 +19,7 @@
 
             <button 
                 @click="rate" 
-                class="btn btn-outline-light">
+                class="btn btn-outline-light d-flex justify-content-start align-items-center">
                 
                 <i class="fas fa-check mr-1"></i>
                 <span>Submit</span>

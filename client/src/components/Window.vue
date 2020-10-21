@@ -11,7 +11,10 @@
             </span>
         </div>
 
-        <div class="body" v-bind:class="[!title && !icon ? 'noTitleBar' : '']">
+        <div 
+            class="body"      
+            v-bind:style="paddingStyle">
+
             <slot></slot>
         </div>
     </div>
@@ -21,7 +24,19 @@
 <script>
     export default {
         name: 'Window',
-        props: ['title', 'icon']
+        props: {
+            title: String,
+            icon: String,
+            padding: String
+        },
+
+        computed: {
+            paddingStyle() {
+                return {
+                    'padding': this.padding ? `${this.padding}` : '16px',
+                };
+            }
+        }
     }
 </script>
 
@@ -42,8 +57,6 @@
     .body {
         color: @main-background;
         box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
-        padding: 16px 16px;
-        border-top: none;
         background-color: white;
     }
 </style>
