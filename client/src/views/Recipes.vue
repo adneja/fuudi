@@ -2,7 +2,10 @@
 	<div class="recipes">
 		<div class="filtersbackground d-flex justify-content-center mb-md-4 mb-3">
 			<div class="filters-container px-md-5 py-md-4 px-3 py-4">
-				<RecipeSearcher @updated="result => recipes = result"></RecipeSearcher>
+				<RecipeSearcher 
+					@ingredient-search-updated="isEmpty => showMatchCount = isEmpty" 
+					@updated="result => recipes = result">
+				</RecipeSearcher>
 			</div>
 		</div>
 
@@ -24,7 +27,8 @@
 								v-bind:fileId="recipe.file_id"
 								v-bind:fileType="recipe.file_type"
 								v-bind:matchCount="recipe.match_count"
-								v-bind:numOfIngredients="recipe.num_of_ingredients"></Recipe>
+								v-bind:numOfIngredients="recipe.num_of_ingredients"
+								v-bind:showMatchCount="showMatchCount"></Recipe>
 						</div>
 					</div>
 				</div>
@@ -50,6 +54,7 @@
 		data() {
 			return {
 				recipes: [],
+				showMatchCount: false
 			}
 		}
 	}

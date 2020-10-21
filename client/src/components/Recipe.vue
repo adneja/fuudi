@@ -42,12 +42,14 @@
                 </div>
             </div>
 
-            <div class="matching-ingredients normalFont text-center" v-if="matchCount > 0">
+            <div class="matching-ingredients normalFont text-center" v-if="showMatchCount">
                 <span>
-                    <i class="fas fa-check mr-1"></i>
+                    <i class="fas fa-check mr-1" v-if="matchCount > 0"></i>
+                    <i class="fas fa-times mr-1" v-else></i>
                     <strong>{{matchCount}}</strong> 
-                    <span> matching ingredient{{matchCount > 1 ? 's' : ''}}</span>
+                    <span> matching ingredient{{matchCount > 1 || matchCount === 0 ? 's' : ''}}</span>
                 </span>
+
             </div>
         </router-link>
     </div>
@@ -73,7 +75,8 @@
             fileId: Number,
             fileType: String,
             matchCount: Number,
-            numOfIngredients: Number
+            numOfIngredients: Number,
+            showMatchCount: Boolean
         },
         
         data() {

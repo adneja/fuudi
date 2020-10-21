@@ -56,13 +56,17 @@
                             <input @change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" class="slider w-100" id="myRange">
                         </div>
 
-                        <button 
-                            v-if="numAppliedFilters > 0"
-                            class="btn btn-outline-light mt-2"
-                            @click="clearFilters">
-                            
-                            Reset filters
-                        </button>
+                        <div class="text-right mt-2">
+                            <button v-if="numAppliedFilters > 0" class="btn btn-outline-light mt-2 mr-2" @click="clearFilters">
+                                <i class="fas fa-trash mr-2"></i>
+                                <span>Reset</span>
+                            </button>
+
+                            <button class="mt-2 btn btn-outline-light" @click="showFilters = false">
+                                <i class="fas fa-times mr-2"></i>
+                                <span>Close</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,6 +117,10 @@
         </div>
 
         <div class="ingredients-search mt-2" v-if="showIngredientsSearch">
+            <div class="mb-2">
+                <small class="normalFont letter-spacing">Add ingredients to filter recipes by:</small>
+            </div>
+
             <SearchField 
                 ref="searchfooditems"
                 action="searchFoodItems" 
@@ -122,15 +130,29 @@
                 v-bind:enableCreatePrompt="false"
                 @item-selected="addSearchIngredient">
             </SearchField>	
-        
-            <div v-for="(ingredient, index) in ingredients" v-bind:key="index" class="mt-2">
-                <i title="Remove" class="far fa-times-circle mr-1 pointer" @click="removeIngredient(index)"></i>
-                <span>{{ingredient.name}}</span>
-            </div> 
 
-            <button class="mt-2 btn btn-outline-light" v-if="ingredients.length > 1" @click="clearIngredients">
-                <span>Reset ingredients search</span>
-            </button>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-12 px-0" v-for="i in Math.ceil(ingredients.length / 5)" v-bind:key="i">
+                        <div class="mt-2" v-for="(ingredient, index) in ingredients.slice((i - 1) * 5, (i * 5))" v-bind:key="index">
+                            <i title="Remove" class="far fa-times-circle mr-1 pointer" @click="removeIngredient(index)"></i>
+                            {{ingredient.name}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-right">
+                <button class="mt-2 btn btn-outline-light mr-2" v-if="ingredients.length > 0" @click="clearIngredients">
+                    <i class="fas fa-trash mr-2"></i>
+                <span>Reset</span>
+                </button>
+
+                <button class="mt-2 btn btn-outline-light" @click="showIngredientsSearch = false">
+                    <i class="fas fa-times mr-2"></i>
+                    <span>Close</span>
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -232,7 +254,7 @@
 					diatary_constraints: JSON.stringify(this.checkboxArrayToObject(this.diataryConstraints)),
 					allergens: JSON.stringify(this.checkboxArrayToObject(this.allergens)),
                     max_cooking_time: this.maxCookingTime,
-                    ingredients: JSON.stringify(this.ingredients.map(i => i.id))
+                    ingredients: JSON.stringify(this.ingredients.map(i => i.id)) || []
 				})
 				.then((response) => {
                     this.$emit('updated', response);
@@ -275,10 +297,12 @@
                 this.diataryConstraints.forEach(constraint => constraint.checked = false);
                 this.allergens.forEach(allergen => allergen.checked = false);
                 this.maxCookingTime = 120;
+                this.showFilters = false;
             },
 
             clearIngredients() {
                 this.ingredients = [];
+                this.showIngredientsSearch = false;
             },
 
             clearAll() {
@@ -305,13 +329,17 @@
 			},
 
 			allergensStringified() {
-                this.getRecipes();
                 window.localStorage.setItem('recipes-allergens', this.allergensStringified);
+            },
+
+            maxCookingTime() {
+                window.localStorage.setItem('recipes-max-cooking-time', this.maxCookingTime);
             },
             
             ingredientsStringified() {
                 this.getRecipes();
                 window.localStorage.setItem('recipes-ingredients', this.ingredientsStringified);
+                this.$emit('ingredient-search-updated', this.ingredients.length > 0);
             },
 
 			isLoggedIn() {
@@ -322,12 +350,14 @@
 
 		activated() {
 			this.searching = true;
-			this.getRecipes();
+            this.getRecipes();
+            this.$emit('ingredient-search-updated', this.ingredients.length > 0);
         },
         
         mounted() {
             this.searching = true;
-			this.getRecipes();
+            this.getRecipes();
+            this.$emit('ingredient-search-updated', this.ingredients.length > 0);
         }
     }
 </script>
