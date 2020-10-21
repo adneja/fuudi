@@ -3,65 +3,72 @@
         <div class="d-flex justify-content-center">
             <div class="recipe-container px-md-5 pt-md-4 px-0 pt-0">
                 <div class="details">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-6 p-0">
-                            <Placeholder v-if="!recipeInfo" height="320px" v-bind:amount="1" v-bind:spacing="0"></Placeholder>
-                            <img v-else v-bind:src="imgURL" width="100%">
-                        </div>
-
-                        <div class="col-md-6 p-md-4 p-3">
-                            <div v-if="!recipeInfo">
-                                <Placeholder height="50px" v-bind:amount="1" v-bind:spacing="30"></Placeholder>
-                                <Placeholder height="20px" v-bind:amount="4" v-bind:spacing="10"></Placeholder>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6 p-0">
+                                <Placeholder v-if="!recipeInfo" height="320px" v-bind:amount="1" v-bind:spacing="0"></Placeholder>
+                                <img v-else v-bind:src="imgURL" width="100%">
                             </div>
 
-                            <div v-else>
-                                <!--
-                                <div class="author d-flex justify-content-start align-items-center mb-3">
-                                    <i class="far fa-user-circle mr-1 profile-icon mr-2"></i>
-                                    <div>
-                                        <div>By {{recipeInfo.created_by}}</div>
-                                        <div class="normalFont date letter-spacing">{{timeFromEpoch(recipeInfo.created_epoch)}}</div>
-                                    </div>
-                                </div>
-                                -->
-                               <div class="d-flex justify-content-between">
-                                    <div class="title">{{recipeInfo.name}}</div>
-                                    <span class="d-flex justify-content-start align-items-center mb-2">
-                                            <Stars v-bind:stars="recipeInfo.rating" max="5"></Stars>
-                                            <span class="number-of-ratings muted ml-2">({{recipeInfo.number_of_ratings}})</span>
-                                    </span>
+                            <div class="col-md-6 p-md-4 p-3">
+                                <div v-if="!recipeInfo">
+                                    <Placeholder height="50px" v-bind:amount="1" v-bind:spacing="30"></Placeholder>
+                                    <Placeholder height="20px" v-bind:amount="4" v-bind:spacing="10"></Placeholder>
                                 </div>
 
-                                <div class="d-flex justify-content-start align-items-center mb-3">
-                                    <div>
-                                        <div class="author muted">By {{recipeInfo.created_by}}</div>
-                                        <div class="normalFont date letter-spacing">{{timeFromEpoch(recipeInfo.created_epoch)}}</div>
+                                <div v-else>
+                                    <!--
+                                    <div class="author d-flex justify-content-start align-items-center mb-3">
+                                        <i class="far fa-user-circle mr-1 profile-icon mr-2"></i>
+                                        <div>
+                                            <div>By {{recipeInfo.created_by}}</div>
+                                            <div class="normalFont date letter-spacing">{{timeFromEpoch(recipeInfo.created_epoch)}}</div>
+                                        </div>
                                     </div>
-                                </div>
-                               
-                                <div class="normalFont description letter-spacing">{{recipeInfo.description}}</div>
-                            
-                                <div class="pt-3">
-                                    <button 
-                                        class="btn btn-outline-light mr-2 mb-2"
-                                        @click="addToFavorites">
-                                        <i class="far fa-heart mr-1"></i>
-                                        <span>Add to favorites</span>
-                                    </button>
+                                    -->
+                                <div class="d-flex justify-content-between">
+                                        <div class="title">{{recipeInfo.name}}</div>
+                                        <span class="d-flex justify-content-start align-items-center mb-3">
+                                                <Stars v-bind:stars="recipeInfo.rating" max="5"></Stars>
+                                                <span class="number-of-ratings muted ml-2">({{recipeInfo.number_of_ratings}})</span>
+                                        </span>
+                                    </div>
 
-                                    <button 
-                                        class="btn btn-outline-light mr-2 mb-2"
-                                        @click="addToPlan">
-                                        <i class="far fa-calendar-check mr-1"></i>
-                                        <span>Add to meal plan</span>
-                                    </button>
+                                    <div class="d-flex justify-content-start align-items-center mb-3">
+                                        <div>
+                                            <div class="author muted">By {{recipeInfo.created_by}}</div>
+                                            <div class="normalFont muted date letter-spacing">{{timeFromEpoch(recipeInfo.created_epoch)}}</div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="normalFont description letter-spacing">{{recipeInfo.description}}</div>
+                                
+                                    <div class="pt-3">
+                                        <button 
+                                            class="btn btn-outline-light mr-2 mb-2"
+                                            @click="addToFavorites">
+                                            <span v-if="!recipeInfo.is_bookmarked">
+                                                <i class="far fa-heart mr-1"></i>
+                                                <span>Add to favorites</span>
+                                            </span>
+
+                                            <span v-else>
+                                                <i class="fas fa-heart mr-1"></i>
+                                                <span>Remove from favorites</span>
+                                            </span>
+                                        </button>
+
+                                        <button 
+                                            class="btn btn-outline-light mr-2 mb-2"
+                                            @click="addToPlan">
+                                            <i class="far fa-calendar-check mr-1"></i>
+                                            <span>Add to meal plan</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </div>
         </div>
@@ -140,7 +147,7 @@
                                                     <div>
                                                         <Stars v-bind:stars="review.rating" max="5"></Stars>
                                                     </div>
-                                                    <div class="normalFont letter-spacing date">{{timeFromEpoch(review.created_epoch)}}</div>
+                                                    <div class="normalFont muted letter-spacing date">{{timeFromEpoch(review.created_epoch)}}</div>
                                                 </div>
 
                                                 <span class="author muted">{{review.author}}</span>
@@ -179,7 +186,8 @@
                 instructions: null,
                 reviews: null,
                 comments: null,
-                ingredientsSearch: JSON.parse(window.localStorage.getItem('recipes-ingredients')) || []
+                ingredientsSearch: JSON.parse(window.localStorage.getItem('recipes-ingredients')) || [],
+                isBookmarked: false
             }
         },
 
@@ -290,11 +298,23 @@
             },
 
             addToFavorites() {
-                if(this.isLoggedIn) {
+                this.$store.dispatch('bookmark', {
+                    id: parseInt(this.id)
+                })
+                .then((response) => {
+                    this.$store.commit('setSystemMessage', {
+                        content: `Recipe ${response ? 'added to' : 'removed from'} favorites.`,
+                        error: false
+                    });
 
-                } else {
-                    this.$store.commit('setShowLoginSidebar', true);
-                }
+                    this.getRecipeInfo();
+                })
+                .catch((err) => {
+                    this.$store.commit('setSystemMessage', {
+                        content: err,
+                        error: true
+                    });
+                });
             },
 
             addToPlan() {
@@ -303,26 +323,7 @@
                 } else {
                     this.$store.commit('setShowLoginSidebar', true);
                 }
-            },
-
-            favorite() {
-				this.$store.dispatch('bookmark', {
-					id: parseInt(this.id)
-				})
-				.then((response) => {
-					this.showFavorite = response;
-					this.$store.commit('setSystemMessage', {
-						content: `Recipe ${response ? 'added to' : 'removed from'} favorites.`,
-						error: false
-					});
-				})
-				.catch((err) => {
-					this.$store.commit('setSystemMessage', {
-						content: err,
-						error: true
-					});
-				});
-			}
+            }
         },
 
         activated() {
@@ -370,7 +371,7 @@
     }
 
     .description {
-        font-size: 13pt;
+        font-size: 12pt;
         font-style: italic;
     }
 
@@ -463,5 +464,10 @@
 
     .rated-by {
         font-size: 10pt;
+    }
+
+    .banner {
+        background-color: @main-background;
+        height: 40px;
     }
 </style>
