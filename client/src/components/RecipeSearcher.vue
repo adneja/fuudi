@@ -56,7 +56,7 @@
                             <input @change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" class="slider w-100" id="myRange">
                         </div>
 
-                        <div class="text-right mt-2">
+                        <div class="text-left mt-2">
                             <button v-if="numAppliedFilters > 0" class="btn btn-outline-light mt-2 mr-2" @click="clearFilters">
                                 <i class="fas fa-trash mr-2"></i>
                                 <span>Reset</span>
@@ -117,9 +117,11 @@
         </div>
 
         <div class="ingredients-search mt-2" v-if="showIngredientsSearch">
+            <!--
             <div class="mb-2">
                 <small class="normalFont letter-spacing">Add ingredients to filter recipes by:</small>
             </div>
+            -->
 
             <SearchField 
                 ref="searchfooditems"
@@ -142,7 +144,7 @@
                 </div>
             </div>
             
-            <div class="text-right">
+            <div class="text-left">
                 <button class="mt-2 btn btn-outline-light mr-2" v-if="ingredients.length > 0" @click="clearIngredients">
                     <i class="fas fa-trash mr-2"></i>
                 <span>Reset</span>
@@ -162,6 +164,7 @@
     import CheckboxCollection from '../components/CheckboxCollection.vue';
     import SearchField from '../components/SearchField.vue';
     import checkboxItems from '../utils/checkboxItems.js';
+    import {nextTick} from 'vue';
     
     export default {
         name: 'RecipeSearcher',
@@ -233,13 +236,13 @@
         },
         
         methods: {
-            addSearchIngredient(ingredient) {
+            async addSearchIngredient(ingredient) {
                 if(ingredient) {
                     this.ingredients.push(ingredient);
-                    
-                    this.$nextTick(() => {
-                        this.$refs.searchfooditems.clear();
-                    });
+
+                    await nextTick();
+                    this.$refs.searchfooditems.clear();
+                    this.$refs.searchfooditems.focus();
                 }
             },
 

@@ -129,11 +129,14 @@
 
             itemClicked(item) {
                 this.$emit('item-selected', this.searchResults[item]);
+                this.clear();
+                /*
                 this.showResults = false;
                 this.selectedItem = item;
                 this.searchWord = item;
                 this.searchResults = {};
                 this.items = [];
+                */
             },
 
             focus() {

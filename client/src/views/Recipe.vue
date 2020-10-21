@@ -17,16 +17,7 @@
                                 </div>
 
                                 <div v-else>
-                                    <!--
-                                    <div class="author d-flex justify-content-start align-items-center mb-3">
-                                        <i class="far fa-user-circle mr-1 profile-icon mr-2"></i>
-                                        <div>
-                                            <div>By {{recipeInfo.created_by}}</div>
-                                            <div class="normalFont date letter-spacing">{{timeFromEpoch(recipeInfo.created_epoch)}}</div>
-                                        </div>
-                                    </div>
-                                    -->
-                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex justify-content-between">
                                         <div class="title">{{recipeInfo.name}}</div>
                                         <span class="d-flex justify-content-start align-items-center mb-3">
                                                 <Stars v-bind:stars="recipeInfo.rating" max="5"></Stars>
@@ -42,28 +33,16 @@
                                     </div>
                                 
                                     <div class="normalFont description letter-spacing">{{recipeInfo.description}}</div>
-                                
-                                    <div class="pt-3">
-                                        <button 
-                                            class="btn btn-outline-light mr-2 mb-2"
-                                            @click="addToFavorites">
-                                            <span v-if="!recipeInfo.is_bookmarked">
-                                                <i class="far fa-heart mr-1"></i>
-                                                <span>Add to favorites</span>
-                                            </span>
 
-                                            <span v-else>
-                                                <i class="fas fa-heart mr-1"></i>
-                                                <span>Remove from favorites</span>
-                                            </span>
-                                        </button>
+                                    <div class="action-buttons p-md-4 p-3 d-none">
+                                        <span class="pointer mr-2" @click="addToFavorites">
+                                            <i title="Add to favorites" v-if="!recipeInfo.is_bookmarked" class="far fa-heart"></i>
+                                            <i title="Remove from favorites" v-else class="fas fa-heart"></i>
+                                        </span>
 
-                                        <button 
-                                            class="btn btn-outline-light mr-2 mb-2"
-                                            @click="addToPlan">
-                                            <i class="far fa-calendar-check mr-1"></i>
-                                            <span>Add to meal plan</span>
-                                        </button>
+                                        <span class="pointer" @click="addToPlan">
+                                            <i title="Add to mealplan" class="far fa-calendar-check"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -356,8 +335,19 @@
     }
 
     .details {
+        position: relative;
         background-color: white;
         box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .action-buttons {
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+
+        i {
+            font-size: 15pt;
+        }
     }
 
     img {
@@ -373,6 +363,7 @@
     .description {
         font-size: 12pt;
         font-style: italic;
+        margin-bottom: 24px;
     }
 
     .letter-spacing  {
@@ -405,7 +396,8 @@
 
     .btn-outline-light {
 		border-color: @main-background;
-		color: @main-background;
+        color: @main-background;
+        background-color: @main-color;
 	}
 
 	.btn-outline-light:hover {
