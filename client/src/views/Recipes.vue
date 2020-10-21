@@ -34,6 +34,16 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="add-new-container d-flex justify-content-center">
+			<div class="filters-container d-flex justify-content-end px-md-5 px-3 pb-md-4 pb-3">
+				<router-link to="/createrecipe" title="Create new recipe">
+					<div class="add-new">
+						<i class="fas fa-plus"></i>
+					</div>
+				</router-link>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -83,5 +93,35 @@
 	.filters-container {
 		width: 100%;
 		max-width: @main-content-width;
+	}
+
+	.add-new-container {
+		position: fixed;
+		bottom: 0px;
+		right: 0px;
+		width: 100%;
+	}
+
+	.add-new {
+		background-color: @main-color;
+		width: 40px;
+		height: 40px;
+		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: @main-background;
+		border-radius: 50%;
+		
+		i {
+			font-size: 16pt;
+		}
+	}
+
+	.add-new:hover {
+		background-color: @main-background;
+		color: @main-color;
+		cursor: pointer;
+		text-decoration: none;
 	}
 </style>

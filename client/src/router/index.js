@@ -20,7 +20,7 @@ const routes = [
 	},
 	{
 		path: '/resetpassword',
-		name: 'Reset Password',
+		name: 'ResetPassword',
 		component: ResetPassword,
 		meta: {requiresAuth: false, showNavbar: false}
 	},
@@ -50,13 +50,13 @@ const routes = [
 	},
 	{
 		path: '/createplan',
-		name: 'Create Plan',
+		name: 'CreatePlan',
 		component: CreatePlan,
 		meta: {requiresAuth: true, showNavbar: true}
 	},
 	{
 		path: '/createrecipe',
-		name: 'Create Recipe',
+		name: 'CreateRecipe',
 		component: CreateRecipe,
 		meta: {requiresAuth: true, showNavbar: true}
 	},
