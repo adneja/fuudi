@@ -14,6 +14,9 @@ router.post('/api/files/file/', verifyToken, (req, res) => {
         let fileRow = result.rows[0],
             filePath = `${fileRow.id.toString()}.${fileRow.mimetype.split('/')[1]}`;
 
+
+        // TODO: scale down large images and save as .jpeg!
+        
         // write file to /files directory
         file.mv(path.join(__dirname, '../../files/img', filePath))
         .then(() => {

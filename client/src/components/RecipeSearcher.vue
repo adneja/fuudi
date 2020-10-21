@@ -386,7 +386,6 @@
         color: @main-background;
 		border: 1px solid @main-background;
 		padding: 12px 12px;
-		//margin-bottom: 10px;
         margin-top: -16px;
         background-color: rgba(227, 234, 235, 0.63);
     }
@@ -481,7 +480,8 @@
     
     .btn-outline-light {
 		border-color: @main-background;
-		color: @main-background;
+        color: @main-background;
+        background-color: @main-color;
     }
     
 
