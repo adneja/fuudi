@@ -39,7 +39,6 @@
                         <i class="fas fa-stopwatch mr-1"></i>
                         <span>{{formattedCookingTime}}</span>
                     </span>
-                    <!--<span class="muted">{{timeFromEpoch}}</span>-->
                 </div>
             </div>
 

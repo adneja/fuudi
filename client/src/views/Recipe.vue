@@ -68,7 +68,7 @@
                                         class="d-flex align-items-end normalFont letter-spacing mb-2"
                                         v-for="(ingredient, index) in ingredients" v-bind:key="index">
 
-                                        <div>{{ingredient.fooditem_name}}</div>
+                                        <div v-bind:class="{'matching_ingredient': ingredientExistsInSearch(ingredient)}">{{ingredient.fooditem_name}}</div>
                                         <span class="dots">......................................................................</span>
                                         <div class="d-flex justify-content-end muted">
                                             <span>{{ingredient.amount}}</span>
@@ -169,6 +169,7 @@
                 instructions: null,
                 reviews: null,
                 comments: null,
+                ingredientsSearch: JSON.parse(window.localStorage.getItem('recipes-ingredients')) || []
             }
         },
 
@@ -194,6 +195,10 @@
         },
 
         methods: {
+            ingredientExistsInSearch(ingredient) {
+                return this.ingredientsSearch.some(i =>  i.id === ingredient.fooditem_id);
+            },
+
             getRecipeInfo() {
                 this.$store.dispatch('getRecipe', {
                     id: this.id
@@ -430,5 +435,10 @@
 
     .my-rating {
         background-color: rgba(53, 133, 53, 0.2);
+    }
+
+    .matching_ingredient {
+        //text-decoration: underline;
+        font-weight: 600;
     }
 </style>
