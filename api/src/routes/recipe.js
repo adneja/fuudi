@@ -14,7 +14,7 @@ router.get('/api/recipes/search/measurements/:search', verifyToken, (req, res) =
 
 
 // Search for food items
-router.get('/api/recipes/search/fooditems/:search', verifyToken, (req, res) => {
+router.get('/api/recipes/search/fooditems/:search', (req, res) => {
     let params = [req.params.search];
     
     runQuery(queries.recipe_fooditems_search, params, res, (result) => {

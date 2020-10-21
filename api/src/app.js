@@ -4,12 +4,15 @@ const cors = require('cors');
 const fileupload = require('express-fileupload');
 const path = require('path');
 
+const dotenv = require('dotenv');
+dotenv.config().parsed;
+
 // routers
 const auth = require('./routes/auth.js');
 const recipe = require('./routes/recipe.js');
 const file = require('./routes/file.js');
 
-const port = process.argv[2];
+const port = process.env.API_PORT;
 const app = express();
 
 
