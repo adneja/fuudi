@@ -85,7 +85,7 @@
     @import "../assets/global.less";
 
     i {
-        font-size: 14pt;
+        font-size: 16pt;
     }
 
     i:hover {

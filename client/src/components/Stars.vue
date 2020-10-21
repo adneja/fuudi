@@ -38,6 +38,6 @@
 
 <style lang="less" scoped>
     i {
-        font-size: 10pt;
+        font-size: 11pt;
     }
 </style>

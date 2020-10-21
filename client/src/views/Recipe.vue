@@ -17,6 +17,7 @@
                             </div>
 
                             <div v-else>
+                                <!--
                                 <div class="author d-flex justify-content-start align-items-center mb-3">
                                     <i class="far fa-user-circle mr-1 profile-icon mr-2"></i>
                                     <div>
@@ -24,12 +25,21 @@
                                         <div class="normalFont date letter-spacing">{{timeFromEpoch(recipeInfo.created_epoch)}}</div>
                                     </div>
                                 </div>
-                               
-                               <div class="title">{{recipeInfo.name}}</div>
-                               <span class="d-flex justify-content-start align-items-center mb-2">
-                                    <Stars v-bind:stars="recipeInfo.rating" max="5"></Stars>
-                                    <span class="number-of-ratings muted ml-2">({{recipeInfo.number_of_ratings}})</span>
-                                </span>
+                                -->
+                               <div class="d-flex justify-content-between">
+                                    <div class="title">{{recipeInfo.name}}</div>
+                                    <span class="d-flex justify-content-start align-items-center mb-2">
+                                            <Stars v-bind:stars="recipeInfo.rating" max="5"></Stars>
+                                            <span class="number-of-ratings muted ml-2">({{recipeInfo.number_of_ratings}})</span>
+                                    </span>
+                                </div>
+
+                                <div class="d-flex justify-content-start align-items-center mb-3">
+                                    <div>
+                                        <div class="author muted">By {{recipeInfo.created_by}}</div>
+                                        <div class="normalFont date letter-spacing">{{timeFromEpoch(recipeInfo.created_epoch)}}</div>
+                                    </div>
+                                </div>
                                
                                 <div class="normalFont description letter-spacing">{{recipeInfo.description}}</div>
                             
@@ -108,7 +118,7 @@
 
                         <div class="col-12 px-0 mt-md-3 mt-0">
                             <Placeholder v-if="!reviews" height="50px" v-bind:amount="3" v-bind:spacing="15"></Placeholder>
-                            <Window v-else title="Reviews" icon="fas fa-comment">
+                            <Window v-else title="Ratings" icon="fas fa-star">
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-12 px-0 mb-4" v-if="isLoggedIn">
@@ -124,17 +134,16 @@
                                             Be the first to review this recipe!
                                         </div>
 
-                                        <div class="col-md-12 px-0" v-for="(review, index) in reviews" v-bind:key="index">
+                                        <div class="col-md-12 px-0" v-for="(review, index) in reviewsSorted" v-bind:key="index">
                                             <div class="review">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="author">
-                                                        <span>{{review.author}}</span>
-                                                        <span class="ml-2 my-rating" v-if="review.my_rating">(you)</span>
+                                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <div>
+                                                        <Stars v-bind:stars="review.rating" max="5"></Stars>
                                                     </div>
                                                     <div class="normalFont letter-spacing date">{{timeFromEpoch(review.created_epoch)}}</div>
                                                 </div>
-                                                
-                                                <Stars class="mb-3" v-bind:stars="review.rating" max="5"></Stars>
+
+                                                <span class="author muted">{{review.author}}</span>
                                                 <div class="normalFont letter-spacing">{{review.comment}}</div>
                                             </div>
                                         </div>
@@ -181,9 +190,18 @@
 
             instructionsSorted() {
                 if(this.instructions) {
-
                     return this.instructions.sort((a, b) => {
                         return a.number - b.number;
+                    });
+                } else {
+                    return null;
+                }
+            },
+
+            reviewsSorted() {
+                if(this.reviews) {
+                    return this.reviews.sort((a, b) => {
+                        return b.created_epoch - a.created_epoch;
                     });
                 } else {
                     return null;
@@ -348,7 +366,7 @@
     }
 
     .title {
-        font-size: 16pt;
+        font-size: 18pt;
     }
 
     .description {
@@ -402,6 +420,7 @@
 
     .author {
         font-size: 11pt;
+        //opacity: 0.8;
     }
 
     .review {
@@ -440,5 +459,9 @@
 
     .matching_ingredient {
         font-weight: 600;
+    }
+
+    .rated-by {
+        font-size: 10pt;
     }
 </style>
