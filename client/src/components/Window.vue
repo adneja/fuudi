@@ -28,7 +28,7 @@
     .title-container {
         background-color: @main-background;
         padding: 7px 18px;
-        box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
     }
 
     .title {
@@ -37,7 +37,7 @@
 
     .body {
         color: @main-background;
-        box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
         padding: 28px 18px;
         border-top: none;
         background-color: white;

@@ -509,6 +509,8 @@
 	
 	.createrecipe {
 		padding-top: 48px;
+		background-color: rgba(227, 234, 235, 0.63);
+		min-height: 100vh;
 	}
 
 	.createrecipe-container {
@@ -520,6 +522,12 @@
 		width: 100%;
 		max-width: @main-content-width;
 		color: @main-background;
+		//box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+	}
+
+	.details {
+		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+		background-color: white;
 	}
 
 	.file {
@@ -582,6 +590,6 @@
 	}
 
 	.extra-data {
-		background-color: rgb(227, 234, 235);
+		//background-color: rgb(227, 234, 235);
 	}
 </style>

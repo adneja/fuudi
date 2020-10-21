@@ -17,6 +17,12 @@
             </div>
 
             <div class="mb-2">
+                <router-link to="/shoppinglist" class="menu-item">
+                    My shopping list
+                </router-link>
+            </div>
+
+            <div class="mb-2">
                 <router-link to="/createrecipe" class="menu-item">
                     Create recipe
                 </router-link>

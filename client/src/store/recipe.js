@@ -122,6 +122,58 @@ export default {
                     reject(err);
                 });
 			});
+		},
+
+		getRecipe(context, data) {
+			return new Promise((resolve, reject) => {
+                axios.get(`/recipes/recipe/${data.id}`, {
+                    headers: {
+                        authorization: context.getters.token
+                    }
+                })
+                .then((response) =>  {
+                    if(response.data.error) {
+                        reject(response.data.error);
+                    } else {
+                        resolve(response.data);
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+            });
+		},
+
+		getRecipeIngredients(context, data) {
+			return new Promise((resolve, reject) => {
+                axios.get(`/recipes/recipe/ingredients/${data.id}`)
+                .then((response) =>  {
+                    if(response.data.error) {
+                        reject(response.data.error);
+                    } else {
+                        resolve(response.data);
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+            });
+		},
+
+		getRecipeInstructions(context, data) {
+			return new Promise((resolve, reject) => {
+                axios.get(`/recipes/recipe/instructions/${data.id}`)
+                .then((response) =>  {
+                    if(response.data.error) {
+                        reject(response.data.error);
+                    } else {
+                        resolve(response.data);
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+            });
 		}
     }
 };

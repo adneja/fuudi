@@ -8,7 +8,7 @@
 
 		<div class="d-flex justify-content-center">
 			<div class="recipes-content px-md-5">
-				<div class="container-fluid px-md-0 px-3">
+				<div class="container-fluid px-md-0 px-4">
 					<div class="row">
 						<div v-for="(recipe, index) in recipes" v-bind:key="index" class="col-lg-4 col-md-6 px-md-3 px-2 mb-md-4 mb-3">
 							<Recipe
@@ -61,11 +61,13 @@
 
 	.recipes {
 		padding-top: 48px;
-		background-color: rgb(227, 234, 235);
+		background-color: rgba(227, 234, 235, 0.63);
+		min-height: 100vh;
 	}
 
 	.filtersbackground {
 		background-color: white;
+		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 	}
 
 	.recipes-content {

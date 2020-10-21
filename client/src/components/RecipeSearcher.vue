@@ -19,10 +19,9 @@
                 </button>
             </div>
         </div>
-        
-        <div class="filters lightblue" v-if="showFilters">
+
+        <div class="filters" v-if="showFilters">
             <div class="mb-1 filter-title">Dietary constraints</div>
-            <i title="Close" @click="showFilters = false" class="close-section pointer fas fa-times"></i>
 
             <CheckboxCollection
                 class="mb-3" 
@@ -50,14 +49,24 @@
             <div class="slidecontainer">
                 <input @change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" class="slider w-100" id="myRange">
             </div>
+
+            <button 
+                v-if="numAppliedFilters > 0"
+                class="btn btn-outline-light mt-2"
+                @click="clearFilters">
+                
+                Reset filters
+            </button>
         </div>
 
         <div class="d-flex justify-content-between">
             <!-- Ingredients search -->
             <span class="pointer ingredient-search" @click="showIngredientsSearch = !showIngredientsSearch">
-                <i class="fas fa-search mr-1"></i>
-                <span>Search by Ingredients</span>
-                <span v-if="ingredients.length > 0" class="muted"> ({{ingredients.length}})</span>
+                <span>
+                    <i class="fas fa-search mr-1"></i>
+                    <span>Search by Ingredients</span>
+                    <span v-if="ingredients.length > 0" class="muted"> ({{ingredients.length}})</span>
+                </span>
             </span>
         
             <!-- Sort order-->
@@ -93,14 +102,8 @@
                 </a>
             </div>
         </div>
-    
-        <div class="ingredients-search mt-2 lightblue" v-if="showIngredientsSearch">
-            <div class="mb-2 normalFont">
-                <small>Searching by ingredients allows you to find recipes that uses ingredients you already have.</small>
-            </div>
 
-            <i @click="showIngredientsSearch = false" class="close-section pointer fas fa-times"></i>
-       
+        <div class="ingredients-search mt-2" v-if="showIngredientsSearch">
             <SearchField 
                 ref="searchfooditems"
                 action="searchFoodItems" 
@@ -112,9 +115,13 @@
             </SearchField>	
         
             <div v-for="(ingredient, index) in ingredients" v-bind:key="index" class="mt-2">
-                <i title="Close" class="fas fa-times-circle mr-2 pointer" @click="removeIngredient(index)"></i>
+                <i title="Remove" class="far fa-times-circle mr-1 pointer" @click="removeIngredient(index)"></i>
                 <span>{{ingredient.name}}</span>
             </div> 
+
+            <button class="mt-2 btn btn-outline-light" v-if="ingredients.length > 1" @click="clearIngredients">
+                <span>Reset ingredients search</span>
+            </button>
         </div>
     </div>
 </template>
@@ -250,11 +257,26 @@
             
             checkboxArrayToObject(array) {
 				let obj = {};
-
 				array.forEach(item => obj[item.key] = item.checked);
 
 				return obj;
             },
+
+            clearFilters() {
+                this.diataryConstraints.forEach(constraint => constraint.checked = false);
+                this.allergens.forEach(allergen => allergen.checked = false);
+                this.maxCookingTime = 120;
+            },
+
+            clearIngredients() {
+                this.ingredients = [];
+            },
+
+            clearAll() {
+                this.search = '';
+                this.clearFilters();
+                this.clearIngredients();
+            }
         },
 
 		watch: {
@@ -284,7 +306,8 @@
             },
 
 			isLoggedIn() {
-				this.updateRecipes();
+                console.log(this.isLoggedIn);
+                this.getRecipes();
 			}
 		},
 
@@ -312,6 +335,8 @@
 		padding: 12px 12px;
 		margin-bottom: 10px;
         margin-top: -16px;
+        background-color: rgba(227, 234, 235, 0.63);
+        opacity: 1;
     }
     
     .ingredients-search  {
@@ -319,8 +344,9 @@
         color: @main-background;
 		border: 1px solid @main-background;
 		padding: 12px 12px;
-		margin-bottom: 10px;
+		//margin-bottom: 10px;
         margin-top: -16px;
+        background-color: rgba(227, 234, 235, 0.63);
     }
 
     .ingredients-search-add  {
@@ -414,7 +440,8 @@
     .btn-outline-light {
 		border-color: @main-background;
 		color: @main-background;
-	}
+    }
+    
 
 	.btn-outline-light:hover {
 		background-color: @main-background;
@@ -425,6 +452,12 @@
 		background-color: @main-background-dark !important;
 		border-color: @main-background-dark !important;
 		color: @main-color !important;
-	}
+    }
+    
+    .btn-outline-light:focus {
+        background-color: @main-color !important;
+		border-color: @main-background !important;
+		color: @main-background !important;
+    }
 
 </style>

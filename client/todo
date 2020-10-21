@@ -36,3 +36,8 @@
         background: url(<%= BASE_URL %>background.png);
 		    background-attachment: fixed;
       }
+
+
+
+
+      px-md-5 py-md-5 p-3

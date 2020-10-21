@@ -139,7 +139,7 @@
 	.recipe {
 		background-color: @main-color;
 		transition: transform .2s;
-		box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
+		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);//2px 2px 7px rgba(0, 0, 0, 0.2);
 		//margin-bottom: 32px;
 	}
 

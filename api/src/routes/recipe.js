@@ -119,4 +119,42 @@ router.post('/api/recipes/recipe/bookmark', verifyToken, (req, res) => {
 });
 
 
+// Get recipe data
+router.get('/api/recipes/recipe/:id', optionalToken, (req, res) => {
+    let params = [req.params.id];
+
+    if(req.user) {
+        params.push(req.user.id);
+    } else {
+        params.push(null);
+    }
+
+    runQuery(queries.recipe_recipe_get, params, res, (result) => {
+        res.json(result.rows[0]);
+    });
+});
+
+
+// Get recipe ingredients
+router.get('/api/recipes/recipe/ingredients/:id', (req, res) => {
+    let params = [req.params.id];
+
+    runQuery(queries.recipe_recipe_ingredients, params, res, (result) => {
+        res.json(result.rows);
+    });
+});
+
+
+// Get recipe ingredients
+router.get('/api/recipes/recipe/instructions/:id', (req, res) => {
+    let params = [req.params.id];
+
+    console.log(queries);
+
+    runQuery(queries.recipe_recipe_instructions, params, res, (result) => {
+        res.json(result.rows);
+    });
+});
+
+
 module.exports = router;
