@@ -20,10 +20,12 @@
                         <router-link to="/plans" title="My meal plans" class="menu-item-desktop mr-3">
                             <span>Plans</span>
                         </router-link>
-
+                        
+                        <!--
                         <router-link v-if="$store.getters.token" to="/createrecipe" title="My meal plans" class="menu-item-desktop mr-3">
                             <span>Create recipe</span>
                         </router-link>
+                        -->
                     </div>
                 </div>
                 

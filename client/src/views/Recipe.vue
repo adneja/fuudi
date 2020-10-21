@@ -34,7 +34,7 @@
                                 
                                     <div class="normalFont description letter-spacing">{{recipeInfo.description}}</div>
 
-                                    <div class="action-buttons p-md-4 p-3 d-none">
+                                    <div class="action-buttons p-md-4 p-3">
                                         <span class="pointer mr-2" @click="addToFavorites">
                                             <i title="Add to favorites" v-if="!recipeInfo.is_bookmarked" class="far fa-heart"></i>
                                             <i title="Remove from favorites" v-else class="fas fa-heart"></i>
@@ -60,6 +60,14 @@
                             <div class="ingredients-container">
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
                                 <Window v-else title="Ingredients" icon="fas fa-pepper-hot">
+                                    <template v-slot:titlebar>
+                                        <span class="add-shopping pointer d-flex justify-content-end align-items-center">
+                                            <i class="fas fa-plus plus"></i>
+                                            <i class="fas fa-shopping-basket"></i>
+                                            <!--<span>Add to shopping list</span>-->
+                                        </span>
+                                    </template>
+
                                     <div 
                                         class="d-flex align-items-end normalFont letter-spacing mb-2"
                                         v-for="(ingredient, index) in ingredients" v-bind:key="index">
@@ -70,10 +78,6 @@
                                             <span>{{ingredient.amount}}</span>
                                             <div class="text-left measurement">{{ingredient.measurement_name}}</div>
                                         </div>
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <button class="btn btn-outline-light"><i class="fas fa-shopping-basket mr-2"></i>Add to shopping list</button>
                                     </div>
                                 </Window>
                             </div>
@@ -346,7 +350,7 @@
         bottom: 0px;
 
         i {
-            font-size: 15pt;
+            //font-size: 15pt;
         }
     }
 
@@ -461,5 +465,18 @@
     .banner {
         background-color: @main-background;
         height: 40px;
+    }
+
+    .add-shopping  {
+        opacity: 0.8;
+
+        .plus {
+            font-size: 9pt;
+            margin-right: 3px;
+        }
+    }
+
+    .add-shopping:hover {
+        opacity: 1;
     }
 </style>

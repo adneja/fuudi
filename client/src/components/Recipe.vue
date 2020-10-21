@@ -1,5 +1,5 @@
 <template>
-    <div class="recipe">
+    <div class="recipe" v-bind:class="{'no-matches': showMatchCount && matchCount === 0}">
         <div class="author d-flex justify-content-between">
             <div class="d-flex align-items-center">
                 <i class="far fa-user-circle mr-2"></i>
@@ -147,7 +147,11 @@
 
 	.recipe:hover {
 		//transform: scale(1.02);
-	}
+    }
+    
+    .no-matches {
+        opacity: 0.4;
+    }
 
     .author {
 		background-color: @main-background;
