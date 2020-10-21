@@ -20,8 +20,8 @@
                                     <div class="d-flex justify-content-between">
                                         <div class="title">{{recipeInfo.name}}</div>
                                         <span class="d-flex justify-content-start align-items-center mb-3">
-                                                <Stars v-bind:stars="recipeInfo.rating" max="5"></Stars>
-                                                <span class="number-of-ratings muted ml-2">({{recipeInfo.number_of_ratings}})</span>
+                                            <Stars v-bind:stars="recipeInfo.rating" max="5"></Stars>
+                                            <span class="number-of-ratings muted ml-2">({{recipeInfo.number_of_ratings}})</span>
                                         </span>
                                     </div>
 
@@ -53,37 +53,42 @@
         </div>
 
         <div class="d-flex justify-content-center">
-            <div class="recipe-container px-md-5 py-md-4 px-0 py-0">
+            <div class="recipe-container px-md-5 py-md-4 px-3 py-3">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-5 col-md-6 px-0 pr-md-3 mb-md-3 mb-0">
+                        <div class="col-lg-5 col-md-6 px-0 pr-md-3 mb-md-3 mb-3">
                             <div class="ingredients-container">
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
                                 <Window v-else title="Ingredients" icon="fas fa-pepper-hot">
                                     <template v-slot:titlebar>
-                                        <span title="Add to shopping list" class="add-shopping pointer d-flex justify-content-end align-items-center">
+                                        <span @click="addToShoppingList = true" title="Add to shopping list" class="add-shopping pointer d-flex justify-content-end align-items-center">
                                             <i class="fas fa-plus plus"></i>
                                             <i class="fas fa-shopping-basket"></i>
-                                            <!--<span>Add to shopping list</span>-->
                                         </span>
                                     </template>
 
-                                    <div 
-                                        class="d-flex align-items-end normalFont letter-spacing mb-2"
-                                        v-for="(ingredient, index) in ingredients" v-bind:key="index">
+                                    <div v-if="!addToShoppingList">
+                                        <div
+                                            class="d-flex align-items-end normalFont letter-spacing mb-2"
+                                            v-for="(ingredient, index) in ingredients" v-bind:key="index">
 
-                                        <div v-bind:class="{'matching_ingredient': ingredientExistsInSearch(ingredient)}">{{ingredient.fooditem_name}}</div>
-                                        <span class="dots">......................................................................</span>
-                                        <div class="d-flex justify-content-end muted">
-                                            <span>{{ingredient.amount}}</span>
-                                            <div class="text-left measurement">{{ingredient.measurement_name}}</div>
+                                            <div v-bind:class="{'matching_ingredient': ingredientExistsInSearch(ingredient)}">{{ingredient.fooditem_name}}</div>
+                                            <span class="dots">......................................................................</span>
+                                            <div class="d-flex justify-content-end muted">
+                                                <span>{{ingredient.amount}}</span>
+                                                <div class="text-left measurement">{{ingredient.measurement_name}}</div>
+                                            </div>
                                         </div>
+                                    </div>
+
+                                    <div v-else>
+                                        
                                     </div>
                                 </Window>
                             </div>
                         </div>
 
-                        <div class="col-lg-7 col-md-6 px-0 pl-md-3">
+                        <div class="col-lg-7 col-md-6 px-0 pl-md-3 mb-3">
                             <div class="instructions-container">
                                 <Placeholder v-if="!instructions" height="25px" v-bind:amount="6" v-bind:spacing="15"></Placeholder>
                                 <Window v-else title="Instructions" icon="fas fa-list-ol">
@@ -170,7 +175,8 @@
                 reviews: null,
                 comments: null,
                 ingredientsSearch: JSON.parse(window.localStorage.getItem('recipes-ingredients')) || [],
-                isBookmarked: false
+                isBookmarked: false,
+                addToShoppingList: false
             }
         },
 

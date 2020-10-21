@@ -50,6 +50,8 @@
                         </router-link>
                     </div>
 
+                    <hr>
+
                     <div class="mb-2">
                         <router-link to="/settings" class="menu-item">
                             Settings

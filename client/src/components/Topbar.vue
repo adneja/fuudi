@@ -30,7 +30,14 @@
                 </div>
                 
                 <!-- Right side of navbar -->
-                <div class="right">
+                <div class="right d-flex justify-content-end align-items-center">
+                    <!--
+                    <div class="shopping-basket-container" title="Shopping cart">
+                        <i class="fas fa-shopping-basket muted shopping-basket pointer"></i>
+                        <span class="counter d-flex justify-content-center align-items-center">24</span>
+                    </div>
+                    -->
+
                     <div class="d-md-flex  d-none justify-content-end align-items-center">
                         <div @click="showLogin" title="Log in" class="menu-item-desktop pointer mr-3" v-if="!$store.getters.token">
                             <i class="fas fa-sign-in-alt mr-1"></i>
@@ -38,7 +45,7 @@
                         </div>
 
                         <span v-else class="d-flex justify-content-end align-items-center">
-                            <span @click="$store.commit('setShowUserMenu', true)" class="name pointer d-flex justify-content-end align-items-center">
+                            <span title="User menu" @click="$store.commit('setShowUserMenu', true)" class="name pointer d-flex justify-content-end align-items-center">
                                 <span>{{$store.getters.userData.name}}</span>
                                 <i class="far fa-user-circle profile-img ml-2"></i>
                             </span>
@@ -139,4 +146,32 @@
         font-size: 14pt;
     }
 
+    .shopping-basket-container {
+        position: relative;
+        margin-right: 25px;
+
+        .counter {
+            position: absolute;
+            bottom: -1px;
+            left: 13px;
+            background-color: @main-color;
+            color: @main-background;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            padding-top: 2px;
+            font-size: 10pt;
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+        }
+    }
+
+    .shopping-basket {
+        font-size: 14pt;
+        opacity: 0.6;
+    }
+
+    .shopping-basket:hover {
+        opacity: 1;
+    }
 </style>
