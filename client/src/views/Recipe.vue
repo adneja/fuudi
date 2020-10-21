@@ -354,10 +354,6 @@
         position: absolute;
         right: 0px;
         bottom: 0px;
-
-        i {
-            //font-size: 15pt;
-        }
     }
 
     img {

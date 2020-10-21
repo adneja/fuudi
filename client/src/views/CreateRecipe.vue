@@ -522,7 +522,6 @@
 		width: 100%;
 		max-width: @main-content-width;
 		color: @main-background;
-		//box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 	}
 
 	.details {
@@ -587,9 +586,5 @@
 	.title {
 		font-size: 20pt;
 		margin-bottom: 10px;
-	}
-
-	.extra-data {
-		//background-color: rgb(227, 234, 235);
 	}
 </style>
