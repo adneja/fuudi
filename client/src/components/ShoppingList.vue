@@ -11,7 +11,7 @@
             </div>
             
             <!-- Shopping list -->
-            <div class="list mb-4">
+            <div class="list mb-4" v-if="shoppingList.length > 0">
                 <div v-for="(item, index) in shoppingList" v-bind:key="index">
                     <div 
                         v-bind:class="{'newly-added': isNewlyAdded(item)}"
@@ -36,18 +36,25 @@
 
                     <hr v-if="index !== shoppingList.length - 1">
                 </div>
+            </div>
 
-                <div v-if="shoppingList.length === 0" class="normalFont letter-spacing empty">
-                    Your shopping list is empty!<br>
-                    Add items to the list from recipes or meal plans.
-                </div>
+            <div v-else class="normalFont letter-spacing empty">
+                Your shopping list is empty!<br>
+                Add items to the list from recipes or meal plans.
             </div>
 
             <!-- Clear buttons -->
-            <div class="buttons">
+            <div class="buttons" v-if="shoppingList.length > 0">
                 <div class="btn-group w-100">
-                    <button @click="removeChecked" class="btn btn-outline-light w-50"><i class="fas fa-tasks mr-2"></i>Clear checked</button>
-                    <button @click="removeAll" class="btn btn-outline-light w-50"><i class="fas fa-shopping-basket mr-2"></i>Clear all</button>
+                    <button @click="removeChecked" class="btn btn-outline-light w-50">
+                        <i class="fas fa-tasks mr-2"></i>
+                        <span>Delete checked</span>
+                    </button>
+
+                    <button @click="removeAll" class="btn btn-outline-light w-50">
+                        <i class="fas fa-shopping-basket mr-2"></i>
+                        <span>Delete all</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -182,7 +189,6 @@
     }
 
     .empty {
-        color: @main-background;
-        padding: 16px;
+        color: @main-color;
     }
 </style>

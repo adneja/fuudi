@@ -23,7 +23,7 @@
 
                 <i v-if="numAppliedFilters > 0" class="fas fa-times-circle clear-logo pointer" title="Clear filters" @click.stop="clearAll"></i>
             </span>
-
+         
             <!-- Sort order-->
             <div 
                 class="sort-order d-flex justify-content-end align-items-center"
@@ -486,6 +486,10 @@
     .clear-logo {
         font-size: 11pt;
         margin-left: 5px;
+    }
+
+    .show-filters {
+        background-color: @main-background;
     }
 
 </style>

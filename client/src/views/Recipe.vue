@@ -61,6 +61,29 @@
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
                                 
                                 <Window v-else title="Ingredients" icon="fas fa-pepper-hot" padding="0px">
+                                    <template v-slot:titlebar>
+                                        <div
+                                            title="Add ingredients to shopping list"
+                                            v-if="!showAddIngredientsDialog"
+                                            @click="toggleAddToShoppingCart" 
+                                            class="pointer add-shopping d-flex justify-content-end align-items-center">
+                                            <i class="fas fa-plus plus"></i>
+                                            <i class="fas fa-shopping-basket"></i>
+                                        </div>
+
+                                        <div v-else
+                                            class="d-flex justify-content-end align-items-center">
+
+                                            <i title="Cancel"
+                                                @click="showAddIngredientsDialog = false" 
+                                                class="pointer fas fa-times mr-3 add-shopping"></i>
+
+                                            <i title="Add"
+                                                @click="addIngredientsToShoppingList" 
+                                                class="pointer fas fa-check add-shopping"></i>
+                                        </div>
+                                    </template>
+
                                     <div v-if="!showAddIngredientsDialog">
                                         <div v-for="(ingredient, index) in ingredients" v-bind:key="index">   
                                             <div v-if="index === 0" class="ingredient-padding"></div>
@@ -81,15 +104,6 @@
                                             <hr v-if="index !== ingredients.length - 1">
                                             <div v-else class="ingredient-padding"></div>
                                         </div>
-
-                                        <button 
-                                            title="Add ingredients to shopping list" 
-                                            class="btn btn-success w-100"
-                                            @click="toggleAddToShoppingCart">
-
-                                            <i class="fas fa-plus mr-2"></i>
-                                            <span>Add ingredients to shopping list</span>
-                                        </button>
                                     </div>
 
                                     <div v-else>
@@ -97,7 +111,7 @@
                                             <div v-if="index === 0" class="ingredient-padding"></div>
 
                                             <div class="ingredient normalFont letter-spacing d-flex justify-content-between">
-                                                <div class="d-flex justify-content-start">        
+                                                <div class="d-flex justify-content-start align-items-center">        
                                                     <div class="cb-container pointer mr-1" @click="ingredient.checked = !ingredient.checked">
                                                         <div class="cb">
                                                             <i v-if="ingredient.checked" class="fas fa-check"></i>
@@ -114,26 +128,6 @@
 
                                             <hr v-if="index !== ingredients.length - 1">
                                             <div v-else class="ingredient-padding"></div>
-                                        </div>
-
-                                        <div>
-                                            <button 
-                                                title="Add ingredients to shopping list" 
-                                                class="btn btn-success w-50"
-                                                @click="showAddIngredientsDialog = false">
-
-                                                <i class="fas fa-times mr-2"></i>
-                                                <span>Cancel</span>
-                                            </button>
-
-                                            <button 
-                                                title="Add ingredients to shopping list" 
-                                                class="btn btn-success w-50"
-                                                @click="addIngredientsToShoppingList">
-
-                                                <i class="fas fa-check mr-2"></i>
-                                                <span>Add</span>
-                                            </button>
                                         </div>
                                     </div>
                                 </Window>
@@ -273,6 +267,10 @@
 
                 this.$store.commit('addShoppingListItems', add);
                 this.showAddIngredientsDialog = false;
+                this.$store.commit('setSystemMessage', {
+                    content: `${add.length} items have been added to your shopping list!`,
+                    error: false
+                });
             },
 
             toggleAddToShoppingCart() {
@@ -393,6 +391,7 @@
         },
 
         mounted() {
+            window.scrollTo(0,0);
             this.getRecipeInfo();
             this.getIngredients();
             this.getInstructions();
@@ -566,12 +565,14 @@
 
     .number {
         min-width: 30px;
-        //margin-right: 10px;
-        //text-align: right;
     }
 
     .amount-input {
         border: 1px solid @main-background;
         width: 80px;
+    }
+
+    .amount-input:focus {
+        border: 1px solid @main-background !important;
     }
 </style>

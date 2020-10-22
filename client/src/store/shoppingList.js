@@ -27,8 +27,7 @@ export default {
 
         addShoppingListItems(context, items) {
             context.shoppingList.push(...items);
-            context.newlyAddedShoppingListItems = items;
-            context.showShoppingList = true;
+            //context.newlyAddedShoppingListItems = items;
             window.localStorage.setItem('shopping-list', JSON.stringify(context.shoppingList));
         },
 
