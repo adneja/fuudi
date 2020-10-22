@@ -12,19 +12,19 @@
 
             <div class="mb-2">
                 <router-link to="/cookbook" class="menu-item">
-                    My cookbook
+                    <i class="fas fa-book menu-logo"></i>My cookbook
                 </router-link>
             </div>
 
             <div class="mb-2">
                 <router-link to="/shoppinglist" class="menu-item">
-                    Shopping list
+                    <i class="far fa-list-alt menu-logo"></i>Shopping list
                 </router-link>
             </div>
 
             <div class="mb-2">
                 <router-link to="/createrecipe" class="menu-item">
-                    Create recipe
+                    <i class="fas fa-plus-circle menu-logo"></i>Create recipe
                 </router-link>
             </div>
 
@@ -32,12 +32,12 @@
 
             <div class="mb-2">
                 <router-link to="/settings" class="menu-item">
-                    Settings
+                    <i class="fas fa-cog"></i>Settings
                 </router-link>
             </div>
 
             <div title="Log out" class="menu-item pointer" @click="logOut">
-                Log out
+                <i class="fas fa-sign-out-alt"></i>Log out
             </div>
         </div>
 
@@ -113,11 +113,12 @@
     .menu-item{
         color: @main-color !important;
         margin-bottom: 8px;
-        font-size: 14pt;
+        font-size: 15pt;
         opacity: 0.7;
 
         i {
             width: 19px;
+            margin-right: 7px;
         }
     }
 
