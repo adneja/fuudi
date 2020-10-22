@@ -6,7 +6,7 @@
             v-bind:key="item.key"
             @click="item.checked = !item.checked">
             <div class="cb">
-                <i v-if="item.checked" class="fas fa-check"></i>
+                <i v-if="item.checked" class="fas fa-check cb-check"></i>
             </div>
             <span class="cb-label">{{item.label}}</span>
         </div>

@@ -1,7 +1,7 @@
 <template>
     <div class="stars">
         <span v-for="(star, index) in numberOfStars" v-bind:key="index">
-            <i v-bind:class="[starType(index)]"></i>
+            <i v-bind:class="[starType(index)]" v-bind:style="{'font-size': starSize ? starSize : '11pt'}"></i>
         </span>
     </div>
 </template>
@@ -10,7 +10,7 @@
 <script>
     export default {
         name: 'Stars',
-        props: ['stars', 'max'],
+        props: ['stars', 'max', 'starSize'],
 
         computed: {
             numberOfStars() {

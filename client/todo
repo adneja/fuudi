@@ -16,13 +16,17 @@
 
 /recipes
     - list recipes  X
-    - sort options
-        - popular
-        - new
-        - top
-    - filter options    
-        - cooking time
+    - sort options X
+        - popular X
+        - new X
+        - top X
+    - filter options  X    
+        - cooking time X
         - vegan/vegiterian/gluten free
+        - ingredients X
+
+
+CLEANUP BUTTON AND INPUT STYLES!!!11!!!
 
 
 
@@ -31,13 +35,3 @@
 - create deploy script (github hook?)
 - auto update SSL cert
 
-
-      body {
-        background: url(<%= BASE_URL %>background.png);
-		    background-attachment: fixed;
-      }
-
-
-
-
-      px-md-5 py-md-5 p-3

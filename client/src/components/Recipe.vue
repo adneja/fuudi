@@ -145,7 +145,8 @@
 	}
     
     .no-matches {
-        opacity: 0.4;
+        opacity: 0.8;
+        filter: grayscale(50%);
     }
 
     .author {

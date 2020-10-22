@@ -76,7 +76,7 @@
 
                                             <i title="Cancel"
                                                 @click="showAddIngredientsDialog = false" 
-                                                class="pointer fas fa-times mr-3 add-shopping"></i>
+                                                class="pointer fas fa-times mr-2 add-shopping"></i>
 
                                             <i title="Add"
                                                 @click="addIngredientsToShoppingList" 
@@ -176,14 +176,15 @@
 
                                             <div class="review">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <Stars v-bind:stars="review.rating" max="5"></Stars>
+                                                    <div class="d-flex justify-content-start align-items-center">
+                                                        <Stars starSize="14pt" v-bind:stars="review.rating" max="5"></Stars>
                                                     </div>
                                                     <div class="normalFont muted letter-spacing date">{{timeFromEpoch(review.created_epoch)}}</div>
                                                 </div>
 
-                                                <div class="author">{{review.author}}</div>
-                                                <div v-if="review.comment" class="normalFont letter-spacing mt-3">{{review.comment}}</div>
+                                                
+                                                <div v-if="review.comment" class="normalFont letter-spacing mt-2">{{review.comment}}</div>
+                                                <div class="author mt-1">{{review.author}}</div>
                                             </div>
 
                                             <hr v-if="index !== reviewsSorted.length - 1">
@@ -490,8 +491,7 @@
     }
 
     .author {
-        font-size: 11pt;
-        //opacity: 0.8;
+        font-size: 10pt;
     }
 
 

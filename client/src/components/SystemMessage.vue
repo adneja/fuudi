@@ -57,9 +57,11 @@
 
     .error {
         background-color: #aa4f4f;
+        padding: 10px;
     }
 
     .success {
         background-color: rgb(67, 116, 86);
+        padding: 10px;
     }
 </style>

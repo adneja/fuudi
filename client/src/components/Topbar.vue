@@ -25,7 +25,7 @@
                 
                 <!-- Right side of navbar -->
                 <div class="right d-flex justify-content-end align-items-center">
-                    <div @click="showShoppingList" class="shopping-basket-container" title="Shopping cart">
+                    <div v-if="$store.getters.shoppingList.length > 0" @click="showShoppingList" class="shopping-basket-container" title="Shopping list">
                         <i class="fas fa-shopping-basket muted shopping-basket pointer"></i>
                         <span
                             v-if="$store.getters.shoppingList.length > 0" 
@@ -153,8 +153,8 @@
 
         .counter {
             position: absolute;
-            top: 6px;
-            left: 6px;
+            top: 8px;
+            left: 8px;
             color: @main-color;
             width: 23px;
             height: 19px;

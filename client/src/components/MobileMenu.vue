@@ -39,12 +39,6 @@
                     </div>
 
                     <div class="mb-2">
-                        <router-link to="/shoppinglist" class="menu-item">
-                            <i class="far fa-list-alt menu-logo"></i>Shopping list
-                        </router-link>
-                    </div>
-
-                    <div class="mb-2">
                         <router-link to="/createrecipe" class="menu-item">
                             <i class="fas fa-plus-circle menu-logo"></i>Create recipe
                         </router-link>

@@ -192,6 +192,10 @@ input:focus, textarea:focus {
     font-size: 12pt;
 }
 
+.cb-check {
+    color: @main-background;
+}
+
 .muted {
     opacity: 0.7;
 }
@@ -205,7 +209,7 @@ input:focus, textarea:focus {
 input[type="range"], input[type="range"]:active {
     -webkit-appearance: none;
       appearance: none;
-    background: @main-background;
+    background: @main-color;
     border-radius: 0.5rem;
     height: 1px;
 
@@ -221,6 +225,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 20px; 
     height: 20px; 
     border-radius: 50%;
-    background: @main-background-dark; 
+    background: @main-color; 
     cursor: pointer;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 }

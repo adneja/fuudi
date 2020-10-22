@@ -63,7 +63,11 @@
                     if(!this.markedItem) {
                         this.markedItem = this.items[0];
                     } else {
-                        this.markedItem = null;
+                        if(this.getShowAdd()) {
+                            this.markedItem = null;
+                        } else {
+                            this.markedItem = this.items[0];
+                        }
                     }
                     
                 }
@@ -76,7 +80,11 @@
                     if(!this.markedItem) {
                         this.markedItem = this.items[this.items.length - 1];
                     } else {
-                        this.markedItem = null;
+                        if(this.getShowAdd()) {
+                            this.markedItem = null;
+                        } else {
+                            this.markedItem = this.items[this.items.length - 1];
+                        }
                     }
                 }
             }

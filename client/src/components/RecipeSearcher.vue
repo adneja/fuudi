@@ -1,69 +1,34 @@
 <template>
-    <div class="recipesearcher">
-        <div class="search-row mb-3">
+    <div class="recipesearcher" ref="recipesearcher">
+        <div class="search-row input-group">
             <input v-model="search" class="form-control" placeholder="Search recipes">
+            <button 
+                title="Show filters" 
+                @click="showFilters = !showFilters" 
+                class="btn btn-success filter-button">
+                <i class="fas fa-filter"></i>
+            </button>
+            
             <i v-if="searching" class="search-indicator fas fa-circle-notch fa-spin"></i>
+            <i v-if="!searching && search.trim().length > 0" @click="search = ''" class="search-indicator fas fa-times-circle"></i>
         </div>
 
-        <div class="d-flex justify-content-between">
-            <!-- Filters -->
-            <span class="ingredient-search">
-                <span class="pointer underline" @click="toggleFilters">
-                    <span v-if="!showFilters">
-                        <i class="fas fa-filter mr-1"></i>
-                        <span>Show filters</span>
-                        <span v-if="numAppliedFilters > 0" class="muted"> ({{numAppliedFilters}})</span>
-                    </span>
-                    <span v-else>
-                        <i class="fas hide-logo fa-times mr-1"></i>
-                        <span>Hide filters</span>
-                        <span v-if="numAppliedFilters > 0" class="muted"> ({{numAppliedFilters}})</span>
-                    </span>
-                </span>
+        <!-- Side panel -->
+        <transition name="slideIn">
+            <div class="filter-sidepanel" v-if="showFilters">
+                <div class="title d-flex justify-content-between align-items-center mb-4">
+                    <div class=""><i class="fas fa-filter mr-2"></i>Filters</div>
 
-                <i v-if="numAppliedFilters > 0" class="fas fa-times-circle clear-logo pointer" title="Clear filters" @click.stop="clearAll"></i>
-            </span>
-         
-            <!-- Sort order-->
-            <div 
-                class="sort-order d-flex justify-content-end align-items-center"
-                id="dropdownMenu1" 
-                aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
-
-                <span>{{sortOrder}}</span>
-                <i class="fas fa-sort ml-2"></i>
-            </div>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <a 
-                    class="dropdown-item" 
-                    href="#!" 
-                    @click="sortOrder = 'popular'">
-                    Popular
-                </a>
-
-                <a 
-                    class="dropdown-item" 
-                    href="#!" 
-                    @click="sortOrder = 'rating'">
-                    Rating
-                </a>
-
-                <a 
-                    class="dropdown-item" 
-                    href="#!" 
-                    @click="sortOrder = 'new'">
-                    New
-                </a>
-            </div>
-        </div>
-
-        <div class="filters" v-if="showFilters">
-            <Window title="Filters" icon="fas fa-filter">
+                    <button class="btn textButton" @click="showFilters = false">
+                        <i class="fas fa-times closeButton"></i>
+                    </button>
+                </div>
+                
+                <div class="filter-sidepanel-content">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-6 px-0">
-                            <div class="mb-1 filter-title">Allergens</div>
+                            <div class="mb-2 filter-title">Allergens</div>
                             
                             <CheckboxCollection
                                 class="mb-3" 
@@ -73,7 +38,7 @@
                         </div>  
 
                         <div class="col-6 px-0">
-                            <div class="mb-1 filter-title">Constraints</div>
+                            <div class="mb-2 filter-title">Constraints</div>
 
                             <CheckboxCollection
                                 class="mb-3" 
@@ -83,11 +48,11 @@
                         </div>
 
                         <div class="col-12 px-0">
-                            <div class="filter-title">
+                            <div class="filter-title d-flex justify-content-start align-items-center">
                                 <span>Max cooking time:</span>
                                 <span class="ml-1 normalFont font-weight-bold">
-                                    <span v-if="maxCookingTime >= 120">2h+</span>
-                                    <span v-else>{{formattedCookingTime}}</span>
+                                    <div class="cooking-time"  v-if="maxCookingTime >= 120">2h+</div>
+                                    <div class="cooking-time" v-else>{{formattedCookingTime}}</div>
                                 </span>
                             </div>
 
@@ -97,23 +62,13 @@
                         </div>
                     </div>
                 </div>
-            </Window>
-        </div>
 
+                <hr>
 
-        <div class="ingredients-search mt-2" v-if="showFilters">
-            <Window title="Search by ingredients" icon="fas fa-pepper-hot">
-                <template v-slot:titlebar>
-                    <div class="d-flex justify-content-end align-items-center">
-                        <i title="Click to show info" class="fas fa-info-circle pointer" @click="showIngredientsInfo = !showIngredientsInfo"></i>
-                    </div>
-                </template>
+                <div class="filter-title mb-2">Ingredients search</div>
 
-                <div class="mb-2" v-if="showIngredientsInfo">
-                    <small class="normalFont letter-spacing">Find recipes that uses ingredients you already have. Start typing in the field below and select your ingredients.</small>
-                </div>
-
-                <SearchField 
+                <SearchField
+                    class="searchfield" 
                     ref="searchfooditems"
                     action="searchFoodItems" 
                     displayField="name"
@@ -125,16 +80,19 @@
 
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-3 col-md-4 col-12 px-0" v-for="i in Math.ceil(ingredients.length / 5)" v-bind:key="i">
+                        <div class="col-6 px-0" v-for="i in Math.ceil(ingredients.length / 5)" v-bind:key="i">
                             <div class="mt-2" v-for="(ingredient, index) in ingredients.slice((i - 1) * 5, (i * 5))" v-bind:key="index">
-                                <i title="Remove" class="far fa-times-circle mr-1 pointer" @click="removeIngredient(index)"></i>
+                                <i title="Remove" class="far fa-times-circle mr-1 pointer" @click="removeIngredient(ingredient)"></i>
                                 {{ingredient.name}}
                             </div>
                         </div>
                     </div>
                 </div>
-            </Window>
-        </div>
+                </div>
+                <button class="btn btn-outline-light w-100" @click="clearAll">Clear</button>
+            </div>
+        </transition>
+        <div v-if="showFilters" class="emptySpace" @click="showFilters = false"></div>
     </div>
 </template>
 
@@ -230,6 +188,7 @@
             },
 
             removeIngredient(ingredient) {
+                console.log(ingredient);
                 this.ingredients.splice(this.ingredients.indexOf(ingredient), 1);
             },
 
@@ -293,6 +252,7 @@
                 this.search = '';
                 this.clearFilters();
                 this.clearIngredients();
+                this.showFilters = false;
             },
 
             toggleFilters() {
@@ -302,7 +262,9 @@
 
 		watch: {
 			search() {
-				this.updateRecipes();
+                this.updateRecipes();
+                console.log(this.search);
+                console.log(this.searching);
 				window.localStorage.setItem('recipes-search', this.search);
 			},
 
@@ -335,7 +297,7 @@
 			isLoggedIn() {
                 console.log(this.isLoggedIn);
                 this.updateRecipes();
-			}
+            }
 		},
 
 		activated() {
@@ -381,7 +343,7 @@
     }
 
 	.filter-title {
-		font-size: 12pt;
+		font-size: 14pt;
 	}
 
 	.selected {
@@ -409,21 +371,18 @@
 			border: 1px solid @main-background;
 		}
 
-		input {
-			border: 1px solid @main-background;
-		}
-
-		input:focus {
-			border: 1px solid @main-background !important;
+		input, input:focus {
+			box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 		}
     }	
     
     .search-indicator {
         position: absolute;
         top: 9px;
-        right: 8px;
+        right: 50px;
         font-size: 16pt;
         color: @main-background;
+        z-index: 9999;
     }
 
 	.dropdown-item  {
@@ -456,27 +415,30 @@
 	}
     
     .btn-outline-light {
-		border-color: @main-background;
+		border-color: @main-color;
         color: @main-background;
         background-color: @main-color;
     }
     
 
 	.btn-outline-light:hover {
-		background-color: @main-background;
-		color: @main-color;
+		border-color: @main-color;
+        color: @main-background;
+        background-color: @main-color;
 	}
 
 	.btn-outline-light:active {
-		background-color: @main-background-dark !important;
-		border-color: @main-background-dark !important;
-		color: @main-color !important;
+		border-color: @main-color;
+        color: @main-background;
+        background-color: @main-color;
+        outline: none !important;
+        
     }
     
     .btn-outline-light:focus {
-        background-color: @main-color !important;
-		border-color: @main-background !important;
-		color: @main-background !important;
+		border-color: @main-color;
+        color: @main-background;
+        background-color: @main-color;
     }
 
     .hide-logo {
@@ -492,4 +454,78 @@
         background-color: @main-background;
     }
 
+    .filter-button {
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+        border: none !important;
+    }
+
+    .filter-sidepanel {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        max-width: 420px;
+        height: 100%;
+        max-height: 100vh;
+        overflow-y: auto;
+        background-color: @main-background;
+        color: @main-color;
+        z-index: 999999;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+    }
+
+    .filter-sidepanel-content {
+        //background-color: red;
+        padding-top: 16px;
+        height: 100%;
+        max-height: calc(100% - 120px);
+        overflow-y: auto;
+        border-top: 1px solid @main-background-dark;
+        border-bottom: 1px solid @main-background-dark;
+        margin-bottom: 16px;
+    }
+
+    .title {
+        font-size: 20pt;
+        color: @main-color;
+
+        button {
+            width: 31px;
+        }
+    }
+
+    .closeButton {
+        font-size: 20pt;
+    }
+
+    .searchfield {
+        color: @main-background;
+    }
+
+    .cooking-time {
+        font-size: 12pt;
+        //width: 32px;
+        //height: 32px;
+    }
+
+
+
+
+    .slideIn-enter-active, .slideIn-leave-active {
+		transition: margin 0.3s;
+	}
+
+	.slideIn-enter-from, .slideIn-leave-to {
+        margin-left: -500px;
+    }
+    
+    .emptySpace {
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        width: 100%;
+        z-index: 99999;
+        height: 100vh;
+    }
 </style>

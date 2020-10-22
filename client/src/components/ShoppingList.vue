@@ -31,27 +31,25 @@
                             </div>
                         </div>
                         
-                        <div>{{item.amount}}</div>
+                        <div>
+                            <span class="mr-1">{{item.amount}}</span>
+                            <span>{{item.measurement_name}}</span>
+                        </div>
                     </div>
 
                     <hr v-if="index !== shoppingList.length - 1">
                 </div>
             </div>
 
-            <div v-else class="normalFont letter-spacing empty">
-                Your shopping list is empty!<br>
-                Add items to the list from recipes or meal plans.
-            </div>
-
             <!-- Clear buttons -->
             <div class="buttons" v-if="shoppingList.length > 0">
-                <div class="btn-group w-100">
-                    <button @click="removeChecked" class="btn btn-outline-light w-50">
+                <div class="d-flex justify-content-between">
+                    <button @click="removeChecked" class="btn btn-outline-light delete-button">
                         <i class="fas fa-tasks mr-2"></i>
                         <span>Delete checked</span>
                     </button>
 
-                    <button @click="removeAll" class="btn btn-outline-light w-50">
+                    <button @click="removeAll" class="btn btn-outline-light delete-button">
                         <i class="fas fa-shopping-basket mr-2"></i>
                         <span>Delete all</span>
                     </button>
@@ -97,11 +95,11 @@
         },
 
         mounted() {
-            document.body.style.overflow = 'hidden';
+            //document.body.style.overflow = 'hidden';
         },
 
         unmounted() {
-            document.body.style.overflow = 'auto';
+            //document.body.style.overflow = 'auto';
         }
     }
 </script>
@@ -139,6 +137,7 @@
         right: 0px;
         width: 100%;
         padding: 20px;
+        //border-top: 1px solid @main-background-dark;
     }
 
     .emptySpace {
@@ -161,20 +160,19 @@
 
     .list {
         height: 100%;
-        max-height: calc(100% - 121px);
-        overflow-y: scroll;
-        background-color: @main-color;
+        max-height: calc(100% - 122px);
+        overflow-y: auto;
+        border-top: 1px solid @main-background-dark;
+        border-bottom: 1px solid @main-background-dark;
 
         hr {
-            opacity: 0.2;
+            opacity: 1;
             margin-top: 0px;
             margin-bottom: 0px;
         }
 
         .item  {
-            color: @main-background;
-            padding-left: 16px;
-            padding-right: 16px;
+            color: @main-color;
             padding-top: 16px;
             padding-bottom: 16px;
         }
@@ -190,5 +188,35 @@
 
     .empty {
         color: @main-color;
+    }
+
+    .btn-outline-light {
+		border-color: @main-color;
+        color: @main-background;
+        background-color: @main-color;
+    }
+    
+	.btn-outline-light:hover {
+		border-color: @main-color;
+        color: @main-background;
+        background-color: @main-color;
+	}
+
+	.btn-outline-light:active {
+		border-color: @main-color;
+        color: @main-background;
+        background-color: @main-color;
+        outline: none !important;
+        
+    }
+    
+    .btn-outline-light:focus {
+		border-color: @main-color;
+        color: @main-background;
+        background-color: @main-color;
+    }
+
+    .delete-button {
+        width: calc(50% - 10px);
     }
 </style>

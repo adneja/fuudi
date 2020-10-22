@@ -1,7 +1,7 @@
 <template>
 	<div class="recipes">
 		<div class="filtersbackground d-flex justify-content-center mb-md-4 mb-3">
-			<div class="filters-container px-md-5 py-md-4 px-3 py-4">
+			<div class="filters-container px-md-5 pt-md-4 px-3 pt-3">
 				<RecipeSearcher 
 					@ingredient-search-updated="isEmpty => showMatchCount = isEmpty" 
 					@updated="result => recipes = result">
@@ -12,7 +12,7 @@
 		<div class="d-flex justify-content-center">
 			<div class="recipes-content px-md-5">
 				<div class="container-fluid px-md-0 px-4">
-					<div class="row">
+					<div class="row row-adjustment">
 						<div v-for="(recipe, index) in recipes" v-bind:key="index" class="col-lg-4 col-md-6 px-md-3 px-2 mb-md-4 mb-3">
 							<Recipe
 								v-bind:id="recipe.id"
@@ -81,8 +81,8 @@
 	}
 
 	.filtersbackground {
-		background-color: white;
-		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+		//background-color: white;
+		//box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 	}
 
 	.recipes-content {
@@ -123,5 +123,10 @@
 		color: @main-color;
 		cursor: pointer;
 		text-decoration: none;
+	}
+
+	.row-adjustment {
+		margin-left: -16px !important;
+		margin-right: -16px !important;
 	}
 </style>
