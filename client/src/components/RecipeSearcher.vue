@@ -1,7 +1,7 @@
 <template>
     <div class="recipesearcher">
         <div class="search-row mb-3">
-            <input v-model="search" class="form-control" placeholder="Search">
+            <input v-model="search" class="form-control" placeholder="Search recipes">
             <i v-if="searching" class="search-indicator fas fa-circle-notch fa-spin"></i>
         </div>
 

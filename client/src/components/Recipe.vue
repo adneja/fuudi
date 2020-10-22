@@ -201,7 +201,8 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
-		color: @main-background;
+        color: @main-background;
+        font-style: italic;
     }
 
     .time {

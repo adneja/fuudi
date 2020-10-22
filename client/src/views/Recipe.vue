@@ -61,19 +61,26 @@
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
                                 
                                 <Window v-else title="Ingredients" icon="fas fa-pepper-hot" padding="0px">
+                                    <!--
                                     <template v-slot:titlebar>
                                         <span @click="addToShoppingList = true" title="Add to shopping list" class="add-shopping pointer d-flex justify-content-end align-items-center">
                                             <i class="fas fa-plus plus"></i>
                                             <i class="fas fa-shopping-basket"></i>
                                         </span>
                                     </template>
+                                    -->
 
                                     <div v-if="!addToShoppingList">
                                         <div v-for="(ingredient, index) in ingredients" v-bind:key="index">   
                                             <div v-if="index === 0" class="ingredient-padding"></div>
 
                                             <div class="ingredient normalFont letter-spacing d-flex justify-content-between">
-                                                <div v-bind:class="{'matching_ingredient': ingredientExistsInSearch(ingredient)}">{{ingredient.fooditem_name}}</div>
+                                                <div 
+                                                    v-bind:class="{'matching_ingredient': ingredientExistsInSearch(ingredient)}">
+                                                    <i v-if="ingredientExistsInSearch(ingredient)" class="fas fa-check mr-1"></i>
+                                                    <span>{{ingredient.fooditem_name}}</span>
+                                                </div>
+
                                                 <div class="d-flex justify-content-end muted">
                                                     <span class="mr-2">{{ingredient.amount}}</span>
                                                     <div class="text-left ">{{ingredient.measurement_name}}</div>
@@ -83,6 +90,11 @@
                                             <hr v-if="index !== ingredients.length - 1">
                                             <div v-else class="ingredient-padding"></div>
                                         </div>
+
+                                        <button title="Add ingredients to shopping list" class="btn btn-success w-100">
+                                            <i class="fas fa-plus mr-2"></i>
+                                            <span>Add ingredients to shopping list</span>
+                                        </button>
                                     </div>
 
                                     <div v-else>

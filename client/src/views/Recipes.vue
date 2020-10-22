@@ -103,14 +103,14 @@
 	}
 
 	.add-new {
-		background-color: @main-color;
+		background-color: @main-background;
 		width: 40px;
 		height: 40px;
 		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		color: @main-background;
+		color: @main-color;
 		border-radius: 50%;
 		
 		i {
