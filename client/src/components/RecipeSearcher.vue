@@ -35,7 +35,7 @@
                 <div class="filter-sidepanel-content">
                     <div class="filter-title mb-2 d-flex justify-content-between align-items-center">
                         <span>
-                            <span>Ingredients search</span>
+                            <span>Ingredient search</span>
                             <span v-if="ingredients.length > 0" class="muted ml-2">({{ingredients.length}})</span>
                         </span>
 

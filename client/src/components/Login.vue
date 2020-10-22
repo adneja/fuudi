@@ -1,14 +1,20 @@
 <template>
     <div class="login" @keyup.enter="submit">
         <div class="login-panel">
+            
             <!-- Title -->
             <div class="title d-flex justify-content-between align-items-center mb-4">
-                <div v-if="showRegister">
-                    <span>Register</span>
+                <div v-if="forgotPassword">
+                    <span>Password Recovery</span>
                 </div>
                 <div v-else>
-                    <span v-if="$store.getters.loginRedirect">Login required</span>
-                    <span v-else>Login</span>
+                    <div v-if="showRegister">
+                        <span>Register</span>
+                    </div>
+                    <div v-else>
+                        <span v-if="$store.getters.loginRedirect">Login required</span>
+                        <span v-else>Login</span>
+                    </div>
                 </div>
 
                 <button class="btn textButton" @click="close">
@@ -16,65 +22,74 @@
                 </button>
             </div>
 
-            <!-- Email -->
-            <input 
-                v-model="email" 
-                ref="email"
-                autofocus 
-                type="email" 
-                class="form-control form-control-sm mb-3" 
-                placeholder="Email">
+            <div v-if="!forgotPassword">
+                <!-- Email -->
+                <input 
+                    v-model="email" 
+                    ref="email"
+                    autofocus 
+                    type="email" 
+                    class="form-control mb-3" 
+                    placeholder="Email">
 
-            <!-- Name -->
-            <input 
-                v-model="name" 
-                v-if="showRegister" 
-                autofocus 
-                type="text" 
-                class="form-control form-control-sm mb-3" 
-                placeholder="Name">
+                <!-- Name -->
+                <input 
+                    v-model="name" 
+                    v-if="showRegister" 
+                    autofocus 
+                    type="text" 
+                    class="form-control mb-3" 
+                    placeholder="Name">
 
-            <!-- Password -->
-            <input 
-                v-model="password" 
-                type="password" 
-                class="form-control form-control-sm" 
-                placeholder="Password">
+                <!-- Password -->
+                <input 
+                    v-model="password" 
+                    type="password" 
+                    class="form-control" 
+                    placeholder="Password">
 
-            <!-- Reapeat password-->
-            <input 
-                v-model="repeatPassword" 
-                v-if="showRegister" 
-                type="password" 
-                class="form-control form-control-sm mt-3" 
-                placeholder="Repeat password">
-
-            <button 
-                @click="submit" 
-                class="btn btn-outline-light w-100 mb-1 mt-4">
-                <i v-if="loading" class="fas fa-circle-notch fa-spin"></i>
-                <span v-else>Submit</span>
-            </button>
-
-            <div class="d-flex justify-content-between" v-if="!showRegister">
-                <button class="btn textButton" @click="forgotPassword = true">
-                    <!--<small>Forgot you password?</small>-->
-                    Forgot your password?
-                </button>
+                <!-- Reapeat password-->
+                <input 
+                    v-model="repeatPassword" 
+                    v-if="showRegister" 
+                    type="password" 
+                    class="form-control mt-3" 
+                    placeholder="Repeat password">
 
                 <button 
-                    v-if="!showRegister" 
-                    class="btn textButton" 
-                    @click="showRegister = true">
-                    <!--<small>Register</small>-->
-                    Register
+                    @click="submit" 
+                    class="btn btn-outline-light w-100 mb-1 mt-4">
+                    <i v-if="loading" class="fas fa-circle-notch fa-spin"></i>
+                    <span v-else>Submit</span>
                 </button>
+
+                <div class="d-flex justify-content-between" v-if="!showRegister">
+                    <button class="btn textButton" @click="forgotPassword = true">
+                        <!--<small>Forgot you password?</small>-->
+                        Forgot your password?
+                    </button>
+
+                    <button 
+                        v-if="!showRegister" 
+                        class="btn textButton" 
+                        @click="showRegister = true">
+                        <!--<small>Register</small>-->
+                        Register
+                    </button>
+                </div>
+
+
             </div>
 
-            <div class="d-flex justify-content-center" v-else>
+            <div v-else class="mb-1">
+                <input v-model="email" type="email" class="form-control mb-4" placeholder="Email">
+                <button class="w-100 btn btn-outline-light">Send reset email</button>
+            </div>
+
+            <div class="d-flex justify-content-center" v-if="showRegister || forgotPassword">
                 <button 
                     class="btn textButton" 
-                    @click="showRegister = false">
+                    @click="showRegister = forgotPassword = false">
                     <!--<small>Already have a user?</small>-->
                     Already have a user?
                 </button>
@@ -98,7 +113,7 @@
                 repeatPassword: '',
                 showRegister: false,
                 forgotPassword: false,
-                loading: false
+                loading: false,
             }
         },
 
@@ -209,6 +224,7 @@
         height: 100vh;
         width: 100vw;
         z-index: 9999999;
+        color: @main-color;
     }
 
     .login-panel {
