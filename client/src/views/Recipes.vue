@@ -1,6 +1,6 @@
 <template>
 	<div class="recipes">
-		<div class="filtersbackground d-flex justify-content-center mb-md-4 mb-3">
+		<div class="d-flex justify-content-center mb-md-4 mb-3">
 			<div class="filters-container px-md-5 pt-md-4 px-3 pt-3">
 				<RecipeSearcher 
 					@ingredient-search-updated="isEmpty => showMatchCount = isEmpty" 
@@ -78,11 +78,6 @@
 		padding-top: 48px;
 		background-color: rgba(227, 234, 235, 0.63);
 		min-height: 100vh;
-	}
-
-	.filtersbackground {
-		//background-color: white;
-		//box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 	}
 
 	.recipes-content {

@@ -76,7 +76,9 @@
 
                                             <i title="Cancel"
                                                 @click="showAddIngredientsDialog = false" 
-                                                class="pointer fas fa-times mr-2 add-shopping"></i>
+                                                class="pointer fas fa-times add-shopping"></i>
+
+                                                <span class="divider"></span>
 
                                             <i title="Add"
                                                 @click="addIngredientsToShoppingList" 
@@ -387,10 +389,6 @@
             }
         },
 
-        activated() {
-            
-        },
-
         mounted() {
             window.scrollTo(0,0);
             this.getRecipeInfo();
@@ -494,7 +492,6 @@
         font-size: 10pt;
     }
 
-
     .date {
         font-size: 10pt;
     }
@@ -574,5 +571,14 @@
 
     .amount-input:focus {
         border: 1px solid @main-background !important;
+    }
+
+    .divider {
+        height: 100%;
+        width: 2px;
+        background: @main-color;
+        opacity: 0.6;
+        margin-right: 9px;
+        margin-left: 9px;
     }
 </style>
