@@ -198,6 +198,10 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="text-center mt-3">
+                    <button class="btn btn-success" @click="scrollToTop">Go to top</button>
+                </div>
             </div>
         </div>
     </div>
@@ -268,6 +272,10 @@
                 this.$refs.ratings.$el.scrollIntoView({
                     behavior: 'smooth'
                 });
+            },
+
+            scrollToTop() {
+                window.scrollTo(0,0);
             },
 
             addIngredientsToShoppingList() {
