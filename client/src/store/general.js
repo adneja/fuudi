@@ -4,6 +4,7 @@ export default {
         systemMessage: null,
         showMobileMenu: false,
         showUserMenu: false,
+        
     },
 
     getters: {

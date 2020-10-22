@@ -14,6 +14,10 @@
 			<UserMenu v-if="$store.getters.showUserMenu"></UserMenu>
 		</transition>
 
+		<transition name="slideIn">
+			<ShoppingList v-if="$store.getters.showShoppingList"></ShoppingList>
+		</transition>
+
 		<transition name="slideDown">
             <SystemMessage v-show="$store.getters.systemMessage"></SystemMessage>
         </transition>
@@ -28,6 +32,7 @@
 	import Login from './components/Login.vue';
 	import MobileMenu from './components/MobileMenu.vue';
 	import UserMenu from './components/UserMenu.vue';
+	import ShoppingList from './components/ShoppingList.vue';
 
 	export default {
 		name: 'app',
@@ -37,7 +42,8 @@
 			SystemMessage,
 			Login,
 			MobileMenu,
-			UserMenu
+			UserMenu,
+			ShoppingList
 		}
 	}
 </script>
@@ -65,7 +71,7 @@
 	}
 
 	.slideIn-enter-from, .slideIn-leave-to {
-        margin-right: -400px;
+        margin-right: -500px;
 	}
 
 	.fadeIn-enter-active, .fadeIn-leave-active {

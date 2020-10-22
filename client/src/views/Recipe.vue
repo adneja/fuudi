@@ -61,16 +61,7 @@
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
                                 
                                 <Window v-else title="Ingredients" icon="fas fa-pepper-hot" padding="0px">
-                                    <!--
-                                    <template v-slot:titlebar>
-                                        <span @click="addToShoppingList = true" title="Add to shopping list" class="add-shopping pointer d-flex justify-content-end align-items-center">
-                                            <i class="fas fa-plus plus"></i>
-                                            <i class="fas fa-shopping-basket"></i>
-                                        </span>
-                                    </template>
-                                    -->
-
-                                    <div v-if="!addToShoppingList">
+                                    <div v-if="!showAddIngredientsDialog">
                                         <div v-for="(ingredient, index) in ingredients" v-bind:key="index">   
                                             <div v-if="index === 0" class="ingredient-padding"></div>
 
@@ -83,7 +74,7 @@
 
                                                 <div class="d-flex justify-content-end muted">
                                                     <span class="mr-2">{{ingredient.amount}}</span>
-                                                    <div class="text-left ">{{ingredient.measurement_name}}</div>
+                                                    <div class="text-left">{{ingredient.measurement_name}}</div>
                                                 </div>
                                             </div>
 
@@ -91,14 +82,59 @@
                                             <div v-else class="ingredient-padding"></div>
                                         </div>
 
-                                        <button title="Add ingredients to shopping list" class="btn btn-success w-100">
+                                        <button 
+                                            title="Add ingredients to shopping list" 
+                                            class="btn btn-success w-100"
+                                            @click="toggleAddToShoppingCart">
+
                                             <i class="fas fa-plus mr-2"></i>
                                             <span>Add ingredients to shopping list</span>
                                         </button>
                                     </div>
 
                                     <div v-else>
-                                        
+                                        <div v-for="(ingredient, index) in addIngredients" v-bind:key="index">   
+                                            <div v-if="index === 0" class="ingredient-padding"></div>
+
+                                            <div class="ingredient normalFont letter-spacing d-flex justify-content-between">
+                                                <div class="d-flex justify-content-start">        
+                                                    <div class="cb-container pointer mr-1" @click="ingredient.checked = !ingredient.checked">
+                                                        <div class="cb">
+                                                            <i v-if="ingredient.checked" class="fas fa-check"></i>
+                                                        </div>
+                                                    </div>                    
+                                                    <span>{{ingredient.fooditem_name}}</span>
+                                                </div>
+
+                                                <div class="d-flex justify-content-end muted">
+                                                    <input class="form-control amount-input" min="1" type="number" v-model="ingredient.amount">
+                                                    <div class="text-left measurement">{{ingredient.measurement_name}}</div>
+                                                </div>
+                                            </div>
+
+                                            <hr v-if="index !== ingredients.length - 1">
+                                            <div v-else class="ingredient-padding"></div>
+                                        </div>
+
+                                        <div>
+                                            <button 
+                                                title="Add ingredients to shopping list" 
+                                                class="btn btn-success w-50"
+                                                @click="showAddIngredientsDialog = false">
+
+                                                <i class="fas fa-times mr-2"></i>
+                                                <span>Cancel</span>
+                                            </button>
+
+                                            <button 
+                                                title="Add ingredients to shopping list" 
+                                                class="btn btn-success w-50"
+                                                @click="addIngredientsToShoppingList">
+
+                                                <i class="fas fa-check mr-2"></i>
+                                                <span>Add</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </Window>
                             </div>
@@ -193,8 +229,10 @@
                 comments: null,
                 ingredientsSearch: JSON.parse(window.localStorage.getItem('recipes-ingredients')) || [],
                 isBookmarked: false,
-                addToShoppingList: false,
-                showAddRating: false
+                showAddRating: false,
+
+                showAddIngredientsDialog: false,
+                addIngredients: []
             }
         },
 
@@ -229,6 +267,23 @@
         },
 
         methods: {
+            addIngredientsToShoppingList() {
+                let add = this.addIngredients.filter((ingredient) => ingredient.checked);
+                add.map(item => item.checked = false);
+
+                this.$store.commit('addShoppingListItems', add);
+                this.showAddIngredientsDialog = false;
+            },
+
+            toggleAddToShoppingCart() {
+                this.addIngredients = JSON.parse(JSON.stringify(this.ingredients));
+                this.addIngredients.forEach((ingredient) => {
+                    ingredient.checked = !this.ingredientExistsInSearch(ingredient);
+                });
+
+                this.showAddIngredientsDialog = true
+            },
+
             ingredientExistsInSearch(ingredient) {
                 return this.ingredientsSearch.some(i =>  i.id === ingredient.fooditem_id);
             },
@@ -513,5 +568,10 @@
         min-width: 30px;
         //margin-right: 10px;
         //text-align: right;
+    }
+
+    .amount-input {
+        border: 1px solid @main-background;
+        width: 80px;
     }
 </style>

@@ -20,23 +20,20 @@
                         <router-link to="/plans" title="My meal plans" class="menu-item-desktop mr-3">
                             <span>Plans</span>
                         </router-link>
-                        
-                        <!--
-                        <router-link v-if="$store.getters.token" to="/createrecipe" title="My meal plans" class="menu-item-desktop mr-3">
-                            <span>Create recipe</span>
-                        </router-link>
-                        -->
                     </div>
                 </div>
                 
                 <!-- Right side of navbar -->
                 <div class="right d-flex justify-content-end align-items-center">
-                    <!--
-                    <div class="shopping-basket-container" title="Shopping cart">
+                    <div @click="showShoppingList" class="shopping-basket-container" title="Shopping cart">
                         <i class="fas fa-shopping-basket muted shopping-basket pointer"></i>
-                        <span class="counter d-flex justify-content-center align-items-center">24</span>
+                        <span
+                            v-if="$store.getters.shoppingList.length > 0" 
+                            class="counter d-flex justify-content-center align-items-center">
+                            {{$store.getters.shoppingList.length}}
+                        </span>
                     </div>
-                    -->
+                    
 
                     <div class="d-md-flex  d-none justify-content-end align-items-center">
                         <div @click="showLogin" title="Log in" class="menu-item-desktop pointer mr-3" v-if="!$store.getters.token">
@@ -79,6 +76,10 @@
             showLogin() {
                 this.$store.commit('setShowLoginSidebar', true);
             },
+
+            showShoppingList() {
+                this.$store.commit('setShowShoppingList', true);
+            }
         }
     }
 </script>
@@ -152,17 +153,18 @@
 
         .counter {
             position: absolute;
-            bottom: -1px;
-            left: 13px;
-            background-color: @main-color;
-            color: @main-background;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
+            top: 6px;
+            left: 6px;
+            color: @main-color;
+            width: 23px;
+            height: 19px;
             padding-top: 2px;
-            font-size: 10pt;
-            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+            font-size: 12pt;
             pointer-events: none;
+
+            display: flex;
+            justify-content: center;
+            align-items:center;
         }
     }
 
