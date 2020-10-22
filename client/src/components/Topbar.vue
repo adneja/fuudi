@@ -35,9 +35,8 @@
                         </span>                        
                     </div>
                     
-
                     <div class="d-md-flex  d-none justify-content-end align-items-center">
-                        <div @click="showLogin" title="Log in" class="menu-item-desktop pointer mr-3" v-if="!$store.getters.token">
+                        <div @click="showLogin" title="Log in" class="menu-item-desktop pointer" v-if="!$store.getters.token">
                             <i class="fas fa-sign-in-alt mr-1"></i>
                             <span>Login</span>
                         </div>
@@ -152,29 +151,10 @@
         position: relative;
         margin-right: 25px;
         opacity: 0.6;
-
-        .counter {
-            /*
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            color: @main-color;
-            width: 23px;
-            height: 19px;
-            padding-top: 2px;
-            font-size: 12pt;
-            pointer-events: none;
-
-            display: flex;
-            justify-content: center;
-            align-items:center;
-            */
-        }
     }
 
     .shopping-basket {
         font-size: 14pt;
-        //opacity: 0.6;
         margin-top: -3px;
     }
 

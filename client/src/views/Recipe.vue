@@ -19,7 +19,7 @@
                                 <div v-else>
                                     <div class="d-flex justify-content-between">
                                         <div class="title">{{recipeInfo.name}}</div>
-                                        <span class="d-flex justify-content-start align-items-center">
+                                        <span class="d-flex justify-content-start align-items-center pointer" @click="scrollToRatings">
                                             <Stars v-bind:stars="recipeInfo.rating" max="5"></Stars>
                                             <span class="number-of-ratings muted ml-2">({{recipeInfo.number_of_ratings}})</span>
                                         </span>
@@ -157,7 +157,7 @@
 
                         <div class="col-12 px-0 mt-md-3 mt-0">
                             <Placeholder v-if="!reviews" height="50px" v-bind:amount="3" v-bind:spacing="15"></Placeholder>
-                            <Window v-else title="Ratings" icon="fas fa-star" padding="0px">
+                            <Window ref="ratings" v-else title="Ratings" icon="fas fa-star" padding="0px">
                                 <div class="container-fluid review-container">
                                     <div class="row">
                                         <div class="col-12 px-3 pt-3" v-if="isLoggedIn">
@@ -264,6 +264,12 @@
         },
 
         methods: {
+            scrollToRatings() {
+                this.$refs.ratings.$el.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            },
+
             addIngredientsToShoppingList() {
                 let add = this.addIngredients.filter((ingredient) => ingredient.checked);
                 add.map(item => item.checked = false);
