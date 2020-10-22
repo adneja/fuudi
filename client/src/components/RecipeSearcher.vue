@@ -2,6 +2,12 @@
     <div class="recipesearcher" ref="recipesearcher">
         <div class="search-row input-group">
             <input v-model="search" class="form-control" placeholder="Search recipes">
+            
+            <button class="btn form-control-button d-flex justify-content-center align-items-center">
+                <i v-if="searching" class="search-indicator fas fa-circle-notch fa-spin"></i>
+                <i v-if="!searching && search.trim().length > 0" @click="search = ''" class="search-indicator fas fa-times-circle"></i>
+            </button>
+
             <button 
                 title="Show filters" 
                 @click="showFilters = !showFilters" 
@@ -9,17 +15,7 @@
                 <i class="fas fa-filter"></i>
                 <span v-if="numAppliedFilters > 0" class="filtercounter ml-1 muted">({{numAppliedFilters}})</span>    
             </button>
-            
-            <i v-if="searching" class="search-indicator fas fa-circle-notch fa-spin"></i>
-            <i v-if="!searching && search.trim().length > 0" @click="search = ''" class="search-indicator fas fa-times-circle"></i>
         </div>
-
-        <!--<transition name="slideDown">-->
-            <div v-if="false" class="searching d-flex justify-content-center align-items-center">
-                <span>Searching</span>
-                <i class="ml-2 fas fa-circle-notch fa-spin"></i>
-            </div>
-        <!--</transition>-->
 
         <!-- Side panel -->
         <transition name="slideIn">
@@ -40,7 +36,8 @@
                         </span>
 
                         <span v-if="ingredients.length > 0" class="clear pointer" title="Clear ingredients search" @click="clearIngredients">
-                            <i class="fas fa-times-circle mr-1"></i>clear
+                            <i class="fas fa-times-circle mr-1"></i>
+                            <span>clear</span>
                         </span>
                     </div>
 
@@ -365,11 +362,13 @@
 
 	.selected {
 		background-color: @main-background;
-		color: @main-color !important;
+        color: @main-color !important;
+        
 	}
 
 	.search-row {
         position: relative;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 
 		.btn {
 			color: @main-background;
@@ -387,19 +386,11 @@
 			color: @main-color !important;
 			border: 1px solid @main-background;
 		}
-
-		input, input:focus {
-			box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
-		}
     }	
     
     .search-indicator {
-        position: absolute;
-        top: 9px;
-        right: 70px;
         font-size: 16pt;
         color: @main-background;
-        z-index: 9999;
     }
 
 	.dropdown-item  {
@@ -472,7 +463,7 @@
     }
 
     .filter-button {
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+        //box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
         border: none !important;
     }
 
@@ -545,13 +536,6 @@
         font-size: 12pt;
     }
 
-    .searching {
-        color: @main-background;
-        font-size: 11pt;
-        padding-top: 10px;
-        z-index: 1;
-    }
-
     .slideDown-enter-active, .slideDown-leave-active {
         transition: all 0.4s;
     }
@@ -559,5 +543,15 @@
     .slideDown-enter-from, .slideDown-leave-to {
         margin-top: -32px;
         opacity: 0;
-	}
+    }
+    
+    .form-control-button {
+        background-color: white;
+        border: none !important;
+    }
+
+    .form-control-button:hover {
+        background-color: white !important;
+        color: @main-background !important;
+    }
 </style>
