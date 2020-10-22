@@ -21,7 +21,7 @@
                         <div class="d-flex justify-content-start align-items-center">
                             <div class="cb-container pointer mr-1">
                                 <div class="cb">
-                                    <i v-if="item.checked" class="fas fa-check"></i>
+                                    <i v-if="item.checked" class="fas fa-check cb-check"></i>
                                 </div>
                             </div>  
 

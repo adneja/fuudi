@@ -44,8 +44,7 @@
 
             <div class="matching-ingredients normalFont text-center" v-if="showMatchCount">
                 <span>
-                    <i class="fas fa-check mr-1" v-if="matchCount > 0"></i>
-                    <i class="fas fa-times mr-1" v-else></i>
+                    <i v-if="matchCount > 0" class="fas fa-check mr-1"></i>
                     <strong>{{matchCount}}</strong> 
                     <span> matching ingredient{{matchCount > 1 || matchCount === 0 ? 's' : ''}}</span>
                 </span>
@@ -145,8 +144,8 @@
 	}
     
     .no-matches {
-        opacity: 0.8;
-        filter: grayscale(50%);
+        opacity: 0.7;
+        //filter: blur(0.05rem);
     }
 
     .author {
@@ -218,7 +217,7 @@
     }
 
     .matching-ingredients  {
-        font-size: 10pt;
+        font-size: 11pt;
         background-color: @main-background;
         color: @main-color;
         padding: 6px 20px;

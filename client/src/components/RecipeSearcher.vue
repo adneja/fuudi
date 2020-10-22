@@ -7,11 +7,19 @@
                 @click="showFilters = !showFilters" 
                 class="btn btn-success filter-button">
                 <i class="fas fa-filter"></i>
+                <span v-if="numAppliedFilters > 0" class="filtercounter ml-1 muted">({{numAppliedFilters}})</span>    
             </button>
             
             <i v-if="searching" class="search-indicator fas fa-circle-notch fa-spin"></i>
             <i v-if="!searching && search.trim().length > 0" @click="search = ''" class="search-indicator fas fa-times-circle"></i>
         </div>
+
+        <!--<transition name="slideDown">-->
+            <div v-if="false" class="searching d-flex justify-content-center align-items-center">
+                <span>Searching</span>
+                <i class="ml-2 fas fa-circle-notch fa-spin"></i>
+            </div>
+        <!--</transition>-->
 
         <!-- Side panel -->
         <transition name="slideIn">
@@ -25,71 +33,80 @@
                 </div>
                 
                 <div class="filter-sidepanel-content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-6 px-0">
-                            <div class="mb-2 filter-title">Allergens</div>
-                            
-                            <CheckboxCollection
-                                class="mb-3" 
-                                v-bind:checkboxItems="allergens"
-                                @change="items => allergens = items">
-                            </CheckboxCollection>
-                        </div>  
+                    <div class="filter-title mb-2 d-flex justify-content-between align-items-center">
+                        <span>
+                            <span>Ingredients search</span>
+                            <span v-if="ingredients.length > 0" class="muted ml-2">({{ingredients.length}})</span>
+                        </span>
 
-                        <div class="col-6 px-0">
-                            <div class="mb-2 filter-title">Constraints</div>
+                        <span v-if="ingredients.length > 0" class="clear pointer" title="Clear ingredients search" @click="clearIngredients">
+                            <i class="fas fa-times-circle mr-1"></i>clear
+                        </span>
+                    </div>
 
-                            <CheckboxCollection
-                                class="mb-3" 
-                                v-bind:checkboxItems="diataryConstraints"
-                                @change="items => diataryConstraints = items">
-                            </CheckboxCollection>
+                    <SearchField
+                        class="searchfield" 
+                        ref="searchfooditems"
+                        action="searchFoodItems" 
+                        displayField="name"
+                        placeholder="Ingredient.."
+                        prompt="Select ingredient"
+                        v-bind:enableCreatePrompt="false"
+                        @item-selected="addSearchIngredient">
+                    </SearchField>	
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-6 px-0" v-for="i in Math.ceil(ingredients.length / 5)" v-bind:key="i">
+                                <div class="mt-2" v-for="(ingredient, index) in ingredients.slice((i - 1) * 5, (i * 5))" v-bind:key="index">
+                                    <i title="Remove" class="far fa-times-circle mr-1 pointer" @click="removeIngredient(ingredient)"></i>
+                                    {{ingredient.name}}
+                                </div>
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="col-12 px-0">
-                            <div class="filter-title d-flex justify-content-start align-items-center">
-                                <span>Max cooking time:</span>
-                                <span class="ml-1 normalFont font-weight-bold">
-                                    <div class="cooking-time"  v-if="maxCookingTime >= 120">2h+</div>
-                                    <div class="cooking-time" v-else>{{formattedCookingTime}}</div>
-                                </span>
+                    <hr>
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-6 px-0">
+                                <div class="mb-2 filter-title">Allergens</div>
+                                <CheckboxCollection
+                                    v-bind:checkboxItems="allergens"
+                                    @change="items => allergens = items">
+                                </CheckboxCollection>
+                            </div>  
+
+                            <div class="col-6 px-0">
+                                <div class="mb-2 filter-title">Constraints</div>
+                                <CheckboxCollection
+                                    v-bind:checkboxItems="diataryConstraints"
+                                    @change="items => diataryConstraints = items">
+                                </CheckboxCollection>
                             </div>
 
-                            <div class="slidecontainer">
-                                <input @change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" class="slider w-100" id="myRange">
+                            <div class="col-12 px-0">
+                                <hr>
+                                <div class="filter-title d-flex justify-content-start align-items-center">
+                                    <span>Max cooking time:</span>
+                                    <span class="ml-1 normalFont font-weight-bold">
+                                        <div class="cooking-time"  v-if="maxCookingTime >= 120">2h+</div>
+                                        <div class="cooking-time" v-else>{{formattedCookingTime}}</div>
+                                    </span>
+                                </div>
+
+                                <div class="slidecontainer">
+                                    <input @change="updateRecipes" v-model="maxCookingTime" type="range" min="1" max="120" class="slider w-100" id="myRange">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <hr>
-
-                <div class="filter-title mb-2">Ingredients search</div>
-
-                <SearchField
-                    class="searchfield" 
-                    ref="searchfooditems"
-                    action="searchFoodItems" 
-                    displayField="name"
-                    placeholder="Ingredient.."
-                    prompt="Select ingredient"
-                    v-bind:enableCreatePrompt="false"
-                    @item-selected="addSearchIngredient">
-                </SearchField>	
-
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-6 px-0" v-for="i in Math.ceil(ingredients.length / 5)" v-bind:key="i">
-                            <div class="mt-2" v-for="(ingredient, index) in ingredients.slice((i - 1) * 5, (i * 5))" v-bind:key="index">
-                                <i title="Remove" class="far fa-times-circle mr-1 pointer" @click="removeIngredient(ingredient)"></i>
-                                {{ingredient.name}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                <button class="btn btn-outline-light w-100" @click="clearAll">Clear</button>
+                <button class="btn btn-outline-light w-100" @click="clearAll">
+                    <span>Remove all</span>
+                    <span v-if="numAppliedFilters > 0" class="muted ml-1">({{numAppliedFilters}})</span>
+                </button>
             </div>
         </transition>
         <div v-if="showFilters" class="emptySpace" @click="showFilters = false"></div>
@@ -252,7 +269,6 @@
                 this.search = '';
                 this.clearFilters();
                 this.clearIngredients();
-                this.showFilters = false;
             },
 
             toggleFilters() {
@@ -285,6 +301,7 @@
             },
 
             maxCookingTime() {
+                this.updateRecipes();
                 window.localStorage.setItem('recipes-max-cooking-time', this.maxCookingTime);
             },
             
@@ -379,7 +396,7 @@
     .search-indicator {
         position: absolute;
         top: 9px;
-        right: 50px;
+        right: 70px;
         font-size: 16pt;
         color: @main-background;
         z-index: 9999;
@@ -505,12 +522,7 @@
 
     .cooking-time {
         font-size: 12pt;
-        //width: 32px;
-        //height: 32px;
     }
-
-
-
 
     .slideIn-enter-active, .slideIn-leave-active {
 		transition: margin 0.3s;
@@ -528,4 +540,24 @@
         z-index: 99999;
         height: 100vh;
     }
+
+    .clear {
+        font-size: 12pt;
+    }
+
+    .searching {
+        color: @main-background;
+        font-size: 11pt;
+        padding-top: 10px;
+        z-index: 1;
+    }
+
+    .slideDown-enter-active, .slideDown-leave-active {
+        transition: all 0.4s;
+    }
+
+    .slideDown-enter-from, .slideDown-leave-to {
+        margin-top: -32px;
+        opacity: 0;
+	}
 </style>

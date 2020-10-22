@@ -108,14 +108,15 @@
                 this.$store.commit('setLoginRedirect', null);
             },
 
-           login() {
-                this.loading = true;
+            login() {
+                if(this.email.trim().length > 0 && this.password.trim().length > 0) {
+                    this.loading = true;
 
-                this.$store.dispatch('login', {
-                    email: this.email,
-                    password: this.password
-                })
-                .then((response) => {
+                    this.$store.dispatch('login', {
+                        email: this.email,
+                        password: this.password
+                    })
+                    .then((response) => {
                     this.$store.commit('setUserData', response.userData);
                     this.$store.commit('setToken', response.token);
 
@@ -123,23 +124,28 @@
                         content: `Logged in as ${response.userData.name}.`,
                         error: false
                     });
-                    
+
                     if(this.$store.getters.loginRedirect) {
                         this.$router.push(this.$store.getters.loginRedirect);
                     }
 
                     this.close();
-                })
-                .catch((err) => {
+                    })
+                    .catch((err) => {
+                        this.$store.commit('setSystemMessage', {
+                            content: err,
+                            error: true
+                        });
+                    })
+                    .finally(() => { 
+                        this.loading = false;
+                    });
+                } else {
                     this.$store.commit('setSystemMessage', {
-                        content: err,
+                        content: 'Please fill in all required fields.',
                         error: true
                     });
-                })
-                .finally(() => { 
-                    this.loading = false;
-                });
-                
+                }
             },
 
             register() {
@@ -234,5 +240,10 @@
         button {
             width: 31px;
         }
+    }
+
+    .btn-outline-light {
+        background-color: @main-color;
+        color: @main-background;
     }
 </style>

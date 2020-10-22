@@ -25,13 +25,14 @@
                 
                 <!-- Right side of navbar -->
                 <div class="right d-flex justify-content-end align-items-center">
-                    <div v-if="$store.getters.shoppingList.length > 0" @click="showShoppingList" class="shopping-basket-container" title="Shopping list">
-                        <i class="fas fa-shopping-basket muted shopping-basket pointer"></i>
+                    <div v-if="$store.getters.shoppingList.length > 0" @click="showShoppingList" class="pointer d-flex justify-content-start align-items-center shopping-basket-container" title="Shopping list">
+                        <i class="fas fa-shopping-basket shopping-basket mr-1"></i>
+
                         <span
                             v-if="$store.getters.shoppingList.length > 0" 
-                            class="counter d-flex justify-content-center align-items-center">
-                            {{$store.getters.shoppingList.length}}
-                        </span>
+                            class="counter d-flex justify-content-center align-items-center ">
+                            ({{$store.getters.shoppingList.length}})
+                        </span>                        
                     </div>
                     
 
@@ -150,8 +151,10 @@
     .shopping-basket-container {
         position: relative;
         margin-right: 25px;
+        opacity: 0.6;
 
         .counter {
+            /*
             position: absolute;
             top: 8px;
             left: 8px;
@@ -165,15 +168,17 @@
             display: flex;
             justify-content: center;
             align-items:center;
+            */
         }
     }
 
     .shopping-basket {
         font-size: 14pt;
-        opacity: 0.6;
+        //opacity: 0.6;
+        margin-top: -3px;
     }
 
-    .shopping-basket:hover {
+    .shopping-basket-container:hover {
         opacity: 1;
     }
 </style>
