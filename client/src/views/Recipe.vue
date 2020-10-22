@@ -104,7 +104,7 @@
                                             <div>{{instruction.instruction}}</div>
                                         </div>
 
-                                        <hr v-if="index !== ingredients.length - 1">
+                                        <hr v-if="index !== instructions.length - 1">
                                         <div v-else class="ingredient-padding"></div>
                                     </div>
                                 </Window>

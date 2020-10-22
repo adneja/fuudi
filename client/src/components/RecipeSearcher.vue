@@ -1,87 +1,29 @@
 <template>
     <div class="recipesearcher">
-        <div class="input-group search-row mb-3">
+        <div class="search-row mb-3">
             <input v-model="search" class="form-control" placeholder="Search">
-            <!--<i class="search-indicator fas fa-circle-notch fa-spin"></i>-->
-
-            <div class="input-group-append">
-                <button 
-                    type="button" 
-                    class="btn w-100 filterButton" 
-                    v-bind:class="[showFilters ? 'btn-success ' : 'btn-outline-light']"
-                    @click="showFilters = !showFilters">
-
-                    <i class="fas fa-filter mr-1"></i>
-                    <span class="">
-                        <span>Filters</span>
-                        <span class="muted ml-1" v-if="numAppliedFilters > 0">({{numAppliedFilters}})</span>
-                    </span>
-                </button>
-            </div>
-        </div>
-
-        <div class="filters" v-if="showFilters">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-6 px-0">
-                        <div class="mb-1 filter-title">Allergens</div>
-                        
-                        <CheckboxCollection
-                            class="mb-3" 
-                            v-bind:checkboxItems="allergens"
-                            @change="items => allergens = items">
-                        </CheckboxCollection>
-                    </div>  
-
-                    <div class="col-6 px-0">
-                        <div class="mb-1 filter-title">Constraints</div>
-
-                        <CheckboxCollection
-                            class="mb-3" 
-                            v-bind:checkboxItems="diataryConstraints"
-                            @change="items => diataryConstraints = items">
-                        </CheckboxCollection>
-                    </div>
-
-                    <div class="col-12 px-0">
-                        <div class="filter-title">
-                            <span>Max cooking time:</span>
-                            <span class="ml-1 normalFont font-weight-bold">
-                                <span v-if="maxCookingTime >= 120">2h+</span>
-                                <span v-else>{{formattedCookingTime}}</span>
-                            </span>
-                        </div>
-
-                        <div class="slidecontainer">
-                            <input @change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" class="slider w-100" id="myRange">
-                        </div>
-
-                        <div class="text-left mt-2">
-                            <button v-if="numAppliedFilters > 0" class="btn btn-outline-light mt-2 mr-2" @click="clearFilters">
-                                <i class="fas fa-trash mr-2"></i>
-                                <span>Reset</span>
-                            </button>
-
-                            <button class="mt-2 btn btn-outline-light" @click="showFilters = false">
-                                <i class="fas fa-times mr-2"></i>
-                                <span>Close</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <i v-if="searching" class="search-indicator fas fa-circle-notch fa-spin"></i>
         </div>
 
         <div class="d-flex justify-content-between">
-            <!-- Ingredients search -->
-            <span class="pointer ingredient-search" @click="showIngredientsSearch = !showIngredientsSearch">
-                <span>
-                    <i class="fas fa-search mr-1"></i>
-                    <span>Search by Ingredients</span>
-                    <span v-if="ingredients.length > 0" class="muted"> ({{ingredients.length}})</span>
+            <!-- Filters -->
+            <span class="ingredient-search">
+                <span class="pointer underline" @click="toggleFilters">
+                    <span v-if="!showFilters">
+                        <i class="fas fa-filter mr-1"></i>
+                        <span>Show filters</span>
+                        <span v-if="numAppliedFilters > 0" class="muted"> ({{numAppliedFilters}})</span>
+                    </span>
+                    <span v-else>
+                        <i class="fas hide-logo fa-times mr-1"></i>
+                        <span>Hide filters</span>
+                        <span v-if="numAppliedFilters > 0" class="muted"> ({{numAppliedFilters}})</span>
+                    </span>
                 </span>
+
+                <i v-if="numAppliedFilters > 0" class="fas fa-times-circle clear-logo pointer" title="Clear filters" @click.stop="clearAll"></i>
             </span>
-        
+
             <!-- Sort order-->
             <div 
                 class="sort-order d-flex justify-content-end align-items-center"
@@ -116,45 +58,82 @@
             </div>
         </div>
 
-        <div class="ingredients-search mt-2" v-if="showIngredientsSearch">
-            <!--
-            <div class="mb-2">
-                <small class="normalFont letter-spacing">Add ingredients to filter recipes by:</small>
-            </div>
-            -->
+        <div class="filters" v-if="showFilters">
+            <Window title="Filters" icon="fas fa-filter">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6 px-0">
+                            <div class="mb-1 filter-title">Allergens</div>
+                            
+                            <CheckboxCollection
+                                class="mb-3" 
+                                v-bind:checkboxItems="allergens"
+                                @change="items => allergens = items">
+                            </CheckboxCollection>
+                        </div>  
 
-            <SearchField 
-                ref="searchfooditems"
-                action="searchFoodItems" 
-                displayField="name"
-                placeholder="Ingredient.."
-                prompt="Select ingredient"
-                v-bind:enableCreatePrompt="false"
-                @item-selected="addSearchIngredient">
-            </SearchField>	
+                        <div class="col-6 px-0">
+                            <div class="mb-1 filter-title">Constraints</div>
 
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 col-12 px-0" v-for="i in Math.ceil(ingredients.length / 5)" v-bind:key="i">
-                        <div class="mt-2" v-for="(ingredient, index) in ingredients.slice((i - 1) * 5, (i * 5))" v-bind:key="index">
-                            <i title="Remove" class="far fa-times-circle mr-1 pointer" @click="removeIngredient(index)"></i>
-                            {{ingredient.name}}
+                            <CheckboxCollection
+                                class="mb-3" 
+                                v-bind:checkboxItems="diataryConstraints"
+                                @change="items => diataryConstraints = items">
+                            </CheckboxCollection>
+                        </div>
+
+                        <div class="col-12 px-0">
+                            <div class="filter-title">
+                                <span>Max cooking time:</span>
+                                <span class="ml-1 normalFont font-weight-bold">
+                                    <span v-if="maxCookingTime >= 120">2h+</span>
+                                    <span v-else>{{formattedCookingTime}}</span>
+                                </span>
+                            </div>
+
+                            <div class="slidecontainer">
+                                <input @change="getRecipes" v-model="maxCookingTime" type="range" min="1" max="120" class="slider w-100" id="myRange">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="text-left">
-                <button class="mt-2 btn btn-outline-light mr-2" v-if="ingredients.length > 0" @click="clearIngredients">
-                    <i class="fas fa-trash mr-2"></i>
-                <span>Reset</span>
-                </button>
+            </Window>
+        </div>
 
-                <button class="mt-2 btn btn-outline-light" @click="showIngredientsSearch = false">
-                    <i class="fas fa-times mr-2"></i>
-                    <span>Close</span>
-                </button>
-            </div>
+
+        <div class="ingredients-search mt-2" v-if="showFilters">
+            <Window title="Search by ingredients" icon="fas fa-pepper-hot">
+                <template v-slot:titlebar>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <i title="Click to show info" class="fas fa-info-circle pointer" @click="showIngredientsInfo = !showIngredientsInfo"></i>
+                    </div>
+                </template>
+
+                <div class="mb-2" v-if="showIngredientsInfo">
+                    <small class="normalFont letter-spacing">Find recipes that uses ingredients you already have. Start typing in the field below and select your ingredients.</small>
+                </div>
+
+                <SearchField 
+                    ref="searchfooditems"
+                    action="searchFoodItems" 
+                    displayField="name"
+                    placeholder="Ingredient.."
+                    prompt="Select ingredient"
+                    v-bind:enableCreatePrompt="false"
+                    @item-selected="addSearchIngredient">
+                </SearchField>	
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-12 px-0" v-for="i in Math.ceil(ingredients.length / 5)" v-bind:key="i">
+                            <div class="mt-2" v-for="(ingredient, index) in ingredients.slice((i - 1) * 5, (i * 5))" v-bind:key="index">
+                                <i title="Remove" class="far fa-times-circle mr-1 pointer" @click="removeIngredient(index)"></i>
+                                {{ingredient.name}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Window>
         </div>
     </div>
 </template>
@@ -163,13 +142,14 @@
 <script>
     import CheckboxCollection from '../components/CheckboxCollection.vue';
     import SearchField from '../components/SearchField.vue';
+    import Window from '../components/Window.vue';
     import checkboxItems from '../utils/checkboxItems.js';
     import {nextTick} from 'vue';
     
     export default {
         name: 'RecipeSearcher',
         props: [],
-        components: {CheckboxCollection, SearchField},
+        components: {CheckboxCollection, SearchField, Window},
 
         data() {
             return {
@@ -183,14 +163,17 @@
                 searchTimeout: null,
 				searching: false,
                 showFilters: false,
-                showIngredientsSearch: false,
-                numOfResults: null
+                numOfResults: null,
+
+                showIngredientsInfo: false
             }
         },
 
 		computed: {
 			numAppliedFilters() {
-				let num = this.maxCookingTime < 120 ? 1 : 0;
+                let num = this.maxCookingTime < 120 ? 1 : 0;
+                
+                num += this.ingredients.length;
                 
                 this.diataryConstraints.forEach((constraint) => {
                     if(constraint.checked) {
@@ -300,18 +283,20 @@
                 this.diataryConstraints.forEach(constraint => constraint.checked = false);
                 this.allergens.forEach(allergen => allergen.checked = false);
                 this.maxCookingTime = 120;
-                this.showFilters = false;
             },
 
             clearIngredients() {
                 this.ingredients = [];
-                this.showIngredientsSearch = false;
             },
 
             clearAll() {
                 this.search = '';
                 this.clearFilters();
                 this.clearIngredients();
+            },
+
+            toggleFilters() {
+                this.showFilters = !this.showFilters;
             }
         },
 
@@ -327,11 +312,13 @@
 			},
 
 			diataryConstraintsStringified() {
-                this.getRecipes();
+                console.log('test');
+                this.updateRecipes();
                 window.localStorage.setItem('recipes-diatary-constraints', this.diataryConstraintsStringified);
 			},
 
 			allergensStringified() {
+                this.updateRecipes();
                 window.localStorage.setItem('recipes-allergens', this.allergensStringified);
             },
 
@@ -340,14 +327,14 @@
             },
             
             ingredientsStringified() {
-                this.getRecipes();
+                this.updateRecipes();
                 window.localStorage.setItem('recipes-ingredients', this.ingredientsStringified);
                 this.$emit('ingredient-search-updated', this.ingredients.length > 0);
             },
 
 			isLoggedIn() {
                 console.log(this.isLoggedIn);
-                this.getRecipes();
+                this.updateRecipes();
 			}
 		},
 
@@ -372,22 +359,15 @@
 	.filters{
         position: relative;
 		color: @main-background;
-		border: 1px solid @main-background;
-		border-top: none;
-		padding: 12px 12px;
-		margin-bottom: 10px;
-        margin-top: -16px;
-        background-color: rgba(227, 234, 235, 0.63);
+        margin-bottom: 16px;
+        margin-top: 16px;
         opacity: 1;
     }
     
     .ingredients-search  {
         position: relative;
         color: @main-background;
-		border: 1px solid @main-background;
-		padding: 12px 12px;
         margin-top: -16px;
-        background-color: rgba(227, 234, 235, 0.63);
     }
 
     .ingredients-search-add  {
@@ -440,8 +420,9 @@
     
     .search-indicator {
         position: absolute;
-        top: 10px;
-        right: 150px;
+        top: 9px;
+        right: 8px;
+        font-size: 16pt;
         color: @main-background;
     }
 
@@ -473,10 +454,6 @@
 		color: @main-background;
 		font-size: 12pt;
 	}
-
-	.ingredient-search:hover {
-		text-decoration: underline;
-	}
     
     .btn-outline-light {
 		border-color: @main-background;
@@ -500,6 +477,15 @@
         background-color: @main-color !important;
 		border-color: @main-background !important;
 		color: @main-background !important;
+    }
+
+    .hide-logo {
+        font-size: 14pt;
+    }
+
+    .clear-logo {
+        font-size: 11pt;
+        margin-left: 5px;
     }
 
 </style>
