@@ -266,6 +266,7 @@
                 this.search = '';
                 this.clearFilters();
                 this.clearIngredients();
+                this.showFilters = false;
             },
 
             toggleFilters() {
