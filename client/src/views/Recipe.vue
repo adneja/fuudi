@@ -116,8 +116,8 @@
                                         <div v-for="(ingredient, index) in addIngredients" v-bind:key="index">   
                                             <div v-if="index === 0" class="ingredient-padding"></div>
 
-                                            <div class="ingredient normalFont letter-spacing d-flex justify-content-between">
-                                                <div @click="ingredient.checked = !ingredient.checked" class="pointer d-flex justify-content-start align-items-center">        
+                                            <div @click="ingredient.checked = !ingredient.checked" class="pointer ingredient normalFont letter-spacing d-flex justify-content-between">
+                                                <div class="d-flex justify-content-start align-items-center">        
                                                     <div class="cb-container pointer mr-1">
                                                         <div class="cb">
                                                             <i v-if="ingredient.checked" class="fas fa-check"></i>
@@ -127,7 +127,7 @@
                                                 </div>
 
                                                 <div class="d-flex justify-content-end muted">
-                                                    <input class="form-control amount-input" min="1" type="number" v-model="ingredient.amount">
+                                                    <input @click.stop class="form-control amount-input" min="1" type="number" v-model="ingredient.amount">
                                                     <div class="text-left measurement">{{ingredient.measurement_name}}</div>
                                                 </div>
                                             </div>
