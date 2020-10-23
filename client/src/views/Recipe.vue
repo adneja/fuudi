@@ -165,7 +165,7 @@
                                 <div class="container-fluid review-container">
                                     <div class="row">
                                         <div class="col-12 px-3 pt-3" v-if="isLoggedIn">
-                                            <Rate @rated="rated" v-bind:max="5" v-bind:recipeId="id"></Rate>
+                                            <Rate @rated="rated" v-bind:max="5" v-bind:recipeId="parseInt(id)"></Rate>
                                         </div>
 
                                         <div class="col-12 px-3 pt-3 pb-1 d-flex justify-content-start align-items-center" v-else>
@@ -221,7 +221,7 @@
     export default {
         name: 'Recipe',
         props: {
-            id: Number
+            id: String // set as string because url parameter is always string, parsed to int when needed
         },
         components: {Placeholder, Stars, Window, Rate},
 

@@ -22,7 +22,17 @@
             <SystemMessage v-show="$store.getters.systemMessage"></SystemMessage>
         </transition>
 
-		<router-view/>
+		<!--
+		<transition name="fadeIn">
+			<router-view/>
+		</transition>
+		-->
+
+		<router-view v-slot="{Component}">
+			<transition name="fadeIn" mode="out-in">
+				<component v-bind:is="Component"></component>
+			</transition>
+		</router-view>
 	</div>
 </template>
 
@@ -50,8 +60,6 @@
 			if(this.$store.getters.token) {
 				this.$store.dispatch('getShoppingList')
 				.then((response) => {
-					console.log(response);
-
 					this.$store.commit('setShoppingList', response);
 				})
 				.catch((err) => {
