@@ -65,7 +65,7 @@
                             <div class="ingredients-container">
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
                                 <Window v-else title="Ingredients" icon="fas fa-pepper-hot" padding="0px">
-                                    <div class="px-2 pt-2">
+                                    <div class="px-3 pt-3">
                                         <button v-if="!showAddIngredientsDialog" class="btn btn-outline-light w-100" @click="toggleAddToShoppingCart">
                                             <i class="fas fa-shopping-basket mr-2"></i>
                                             <span>Add to shoping list</span>
