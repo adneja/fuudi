@@ -1,7 +1,12 @@
+import Axios from "axios";
+
+import axios from 'axios';
+
+axios.defaults.baseURL = `${process.env.VUE_APP_REST_ADDR}/api/`;
+
 export default {
     state: {
         shoppingList: JSON.parse(window.localStorage.getItem('shopping-list')) || [],
-        newlyAddedShoppingListItems: [],
         showShoppingList: false
     },
 
@@ -13,38 +18,19 @@ export default {
         showShoppingList(context) {
             return context.showShoppingList;
         },
-
-        newlyAddedShoppingListItems(context) {
-            return context.newlyAddedShoppingListItems;
-        }
     },  
 
     mutations: {
-        addShoppingListItem(context, item) {
-            context.shoppingList.push(item);
-            window.localStorage.setItem('shopping-list', JSON.stringify(context.shoppingList));
+        setShoppingList(context, data) {
+            context.shoppingList = data;
+        }, 
+        
+        checkShoppingListItem(context, data) {
+
         },
 
-        addShoppingListItems(context, items) {
-            context.shoppingList.push(...items);
-            //context.newlyAddedShoppingListItems = items;
-            window.localStorage.setItem('shopping-list', JSON.stringify(context.shoppingList));
-        },
+        checkAllShoppingListItems(context, data) {
 
-        removeShoppingListItem(context, item) {
-            let index = context.shoppingList.indexOf(item);
-
-            context.shoppingList.splice(index, 1);
-            window.localStorage.setItem('shopping-list', JSON.stringify(context.shoppingList));
-        },
-
-        removeCheckedShoppingListItems(context) {
-            window.localStorage.setItem('shopping-list', JSON.stringify(context.shoppingList));
-        },
-
-        removeAllShoppingListItems(context) {
-            context.shoppingList = [];
-            window.localStorage.setItem('shopping-list', JSON.stringify(context.shoppingList));
         },
 
         setShowShoppingList(context, showShoppingList) {
@@ -54,5 +40,87 @@ export default {
                 context.newlyAddedShoppingListItems = [];
             }
         }
-    }
+    },
+
+    actions: {
+        addShoppingListItems(context, data) {
+            return new Promise((resolve, reject) => {
+                axios.post('/shoppinglist/add', data, {
+                    headers: {
+                        authorization: context.getters.token
+                    }
+                })
+                .then((response) =>  {
+					if(response.data.error) {
+						reject(response.data.error);
+					} else {
+						resolve(response.data);
+					}
+				})
+				.catch((err) => {
+					reject(err);
+				});
+            });
+        },
+
+        getShoppingList(context) {
+            return new Promise((resolve, reject) => {
+                axios.get('/shoppinglist', {
+                    headers: {
+                        authorization: context.getters.token
+                    }
+                })
+                .then((response) =>  {
+                    if(response.data.error) {
+                        reject(response.data.error);
+                    } else {
+                        resolve(response.data);
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+            });
+        },
+
+        deleteShoppingList(context, data) {
+            return new Promise((resolve, reject) => {
+                axios.post('/shoppinglist/delete', {all: data.all}, {
+                    headers: {
+                        authorization: context.getters.token
+                    }
+                })
+                .then((response) =>  {
+					if(response.data.error) {
+						reject(response.data.error);
+					} else {
+						resolve(response.data);
+					}
+				})
+				.catch((err) => {
+					reject(err);
+				});
+            });
+        },
+
+        checkShoppingListItem(context, data) {
+            return new Promise((resolve, reject) => {
+                axios.post('/shoppinglist/check', data, {
+                    headers: {
+                        authorization: context.getters.token
+                    }
+                })
+                .then((response) =>  {
+					if(response.data.error) {
+						reject(response.data.error);
+					} else {
+						resolve(response.data);
+					}
+				})
+				.catch((err) => {
+					reject(err);
+				});
+            });
+        },
+    },
 };

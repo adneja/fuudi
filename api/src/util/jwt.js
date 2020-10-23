@@ -16,7 +16,7 @@ module.exports = {
 
         if(!token) {
             res.json({
-                error: 'This action requires authentication'
+                error: 'This action requires login'
             });
         } else {
             try {
@@ -25,7 +25,7 @@ module.exports = {
                 next();
             } catch (err) {
                 res.json({
-                    error: 'This action requires authentication'
+                    error: 'This action requires login'
                 });
             }
         }

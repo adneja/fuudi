@@ -34,15 +34,20 @@
                                 
                                     <div class="normalFont description letter-spacing">{{recipeInfo.description}}</div>
 
-                                    <div class="action-buttons p-md-4 p-3">
-                                        <span class="pointer mr-2" @click="addToFavorites">
-                                            <i title="Add to favorites" v-if="!recipeInfo.is_bookmarked" class="far fa-heart"></i>
-                                            <i title="Remove from favorites" v-else class="fas fa-heart"></i>
-                                        </span>
+                                    <div class="action-buttons d-flex justify-content-md-end justify-content-end p-md-4 p-3">
+                                        <button @click="addToFavorites" class="btn btn-outline-light mr-2">
+                                            <span v-if="!addingBookmark">
+                                                <i v-if="!recipeInfo.is_bookmarked" class="far fa-heart"></i>
+                                                <i v-else class="fas fa-heart"></i>
+                                            </span>
+                                            <i v-else class="fas fa-circle-notch fa-spin"></i>
+                                            <span class="ml-2 d-md-inline d-none">Add to favorites</span>
+                                        </button>
 
-                                        <span class="pointer" @click="addToPlan">
-                                            <i title="Add to mealplan" class="far fa-calendar-check"></i>
-                                        </span>
+                                        <button @click="addToPlan" class="btn btn-outline-light">
+                                            <i class="far fa-calendar-check"></i>
+                                            <span class="d-md-inline d-none ml-2">Add to meal plan</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -59,32 +64,31 @@
                         <div class="col-lg-5 col-md-6 px-0 pr-md-3 mb-md-3 mb-3">
                             <div class="ingredients-container">
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
-                                
                                 <Window v-else title="Ingredients" icon="fas fa-pepper-hot" padding="0px">
-                                    <template v-slot:titlebar>
-                                        <div
-                                            title="Add ingredients to shopping list"
-                                            v-if="!showAddIngredientsDialog"
-                                            @click="toggleAddToShoppingCart" 
-                                            class="pointer add-shopping d-flex justify-content-end align-items-center">
-                                            <i class="fas fa-plus plus"></i>
-                                            <i class="fas fa-shopping-basket"></i>
-                                        </div>
+                                    <div class="px-2 pt-2">
+                                        <button v-if="!showAddIngredientsDialog" class="btn btn-outline-light w-100" @click="toggleAddToShoppingCart">
+                                            <i class="fas fa-shopping-basket mr-2"></i>
+                                            <span>Add to shoping list</span>
+                                        </button>
 
-                                        <div v-else
-                                            class="d-flex justify-content-end align-items-center">
+                                        <div v-else class="btn-group w-100">
+                                            <button title="Cancel"
+                                                @click="showAddIngredientsDialog = false"  
+                                                class="btn btn-outline-light w-50 mr-1">
 
-                                            <i title="Cancel"
-                                                @click="showAddIngredientsDialog = false" 
-                                                class="pointer fas fa-times add-shopping"></i>
+                                                <i class="fas fa-times mr-2"></i>
+                                                <span>Cancel</span>
+                                            </button>
 
-                                                <span class="divider"></span>
-
-                                            <i title="Add"
+                                            <button title="Add ingredients"
                                                 @click="addIngredientsToShoppingList" 
-                                                class="pointer fas fa-check add-shopping"></i>
+                                                class="btn btn-outline-light w-50 ml-1">
+                                                <i v-if="!addingIngredients" class="fas fa-check mr-2"></i>
+                                                <i v-else class="fas fa-circle-notch fa-spin mr-2"></i>
+                                                <span>Add</span>
+                                            </button>
                                         </div>
-                                    </template>
+                                    </div>
 
                                     <div v-if="!showAddIngredientsDialog">
                                         <div v-for="(ingredient, index) in ingredients" v-bind:key="index">   
@@ -113,8 +117,8 @@
                                             <div v-if="index === 0" class="ingredient-padding"></div>
 
                                             <div class="ingredient normalFont letter-spacing d-flex justify-content-between">
-                                                <div class="d-flex justify-content-start align-items-center">        
-                                                    <div class="cb-container pointer mr-1" @click="ingredient.checked = !ingredient.checked">
+                                                <div @click="ingredient.checked = !ingredient.checked" class="pointer d-flex justify-content-start align-items-center">        
+                                                    <div class="cb-container pointer mr-1">
                                                         <div class="cb">
                                                             <i v-if="ingredient.checked" class="fas fa-check"></i>
                                                         </div>
@@ -157,7 +161,7 @@
 
                         <div class="col-12 px-0 mt-md-3 mt-0">
                             <Placeholder v-if="!reviews" height="50px" v-bind:amount="3" v-bind:spacing="15"></Placeholder>
-                            <Window ref="ratings" v-else title="Ratings" icon="fas fa-star" padding="0px">
+                            <Window ref="ratings" v-else title="Ratings" icon="" padding="0px">
                                 <div class="container-fluid review-container">
                                     <div class="row">
                                         <div class="col-12 px-3 pt-3" v-if="isLoggedIn">
@@ -166,7 +170,7 @@
 
                                         <div class="col-12 px-3 pt-3 pb-1 d-flex justify-content-start align-items-center" v-else>
                                             <button @click="$store.commit('setShowLoginSidebar', true)" class="btn btn-outline-light mr-2"><i class="fas fa-sign-in-alt mr-2"></i>Login</button>
-                                            <span>to leave a review</span>
+                                            <span>to rate recipe</span>
                                         </div>
 
                                         <div class="col-md-12 px-3 normalFont letter-spacing text-left" v-if="reviews.length === 0">
@@ -229,11 +233,13 @@
                 reviews: null,
                 comments: null,
                 ingredientsSearch: JSON.parse(window.localStorage.getItem('recipes-ingredients')) || [],
-                isBookmarked: false,
                 showAddRating: false,
 
                 showAddIngredientsDialog: false,
-                addIngredients: []
+                addIngredients: [],
+
+                addingIngredients: false,
+                addingBookmark: false,
             }
         },
 
@@ -283,15 +289,35 @@
             },
 
             addIngredientsToShoppingList() {
-                let add = this.addIngredients.filter((ingredient) => ingredient.checked);
-                add.map(item => item.checked = false);
+                if(this.$store.getters.token) {
+                    let add = this.addIngredients.filter((ingredient) => ingredient.checked);
+                    add.map(item => item.checked = false);
 
-                this.$store.commit('addShoppingListItems', add);
-                this.showAddIngredientsDialog = false;
-                this.$store.commit('setSystemMessage', {
-                    content: `${add.length} items have been added to your shopping list!`,
-                    error: false
-                });
+                    this.addingIngredients = true;
+
+                    this.$store.dispatch('addShoppingListItems', {
+                        items: JSON.stringify(add)
+                    })
+                    .then((response) => {
+                        this.$store.commit('setShoppingList', response);
+                        this.$store.commit('setSystemMessage', {
+                            content: `${add.length} ingredient${add.length > 1 ? 's' : ''} have been added to your shopping list!`,
+                            error: false
+                        });
+                    })
+                    .catch((err) => {
+                        this.$store.commit('setSystemMessage', {
+                            content: err,
+                            error: true
+                        });
+                    })
+                    .finally(() => {
+                        this.showAddIngredientsDialog = false;
+                        this.addingIngredients = true;
+                    });
+                } else  {
+                    this.$store.commit('setShowLoginSidebar', true);
+                }
             },
 
             toggleAddToShoppingCart() {
@@ -379,6 +405,8 @@
             },
 
             addToFavorites() {
+                this.addingBookmark = true;
+
                 this.$store.dispatch('bookmark', {
                     id: parseInt(this.id)
                 })
@@ -395,6 +423,9 @@
                         content: err,
                         error: true
                     });
+                })
+                .finally(() => {
+                    this.addingBookmark = false;
                 });
             },
 
@@ -443,6 +474,7 @@
         position: absolute;
         right: 0px;
         bottom: 0px;
+        width: 100%;
     }
 
     img {
@@ -459,6 +491,7 @@
         font-size: 12pt;
         font-style: italic;
         margin-bottom: 24px;
+        margin-bottom: 60px;
     }
 
     .letter-spacing  {
@@ -567,12 +600,12 @@
 
     .add-shopping  {
         opacity: 0.8;
+    }
 
         .plus {
             font-size: 8pt;
             margin-right: 3px;
         }
-    }
 
     .add-shopping:hover {
         opacity: 1;

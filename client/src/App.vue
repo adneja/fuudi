@@ -44,6 +44,20 @@
 			MobileMenu,
 			UserMenu,
 			ShoppingList
+		},
+
+		mounted() {
+			if(this.$store.getters.token) {
+				this.$store.dispatch('getShoppingList')
+				.then((response) => {
+					console.log(response);
+
+					this.$store.commit('setShoppingList', response);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+			}
 		}
 	}
 </script>

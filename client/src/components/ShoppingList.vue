@@ -14,9 +14,8 @@
             <div class="list mb-4" v-if="shoppingList.length > 0">
                 <div v-for="(item, index) in shoppingList" v-bind:key="index">
                     <div 
-                        v-bind:class="{'newly-added': isNewlyAdded(item)}"
                         class="pointer normalFont letter-spacing item d-flex justify-content-between align-items-center"
-                        @click="item.checked = !item.checked">
+                        @click="checkItem(item)">
 
                         <div class="d-flex justify-content-start align-items-center">
                             <div class="cb-container pointer mr-1">
@@ -27,13 +26,12 @@
 
                             <div>
                                 <span>{{item.fooditem_name}}</span>
-                                <span class="font-weight-bold ml-2" v-if="isNewlyAdded(item)">(new)</span>
                             </div>
                         </div>
                         
                         <div>
-                            <span class="mr-1">{{item.amount}}</span>
-                            <span>{{item.measurement_name}}</span>
+                            <span class="mr-1">{{item.total}}</span>
+                            <span>{{item.standardized_measurement}}</span>
                         </div>
                     </div>
 
@@ -44,12 +42,12 @@
             <!-- Clear buttons -->
             <div class="buttons" v-if="shoppingList.length > 0">
                 <div class="d-flex justify-content-between">
-                    <button @click="removeChecked" class="btn btn-outline-light delete-button">
+                    <button @click="deleteShoppinglist(false)" class="btn btn-outline-light delete-button">
                         <i class="fas fa-tasks mr-2"></i>
                         <span>Delete checked</span>
                     </button>
 
-                    <button @click="removeAll" class="btn btn-outline-light delete-button">
+                    <button @click="deleteShoppinglist(true)" class="btn btn-outline-light delete-button">
                         <i class="fas fa-shopping-basket mr-2"></i>
                         <span>Delete all</span>
                     </button>
@@ -81,25 +79,32 @@
                 this.$store.commit('setShowShoppingList', false);
             },
 
-            removeAll() {
-                this.$store.commit('removeAllShoppingListItems');
+            deleteShoppinglist(all) {
+                this.$store.dispatch('deleteShoppingList', {
+                    all: all
+                })
+                .then((response) => {
+                    console.log(response);
+                    this.$store.commit('setShoppingList', response);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
             },
 
-            removeChecked() {
-                this.$store.commit('removeCheckedShoppingListItems');
-            },
-
-            isNewlyAdded(item) { 
-                return this.newlyAddedItems.indexOf(item) !== -1;
+            checkItem(item) {
+                this.$store.dispatch('checkShoppingListItem', {
+                    check: item.checked === null,
+                    fooditem_id: item.fooditem_id
+                })
+                .then((response) => {
+                    console.log(response);
+                    this.$store.commit('setShoppingList', response);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
             }
-        },
-
-        mounted() {
-            //document.body.style.overflow = 'hidden';
-        },
-
-        unmounted() {
-            //document.body.style.overflow = 'auto';
         }
     }
 </script>
