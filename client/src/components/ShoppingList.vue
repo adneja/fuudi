@@ -30,8 +30,11 @@
                         </div>
                         
                         <div>
+                            <!--
                             <span class="mr-1">{{item.total}}</span>
                             <span>{{item.standardized_measurement}}</span>
+                            -->
+                            {{formatAmount(item.standardized_measurement, item.total)}}
                         </div>
                     </div>
 
@@ -84,7 +87,6 @@
                     all: all
                 })
                 .then((response) => {
-                    console.log(response);
                     this.$store.commit('setShoppingList', response);
                 })
                 .catch((err) => {
@@ -98,12 +100,23 @@
                     fooditem_id: item.fooditem_id
                 })
                 .then((response) => {
-                    console.log(response);
                     this.$store.commit('setShoppingList', response);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
+            },
+
+            formatAmount(measurement, amount) {
+                if(measurement === 'ml') {
+                    let dl = amount / 100;
+                    return dl >= 1 ? dl + ' dl' : amount + ' ml';
+                } else if(measurement === 'g') {
+                    let kg = amount / 1000;
+                    return kg >= 1 ? kg + ' kg' : amount + ' g'
+                } else {
+                    return amount + ' ' + measurement;
+                }
             }
         }
     }
