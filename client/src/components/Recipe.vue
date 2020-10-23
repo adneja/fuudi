@@ -12,6 +12,14 @@
                 <i v-else title="Remove from favorites" class="fas fa-heart bookmark"></i>
             </span>
         </div>-->
+
+        <div class="matching-ingredients normalFont text-center" v-if="showMatchCount">
+            <span>
+                <!--<i v-if="matchCount > 0" class="fas fa-check mr-1"></i>-->
+                <strong>{{matchCount}}</strong> 
+                <span> matching ingredient{{matchCount > 1 || matchCount === 0 ? 's' : ''}}</span>
+            </span>
+        </div>
         
         <router-link 
             class="clickable" 
@@ -41,14 +49,6 @@
                         <span>{{formattedCookingTime}}</span>
                     </span>
                 </div>
-            </div>
-
-            <div class="matching-ingredients normalFont text-center" v-if="showMatchCount && matchCount > 0">
-                <span>
-                    <i v-if="matchCount > 0" class="fas fa-check mr-1"></i>
-                    <strong>{{matchCount}}</strong> 
-                    <span> matching ingredient{{matchCount > 1 || matchCount === 0 ? 's' : ''}}</span>
-                </span>
             </div>
         </router-link>
     </div>
