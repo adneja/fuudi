@@ -1,6 +1,6 @@
 <template>
     <div class="topbar d-flex justify-content-center">
-        <div class="topbar-content px-md-5 px-4">
+        <div class="topbar-content px-md-5 px-3">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="left d-flex justify-content-start align-items-center">
                     <!-- Logo -->

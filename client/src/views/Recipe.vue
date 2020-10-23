@@ -65,28 +65,35 @@
                             <div class="ingredients-container">
                                 <Placeholder v-if="!ingredients" height="25px" v-bind:amount="8" v-bind:spacing="15"></Placeholder>
                                 <Window v-else title="Ingredients" icon="fas fa-pepper-hot" padding="0px">
-                                    <div class="px-3 pt-3">
+                                    <div class="px-md-4 pt-md-4 px-3 pt-3">
                                         <button v-if="!showAddIngredientsDialog" class="btn btn-outline-light w-100" @click="toggleAddToShoppingCart">
                                             <i class="fas fa-shopping-basket mr-2"></i>
                                             <span>Add to shoping list</span>
                                         </button>
 
-                                        <div v-else class="btn-group w-100">
-                                            <button title="Cancel"
-                                                @click="showAddIngredientsDialog = false"  
-                                                class="btn btn-outline-light w-50 mr-1">
 
-                                                <i class="fas fa-times mr-2"></i>
-                                                <span>Cancel</span>
-                                            </button>
+                                        <div  v-else>
+                                            <div class="btn-group w-100">
+                                                <button title="Cancel"
+                                                    @click="showAddIngredientsDialog = false"  
+                                                    class="btn btn-outline-light w-50 mr-1">
 
-                                            <button title="Add ingredients"
-                                                @click="addIngredientsToShoppingList" 
-                                                class="btn btn-outline-light w-50 ml-1">
-                                                <i v-if="!addingIngredients" class="fas fa-check mr-2"></i>
-                                                <i v-else class="fas fa-circle-notch fa-spin mr-2"></i>
-                                                <span>Add</span>
-                                            </button>
+                                                    <i class="fas fa-times mr-2"></i>
+                                                    <span>Cancel</span>
+                                                </button>
+
+                                                <button title="Add ingredients"
+                                                    @click="addIngredientsToShoppingList" 
+                                                    class="btn btn-outline-light w-50 ml-1">
+                                                    <i v-if="!addingIngredients" class="fas fa-check mr-2"></i>
+                                                    <i v-else class="fas fa-circle-notch fa-spin mr-2"></i>
+                                                    <span>Add</span>
+                                                </button>
+                                            </div>
+
+                                            <div class="mt-2">
+                                                <small class="normalFont letter-spacing muted">Remember to uncheck ingredients you don't need and/or adjust amounts.</small>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -94,7 +101,7 @@
                                         <div v-for="(ingredient, index) in ingredients" v-bind:key="index">   
                                             <div v-if="index === 0" class="ingredient-padding"></div>
 
-                                            <div class="ingredient normalFont letter-spacing d-flex justify-content-between">
+                                            <div class="ingredient px-md-4 px-3 normalFont letter-spacing d-flex justify-content-between">
                                                 <div 
                                                     v-bind:class="{'matching_ingredient': ingredientExistsInSearch(ingredient)}">
                                                     <i v-if="ingredientExistsInSearch(ingredient)" class="fas fa-check mr-1"></i>
@@ -116,7 +123,7 @@
                                         <div v-for="(ingredient, index) in addIngredients" v-bind:key="index">   
                                             <div v-if="index === 0" class="ingredient-padding"></div>
 
-                                            <div @click="ingredient.checked = !ingredient.checked" class="pointer ingredient normalFont letter-spacing d-flex justify-content-between">
+                                            <div @click="ingredient.checked = !ingredient.checked" class="pointer px-md-4 px-3 ingredient normalFont letter-spacing d-flex justify-content-between">
                                                 <div class="d-flex justify-content-start align-items-center">        
                                                     <div class="cb-container pointer mr-1">
                                                         <div class="cb">
@@ -147,7 +154,7 @@
                                 <Window v-else title="Instructions" icon="fas fa-list-ol" padding="0px">
                                     <div v-for="(instruction, index) in instructionsSorted" v-bind:key="index">
                                         <div v-if="index === 0" class="ingredient-padding"></div>
-                                        <div class="instruction normalFont letter-spacing d-flex justify-content-start">
+                                        <div class="px-md-4 px-3 instruction normalFont letter-spacing d-flex justify-content-start">
                                             <div class="number muted">{{instruction.number}}.</div>
                                             <div>{{instruction.instruction}}</div>
                                         </div>
@@ -164,11 +171,11 @@
                             <Window ref="ratings" v-else title="Ratings" icon="" padding="0px">
                                 <div class="container-fluid review-container">
                                     <div class="row">
-                                        <div class="col-12 px-3 pt-3" v-if="isLoggedIn">
+                                        <div class="col-12 px-md-4 pt-md-4 px-3 pt-3" v-if="isLoggedIn">
                                             <Rate @rated="rated" v-bind:max="5" v-bind:recipeId="parseInt(id)"></Rate>
                                         </div>
 
-                                        <div class="col-12 px-3 pt-3 pb-1 d-flex justify-content-start align-items-center" v-else>
+                                        <div class="col-12 px-md-4 pt-md-4 px-3 pt-3 pb-2 d-flex justify-content-start align-items-center" v-else>
                                             <button @click="$store.commit('setShowLoginSidebar', true)" class="btn btn-outline-light mr-2"><i class="fas fa-sign-in-alt mr-2"></i>Login</button>
                                             <span>to rate recipe</span>
                                         </div>
@@ -180,7 +187,7 @@
                                         <div class="col-md-12 px-0" v-for="(review, index) in reviewsSorted" v-bind:key="index">
                                             <hr v-if="index === 0">
 
-                                            <div class="review">
+                                            <div class="review px-md-4 px-3">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="d-flex justify-content-start align-items-center">
                                                         <Stars starSize="14pt" v-bind:stars="review.rating" max="5"></Stars>
@@ -567,10 +574,6 @@
 
     .my-rating {
         color: rgb(46, 136, 46);
-    }
-
-    .ingredient, .instruction, .review {
-        padding: 0px 16px;
     }
 
     .ingredients-container, .instructions-container, .review-container {
