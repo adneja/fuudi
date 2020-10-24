@@ -36,3 +36,6 @@ break up large components into folders of smaller components with index.vue as m
 - create deploy script (github hook?)
 - auto update SSL cert
 
+
+
+v-bind:to="'/recipes/recipe/' + id" 

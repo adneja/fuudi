@@ -1,6 +1,16 @@
 <template>
     <div class="recipesearcher" ref="recipesearcher">
         <div class="search-row input-group">
+            <button
+                v-if="$store.getters.token"
+                title="Show my favorites"
+                class="btn btn-success"
+                @click="showFavorites = !showFavorites">
+
+                <i v-if="!showFavorites" class="far fa-heart"></i>
+                <i v-else class="fas fa-heart"></i>
+            </button>
+
             <input v-model="search" class="form-control" placeholder="Search recipes">
             
             <button class="btn form-control-button d-flex justify-content-center align-items-center">
@@ -137,7 +147,9 @@
                 showFilters: false,
                 numOfResults: null,
 
-                showIngredientsInfo: false
+                showIngredientsInfo: false,
+
+                showFavorites: window.localStorage.getItem('recipes-favorites') === 'true' || false
             }
         },
 
@@ -307,6 +319,11 @@
                 this.updateRecipes();
                 window.localStorage.setItem('recipes-ingredients', this.ingredientsStringified);
                 this.$emit('ingredient-search-updated', this.ingredients.length > 0);
+            },
+
+            showFavorites() {
+                this.updateRecipes();
+                window.localStorage.setItem('recipes-favorites', this.showFavorites);
             },
 
 			isLoggedIn() {

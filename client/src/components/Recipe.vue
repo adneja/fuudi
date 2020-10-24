@@ -1,21 +1,7 @@
 <template>
     <div class="recipe" v-bind:class="{'no-matches': showMatchCount && matchCount === 0}">
-        <!--
-        <div class="author d-flex justify-content-between">
-            <div class="d-flex align-items-center">
-                <i class="far fa-user-circle mr-2"></i>
-                <span>{{author}}</span>
-            </div>
-
-            <span class="pointer d-flex align-items-center" @click="favorite">
-                <i v-if="!showFavorite" title="Add to favorites" class="far fa-heart bookmark"></i>
-                <i v-else title="Remove from favorites" class="fas fa-heart bookmark"></i>
-            </span>
-        </div>-->
-
         <div class="matching-ingredients normalFont text-center" v-if="showMatchCount">
             <span>
-                <!--<i v-if="matchCount > 0" class="fas fa-check mr-1"></i>-->
                 <strong>{{matchCount}}</strong> 
                 <span> matching ingredient{{matchCount > 1 || matchCount === 0 ? 's' : ''}}</span>
             </span>
@@ -23,7 +9,7 @@
         
         <router-link 
             class="clickable" 
-            v-bind:to="'/recipes/recipe/' + id" 
+            v-bind:to="dontLink ? '#' : '/recipes/recipe/' + id" 
             @mouseenter="hover = true" 
             @mouseleave="hover = false">
 
@@ -75,7 +61,8 @@
             fileType: String,
             matchCount: Number,
             numOfIngredients: Number,
-            showMatchCount: Boolean
+            showMatchCount: Boolean,
+            dontLink: Boolean
         },
         
         data() {

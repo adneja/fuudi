@@ -1,7 +1,7 @@
 <template>
 	<div class="createrecipe">
 		<div class="details d-flex justify-content-center">
-			<div class="details-container px-md-5 py-md-4 p-3">
+			<div class="details-container px-md-5 py-md-4 p-3 mb-md-2 mb-0">
 				<div class="title">New Recipe</div>
 				<div class="container-fluid">
 					<div class="row">
