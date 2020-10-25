@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = {
-    // Create session token
     jwtSignUser: (user) => {
         const ONE_WEEK = 60 * 60 * 24 * 7;
 
@@ -10,7 +9,6 @@ module.exports = {
         });
     },
 
-    // Verify session token
     verifyToken: (req, res, next) => {
         const token = req.header('authorization');
 
@@ -31,7 +29,6 @@ module.exports = {
         }
     },
 
-    // Get user data if valid token, proceed if not
     optionalToken: (req, res, next) => {
         const token = req.header('authorization');
 
@@ -41,7 +38,7 @@ module.exports = {
                 req.user = verified;
                 next();
             } catch (err) {
-                req.user = {};
+                req.user = {id:null};
                 next();
             }
         } else {

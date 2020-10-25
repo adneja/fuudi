@@ -45,10 +45,4 @@ module.exports = {
             }
         });
     },
-
-    query: (req, res, next) => {
-        req.query = (query, params, callback) => {
-            this.runQuery(query, params, res, callback);
-        }
-    }
 };
