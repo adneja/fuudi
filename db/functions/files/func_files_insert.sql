@@ -3,7 +3,7 @@ CREATE OR REPLACE FUNCTION func_files_insert(
 	p_size integer,
 	p_mimetype text,
 	p_created_by integer
-) RETURNS SETOF tbl_files AS $$
+) RETURNS SETOF typ_files AS $$
 	DECLARE	
 		v_new_file_id integer;
 	BEGIN		
@@ -22,7 +22,12 @@ CREATE OR REPLACE FUNCTION func_files_insert(
 		
 		-- return new file row
 		RETURN QUERY
-			SELECT * FROM tbl_files WHERE id = v_new_file_id;
+			SELECT 
+				* 
+			FROM 
+				viw_files 
+			WHERE 
+				id = v_new_file_id;
 	END;
 $$ LANGUAGE plpgsql;
 

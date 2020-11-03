@@ -1,15 +1,34 @@
 const router = require('express').Router();
-const {verifyToken, optionalToken} = require('../util/jwt.js');
-const {runQuery, queries} = require('../util/db.js');
+const {authenticated, optional} = require('../utils/jwt.js');
+const {getQuery} = require('../utils/queryParams.js');
 
 
-// create mealplan
-router.post('/api/mealplans/create', verifyToken, (req, res) => {
-    let params = [req.body.name, req.body.recipes, req.user.id];
+router.post('/insert', authenticated, (req, res) => {
+    let params = [
+        req.body.name, 
+        req.user.id
+    ];
 
-    runQuery(queries.mealplan_create, params, res, (result) => {
-        res.json(result.rows);
+    res.dbResponse('func_mealplans_insert', params);
+});
+
+
+router.get('/query', optional,  (req, res) => {
+    let params = getQuery(req.query, {
+        search: ''
     });
+
+    res.dbResponse('func_mealplans_query', params);
+});
+
+
+router.get('/get/:id', optional, (req, res) => {
+    let params =  [
+        req.params.id,
+        req.user.id
+    ];
+
+    res.dbResponse('func_mealplans_get', params);
 });
 
 

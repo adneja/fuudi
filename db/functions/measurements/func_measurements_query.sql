@@ -1,12 +1,12 @@
 CREATE OR REPLACE FUNCTION func_measurements_query(
 	p_search text
-) RETURNS SETOF tbl_measurements AS $$
+) RETURNS SETOF typ_measurements AS $$
 	BEGIN
 		RETURN QUERY
 			SELECT
 				*
 			FROM
-				tbl_measurements
+				viw_measurements
 			WHERE
 				(lower(name) || lower(long_name)) LIKE '%' || lower(p_search) || '%';
 	END;

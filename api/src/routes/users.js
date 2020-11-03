@@ -1,47 +1,51 @@
 const router = require('express').Router();
-const {jwtSignUser} = require('../util/jwt.js');
-const {runQuery, queries} = require('../util/db.js');
+const {sign} = require('../utils/jwt.js');
 
 
-// Check that string is valid email
-function validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
+router.post('/register', (req, res) => {
+    let params = [
+        req.body.email,
+        req.body.name,
+        req.body.password,
+        req.body.repeatPassword
+    ];
 
+    console.log(params);
 
-// Register user
-router.post('/api/auth/register', (req, res) => {
-    let params = [req.body.email, req.body.name, req.body.password, req.body.repeat_password];
-
-    if(validateEmail(req.body.email)) {
-        runQuery(queries.auth_register, params, res, (result) => {
-            let user = result.rows[0];
-    
-            res.json({
-                userData: user,
-                token: jwtSignUser(user)
-            });
+    res.dbExec('func_users_create', params)
+    .then((response) => {
+        res.response.status('200').data({
+            user: response.rows[0],
+            token: sign(response.rows[0])
         });
-    } else {
-        res.json({
-            error: 'Invalid email.'
-        })
-    }
+    })
+    .catch((err) => {
+        res.response.status('401').error(err.message);
+    })
+    .finally(() =>  {
+        res.response.send();
+    });
 });
 
 
-// Login user
-router.get('/api/auth/login/:email/:password', (req, res) => {
-    let params = [req.params.email, req.params.password];
+router.post('/login', (req, res) => {
+    let params = [
+        req.body.email,
+        req.body.password
+    ];
 
-    runQuery(queries.auth_login, params, res, (result) => {
-        let user = result.rows[0];
-
-        res.json({
-            userData: user,
-            token: jwtSignUser(user)
+    res.dbExec('func_users_get', params)
+    .then((response) => {
+        res.response.status('200').data({
+            user: response.rows[0],
+            token: sign(response.rows[0])
         });
+    })
+    .catch((err) => {
+        res.response.status('401').error(err.message);
+    })
+    .finally(() => {
+        res.response.send();
     });
 });
 

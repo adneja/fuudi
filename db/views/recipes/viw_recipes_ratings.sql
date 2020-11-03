@@ -1,10 +1,11 @@
-DROP VIEW viw_recipes_ratings;
-
-CREATE VIEW viw_recipes_ratings AS
+CREATE OR REPLACE VIEW viw_recipes_ratings AS
 SELECT
-	r.*,
-	EXTRACT(epoch FROM r.created) AS created_epoch,
-	u.name AS author
+	r.recipe_id,
+	r.rating,
+	r.comment,
+	r.created_by,
+	u.name AS created_by_name,
+	EXTRACT(epoch FROM r.created) AS created_epoch
 FROM
 	tbl_recipes_ratings AS r
 	INNER JOIN tbl_users AS u

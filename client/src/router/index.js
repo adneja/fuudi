@@ -3,61 +3,34 @@ import { createRouter, createWebHistory } from 'vue-router';
 import store from '../store/index.js';
 
 import Home from '../views/Home.vue';
-import ResetPassword from '../views/ResetPassword.vue';
-import Plans from '../views/Plans.vue';
-import Recipes from '../views/Recipes.vue';
-import Recipe from '../views/Recipe.vue';
-import Ratings from '../views/Ratings.vue';
-import CreatePlan from '../views/CreatePlan.vue';
-import CreateRecipe from '../views/CreateRecipe.vue';
+import RecipeBrowser from '../views/RecipeBrowser.vue';
+import RecipeDetails from '../views/RecipeDetails.vue';
+import RecipeCreator from '../views/RecipeCreator.vue';
 
 const routes = [
 	{
 		path: '/',
 		name: 'Home',
-		component: Recipes,
-		meta: {requiresAuth: false, showNavbar: true}
-	},
-	{
-		path: '/resetpassword',
-		name: 'ResetPassword',
-		component: ResetPassword,
-		meta: {requiresAuth: false, showNavbar: false}
-	},
-	{
-		path: '/plans',
-		name: 'Plans',
-		component: Plans,
+		component: RecipeBrowser,
 		meta: {requiresAuth: false, showNavbar: true}
 	},
 	{
 		path: '/recipes',
 		name: 'Recipes',
-		component: Recipes,
+		component: RecipeBrowser,
 		meta: {requiresAuth: false, showNavbar: true},
 	},
 	{
 		path: '/recipes/recipe/:id',
-		component: Recipe,
+		name: 'Recipe',
+		component: RecipeDetails,
 		props: true,
 		meta: {requiresAuth: false, showNavbar: true}
 	},
 	{
-		path: '/ratings',
-		name: 'Ratings',
-		component: Ratings,
-		meta: {requiresAuth: false, showNavbar: true}
-	},
-	{
-		path: '/createplan',
-		name: 'CreatePlan',
-		component: CreatePlan,
-		meta: {requiresAuth: true, showNavbar: true}
-	},
-	{
 		path: '/createrecipe',
 		name: 'CreateRecipe',
-		component: CreateRecipe,
+		component: RecipeCreator,
 		meta: {requiresAuth: true, showNavbar: true}
 	},
 	{

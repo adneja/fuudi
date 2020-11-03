@@ -1,11 +1,11 @@
 {
-  "name": "server",
+  "name": "fuudi-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API for fuudi.io",
+  "main": "app.js",
   "scripts": {
-    "serve": "nodemon ./src/app.js 3333",
-    "run": "node ./src/app.js 3333"
+    "mon": "nodemon ./src/app.js",
+    "start": "node ./src/app.js"
   },
   "author": "",
   "license": "ISC",

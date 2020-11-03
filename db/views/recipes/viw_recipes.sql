@@ -1,6 +1,6 @@
 DROP VIEW viw_recipes;
 
-CREATE OR REPLACE VIEW viw_recipes AS
+CREATE VIEW viw_recipes AS
 WITH ratings AS (
 	SELECT
 		recipe_id,
@@ -34,16 +34,14 @@ SELECT
 	r.description,
 	r.cooking_time,
 	r.portions,
-	EXTRACT(epoch FROM r.created) AS created_epoch,
+	f.id AS file_id,
+	f.mimetype AS file_mimetype,
 	r.created_by,
 	u.name AS created_by_name,
-	f.id AS file_id,
-	f.name AS file_name,
-	f.mimetype AS file_type,
+	EXTRACT(epoch FROM r.created)::integer AS created_epoch,
 	COALESCE(ratings.rating, 0)::float AS rating,
-	COALESCE(ratings.number_of_ratings, 0)::float AS number_of_ratings,
-	COALESCE(saves.saves, 0)::float AS saves,
-	COALESCE(num_of_ingredients.num_of_ingredients, 0)::int AS num_of_ingredients
+	COALESCE(ratings.number_of_ratings, 0)::integer AS number_of_ratings,
+	COALESCE(saves.saves, 0)::integer AS saves
 FROM
 	tbl_recipes AS r
 	INNER JOIN tbl_users AS u

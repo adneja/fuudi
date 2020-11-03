@@ -1,12 +1,12 @@
 CREATE OR REPLACE FUNCTION func_fooditems_query(
 	p_search text
-) RETURNS SETOF tbl_fooditems AS $$
+) RETURNS SETOF typ_fooditems AS $$
 	BEGIN
 		RETURN QUERY
 			SELECT
 				*
 			FROM
-				tbl_fooditems
+				viw_fooditems
 			WHERE
 				lower(name) LIKE '%' || lower(p_search) || '%';
 	END;

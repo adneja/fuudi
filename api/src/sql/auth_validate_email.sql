@@ -1,1 +1,0 @@
-SELECT func_users_exists($1) AS user_exists

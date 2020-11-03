@@ -1,11 +1,11 @@
 <template>
-    <div class="topbar d-flex justify-content-center">
+    <div class="flex-center-start colors-main fixed-top-left w-100">
         <div class="topbar-content px-md-5 px-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="left d-flex justify-content-start align-items-center">
+            <div class="flex-between-center">
+                <div class="left flex-start-center">
                     <!-- Logo -->
                     <div class="logo">
-                        <router-link to="/" title="Home" class="d-flex justify-content-start align-items-center">
+                        <router-link to="/" title="Home" class="flex-start-center">
                             <i class="fas fa-hamburger mr-1"></i>
                             <span>Fuudi</span>
                         </router-link>
@@ -25,23 +25,20 @@
                 
                 <!-- Right side of navbar -->
                 <div class="right d-flex justify-content-end align-items-center">
-                    <div v-if="$store.getters.shoppingList.length > 0" @click="showShoppingList" class="pointer d-flex justify-content-start align-items-center shopping-basket-container" title="Shopping list">
+                    <div @click="showShoppingList" class="pointer flex-start-center shopping-basket-container" title="Shopping list">
                         <i class="fas fa-shopping-basket shopping-basket mr-1"></i>
-
-                        <span
-                            v-if="$store.getters.shoppingList.length > 0" 
-                            class="counter d-flex justify-content-center align-items-center ">
+                        <span class="counter flex-center-center">
                             ({{$store.getters.shoppingList.length}})
                         </span>                        
                     </div>
                     
-                    <div class="d-md-flex  d-none justify-content-end align-items-center">
+                    <div class="d-md-flex d-none justify-content-end align-items-center">
                         <div @click="showLogin" title="Log in" class="menu-item-desktop pointer" v-if="!$store.getters.token">
                             <i class="fas fa-sign-in-alt mr-1"></i>
                             <span>Login</span>
                         </div>
 
-                        <span v-else class="d-flex justify-content-end align-items-center">
+                        <span v-else class="flex-end-center">
                             <span title="User menu" @click="$store.commit('setShowUserMenu', true)" class="name pointer d-flex justify-content-end align-items-center">
                                 <span>{{$store.getters.userData.name}}</span>
                                 <i class="far fa-user-circle profile-img ml-2"></i>
@@ -86,31 +83,12 @@
 
 <style lang="less" scoped>
     @import "../assets/global.less";
-
-    .topbar {
-        background-color: @main-background;
-        color: @main-color;
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        width: 100%;
-        z-index: 99999;
-        //box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    }
+    @import "../assets/styles/custom.less";
 
     .topbar-content {
         width: @main-content-width;
         padding: @main-padding-vertical;
         position: relative;
-    }
-
-    .arrow {
-        z-index: 99;
-    } 
-
-    .profile-img {
-        font-size: 16pt;
-        margin-top: -1px;
     }
 
     .logo, .menu-button {
@@ -141,10 +119,6 @@
 
     .menu-item-desktop:hover {
         opacity: 1;
-    }
-
-    .location {
-        font-size: 14pt;
     }
 
     .shopping-basket-container {

@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION func_mealplans_insert(
 	p_name text,
 	p_created_by integer
-) RETURNS SETOF tbl_mealplans AS $$
+) RETURNS SETOF typ_mealplans AS $$
 	DECLARE
 		v_new_mealplan_id integer;
 	BEGIN
@@ -25,7 +25,13 @@ CREATE OR REPLACE FUNCTION func_mealplans_insert(
 		
 		-- return new plan
 		RETURN QUERY
-			SELECT * FROM tbl_mealplans WHERE id = v_new_mealplan_id;
+			SELECT 
+				*,
+				false AS is_favorite
+			FROM 
+				viw_mealplans 
+			WHERE 
+				id = v_new_mealplan_id;
 	END;
 $$ LANGUAGE plpgsql;
 

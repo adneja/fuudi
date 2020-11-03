@@ -3,7 +3,7 @@
 		<Topbar v-if="$store.getters.showNavbar"></Topbar>
 
 		<transition name="slideIn">
-			<Login v-if="$store.getters.showLoginSidebar"></Login>
+			<LoginSidebar v-if="$store.getters.showLoginSidebar"></LoginSidebar>
 		</transition>
 
 		<transition name="slideIn">
@@ -14,19 +14,11 @@
 			<UserMenu v-if="$store.getters.showUserMenu"></UserMenu>
 		</transition>
 
-		<transition name="slideIn">
-			<ShoppingList v-if="$store.getters.showShoppingList"></ShoppingList>
-		</transition>
+		<ShoppingList></ShoppingList>
 
 		<transition name="slideDown">
             <SystemMessage v-show="$store.getters.systemMessage"></SystemMessage>
         </transition>
-
-		<!--
-		<transition name="fadeIn">
-			<router-view/>
-		</transition>
-		-->
 
 		<router-view v-slot="{Component}">
 			<transition name="fadeIn" mode="out-in">
@@ -39,10 +31,10 @@
 <script>
 	import Topbar from './components/Topbar.vue';
 	import SystemMessage from './components/SystemMessage.vue';
-	import Login from './components/Login.vue';
+	import LoginSidebar from './components/LoginSidebar.vue';
 	import MobileMenu from './components/MobileMenu.vue';
 	import UserMenu from './components/UserMenu.vue';
-	import ShoppingList from './components/ShoppingList.vue';
+	import ShoppingList from './components/SidePanels/Shoppinglist.vue';
 
 	export default {
 		name: 'app',
@@ -50,28 +42,16 @@
 		components: {
 			Topbar,
 			SystemMessage,
-			Login,
+			LoginSidebar,
 			MobileMenu,
 			UserMenu,
 			ShoppingList
-		},
-
-		mounted() {
-			if(this.$store.getters.token) {
-				this.$store.dispatch('getShoppingList')
-				.then((response) => {
-					this.$store.commit('setShoppingList', response);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-			}
 		}
 	}
 </script>
 
 <style lang="less" scoped>
-	@import "./assets/global.less";
+	@import "./assets/styles/custom.less";
 
 	#app {
 		height: 100%;

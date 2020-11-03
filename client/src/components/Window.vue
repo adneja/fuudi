@@ -1,20 +1,15 @@
 <template>
-    <div class="window">
-        <div class="title-container" v-if="title || icon">
-            <span class="title d-flex justify-content-between">
-                <span>
-                    <i v-if="icon" v-bind:class="[icon]" class="mr-2"></i>
-                    <span>{{title}}</span>
-                </span>
-
-                <slot name="titlebar"></slot>
+    <div class="window card-inverted">
+        <div class="colors-main font-l flex-between-center px-md-4 px-3 py-2" v-if="title || icon">
+            <span>
+                <i v-if="icon" v-bind:class="[icon]" class="mr-2"></i>
+                <span>{{title}}</span>
             </span>
+
+            <slot name="titlebar"></slot>
         </div>
 
-        <div 
-            class="body"      
-            v-bind:style="paddingStyle">
-
+        <div class="p-md-4 p-3 font-m">
             <slot></slot>
         </div>
     </div>
@@ -26,37 +21,12 @@
         name: 'Window',
         props: {
             title: String,
-            icon: String,
-            padding: String
-        },
-
-        computed: {
-            paddingStyle() {
-                return {
-                    'padding': this.padding ? `${this.padding}` : '16px',
-                };
-            }
+            icon: String
         }
     }
 </script>
 
 
 <style lang="less" scoped>
-    @import "../assets/global.less";
-
-    .title-container {
-        background-color: @main-background;
-        padding: 8px 16px;
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .title {
-        color: @main-color;
-    }
-
-    .body {
-        color: @main-background;
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
-        background-color: white;
-    }
+    @import "../assets/styles/custom.less";
 </style>

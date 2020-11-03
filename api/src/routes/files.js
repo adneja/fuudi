@@ -1,37 +1,39 @@
 const router = require('express').Router();
-const {verifyToken} = require('../util/jwt.js');
-const {runQuery, queries} = require('../util/db.js');
+const { RSA_NO_PADDING } = require('constants');
 const path = require('path');
+const {authenticated} = require('../utils/jwt.js');
 
 
-// upload file
-router.post('/api/files/file/', verifyToken, (req, res) => {
+// UPLOAD FILE
+router.post('/upload', authenticated, (req, res) => {
     let file = req.files.file,
-        params = [file.name, file.size, file.mimetype, req.user.id];
-    
-    // new row in db
-    runQuery(queries.file_file_create, params, res, (result) => {
-        let fileRow = result.rows[0],
-            filePath = `${fileRow.id.toString()}.${fileRow.mimetype.split('/')[1]}`;
+        params = [
+            file.name, 
+            file.size, 
+            file.mimetype, 
+            req.user.id
+        ];
 
-
-        // TODO: scale down large images and save as .jpeg!
+    res.dbExec('func_files_insert', params)
+    .then((response) => {
+        let fileData = response.rows[0],
+            filePath = `${fileData.id.toString()}.${fileData.mimetype.split('/')[1]}`;
         
-        // write file to /files directory
         file.mv(path.join(__dirname, '../../files/img', filePath))
-        .then(() => {
-            res.json({
-                id: fileRow.id,
+        .then((response) => {
+            res.response.status('200').send({
+                id: fileData.id,
                 path: filePath
             });
         })
-        .catch((err) => {
-            console.log(err);
-            res.json({
-                error: err
-            });
+        .catch((err) =>  {
+            res.response.status('500').error(err.message).send();
         });
+    })
+    .catch((err) => {
+        res.response.status('200').error(err.message).send();
     });
 });
+
 
 module.exports = router;

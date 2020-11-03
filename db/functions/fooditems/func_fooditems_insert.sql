@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION func_fooditems_insert(
 	p_name text,
 	p_created_by integer
-) RETURNS SETOF tbl_fooditems AS $$
+) RETURNS SETOF typ_fooditems AS $$
 	DECLARE
 		v_new_fooditem_id integer;
 	BEGIN
@@ -17,7 +17,12 @@ CREATE OR REPLACE FUNCTION func_fooditems_insert(
 		
 		-- return new fooditem row
 		RETURN QUERY
-			SELECT * FROM tbl_fooditems WHERE id = v_new_fooditem_id;
+			SELECT 
+				* 
+			FROM 
+				viw_fooditems 
+			WHERE 
+				id = v_new_fooditem_id;
 	END;
 $$ LANGUAGE plpgsql;
 

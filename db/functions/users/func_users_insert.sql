@@ -11,7 +11,8 @@ CREATE FUNCTION func_users_create(
 	BEGIN
 		-- check if passwords match
 		IF p_password <> p_repeat_password THEN 
-			RAISE EXCEPTION USING HINT = 'Passwords do not match.';
+			RAISE EXCEPTION USING
+				MESSAGE = 'Passwords do not match.';
 		END IF;
 		
 		-- insert user
