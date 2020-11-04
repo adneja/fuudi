@@ -1,8 +1,9 @@
-# Fuudi
-## Recipe finder & meal planner
+# Fuudi - recipe finder & meal planner
+
+Fuudi lets you find and upload recipes without the clutter of adds, articles, autoplaying videos and the distractions found on many of todays recipes sites. It also functions as a mealplanner and its easy to generate shoppinglists from recipes and plans. I started this project to simplify my own grocery shopping, all I have to do is select a mealplan and click "Generate shoppinglist".
 
 ### Find recipes
-![Landing page](/imgs/landingpage.png)
+![Landing page](/imgs/frontpage.png)
 
 ### Filter by ingredients
 ![Filtering](/imgs/filtering.png)
