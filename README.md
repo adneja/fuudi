@@ -29,7 +29,7 @@ Vue.js + Node.js + PostgreSQL + NGINX
 ### Application arcitecture
 fuudi.io uses NGINX to serve a Vue.js app. It also serves as a reverse proxy for the Node.js Express API. The API endpoints triggers PL/pgSQL functions in the PostgreSQL database.
 
-![Application arcitecture](/arcitecture.png)
+![Application arcitecture](/imgs/arcitecture.png)
 
 
 ### Database first approach
