@@ -30,3 +30,9 @@ Vue.js + Node.js + PostgreSQL + NGINX
 fuudi.io uses NGINX to serve a Vue.js app. It also serves as a load balancer for the Node.js Express API. The API endpoints triggers PL/pgSQL functions in the PostgreSQL database.
 
 ![Application arcitecture](/arcitecture.png)
+
+
+### Database first approach
+Fuudi uses a database first approach where all business logic is implemented in the schema itself through constraints, functions and triggers. I want to keep the logic close to the data. Most of the API endpoints triggers a PostgreSQL function, here is a collection of endpoints and their respective db functions. []:https://docs.google.com/spreadsheets/d/1HeCzwGx6yWHw8ZsTkWy3o0XL6Z5NvLtOoY2AfKRnVRU/edit?usp=sharing
+
+
