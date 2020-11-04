@@ -27,7 +27,7 @@ Fuudi lets you find and upload recipes without the clutter of adds, articles, au
 Vue.js + Node.js + PostgreSQL + NGINX
 
 ### Application arcitecture
-fuudi.io uses NGINX to serve a Vue.js app. It also serves as a load balancer for the Node.js Express API. The API endpoints triggers PL/pgSQL functions in the PostgreSQL database.
+fuudi.io uses NGINX to serve a Vue.js app. It also serves as a reverse proxy for the Node.js Express API. The API endpoints triggers PL/pgSQL functions in the PostgreSQL database.
 
 ![Application arcitecture](/arcitecture.png)
 
