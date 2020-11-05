@@ -16,3 +16,16 @@ validate session token and send to relogin page if invalid
     - start password field focused
     - display "Session expired" message
     - make session token expiration time shorter
+
+
+
+add recipes:
+    - burrito
+    - chick pea curry
+    - creamy pasta with chicken and bacon
+    - norwegian taco
+    - chicken with oven baked root vegetables
+    - nachos
+    - spaghetti and ground beef
+    - meatballs in brown gravy
+    - grandis

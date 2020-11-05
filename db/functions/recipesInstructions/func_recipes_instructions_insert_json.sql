@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION func_recipes_instructions_insert_json(
 	p_created_by integer
 ) RETURNS SETOF typ_recipes_instructions AS $$
 	BEGIN
-		-- insert ingredients
+		-- insert instructions
 		INSERT INTO tbl_recipes_instructions(
 			recipe_id,
 			number,
@@ -22,7 +22,7 @@ CREATE OR REPLACE FUNCTION func_recipes_instructions_insert_json(
 				instruction text
 			);
 		
-		-- return recipe ingredients
+		-- return recipe instructions
 		RETURN QUERY
 			SELECT
 				*

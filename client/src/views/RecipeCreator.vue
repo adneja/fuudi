@@ -39,38 +39,45 @@
 
         methods: {
             create() {
-                let details = this.$refs.details.getDetails(),
-                    ingredients = this.$refs.ingredients.ingredients,
-                    instructions = this.$refs.instructions.instructions;
+                let details = this.$refs.details.getDetails();
+                
+                let instructions = this.$refs.instructions.instructions.map((i, index) => {
+                    return {
+                        instruction: i.instruction,
+                        number: index + 1
+                    }
+                });
+
+                let ingredients = this.$refs.ingredients.ingredients.map((i) => {
+                    return {
+                        fooditem_id: i.id,
+                        measurement_id: i.unit ? i.unit.id : null,
+                        amount: parseInt(i.amount)
+                    }
+                });
 
                 this.$store.dispatch('recipesInsert', {
                     name: details.title,
                     description: details.description,
                     cookingTime: details.cookingTime,
                     portions: details.portions,
-                    fileId: details.fileId
+                    fileId: details.fileId,
+                    ingredients: ingredients,
+                    instructions: instructions
                 })
                 .then((response) => {
-                    // TODO: insert recipes and ingredients
-                    /*
-                    this.$store.dispatch('recipesInsertBulk', {
-                        recipeId: response.id,
-                        ingredients: ingredients
+                    this.$router.push({path: `/recipes/recipe/${response[0].id}`});
+                    this.$store.commit('setSystemMessage', {
+                        content: 'Recipe created!',
+                        error: false
                     });
-
-                    this.$store.dispatch('recipesInsertInstructions', {
-                        recipeId: response.id,
-                        instructions: instructions
-                    });
-                    */
                 })
                 .catch((err) => {
-                    console.log(err);
+                    this.$store.commit('setSystemMessage', {
+                        content: err,
+                        error: true
+                    });
                 });
-
-                console.log(details);
-                console.log(ingredients);
-                console.log(instructions);
             }
         }
     }

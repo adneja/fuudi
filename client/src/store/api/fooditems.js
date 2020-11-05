@@ -23,7 +23,7 @@ export default {
 
         fooditemsInsert(context, data) {
             return new Promise((resolve, reject) => {
-                axios.post(`/insert`, data, {
+                axios.post(`/fooditems/insert`, data, {
                     headers: {
                         Authorization: context.getters.token,
                     }

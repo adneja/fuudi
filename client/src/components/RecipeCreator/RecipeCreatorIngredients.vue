@@ -11,7 +11,9 @@
                     :placeholder="'Search'"
                     :border="false"
                     @selected="itemSelected"
+                    @create="createFooditem"
                     :entityName="'ingredient'"
+                    :showCreate="true"
                     class="w-100"/>
 
                 <button class="btn btn-secondary"><i class="fas fa-search"></i></button>
@@ -91,8 +93,27 @@
             },
 
             remove(index) {
-                console.log(index);
                 this.ingredients.splice(index, 1);
+            },
+
+            createFooditem(name) {
+                this.$store.dispatch('fooditemsInsert', {
+                    name: name
+                })
+                .then((response) => {
+                    this.ingredients.push({...response[0], amount: 1, unit: null});
+
+                    this.$store.commit('setSystemMessage', {
+                        content: `${response[0].name} has been added to the database`,
+                        error: false
+                    });
+                })
+                .catch((err) => {
+                    this.$store.commit('setSystemMessage', {
+                        content: err,
+                        error: true
+                    });
+                });
             }
         }
     }

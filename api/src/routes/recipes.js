@@ -10,6 +10,8 @@ router.post('/insert', authenticated, (req, res) => {
         req.body.cookingTime,
         req.body.portions,
         req.body.fileId,
+        JSON.stringify(req.body.ingredients),
+        JSON.stringify(req.body.instructions),
         req.user.id
     ];
     

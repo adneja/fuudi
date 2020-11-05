@@ -7,7 +7,7 @@
                     <div class="logo">
                         <router-link to="/" title="Home" class="flex-start-center">
                             <i class="fas fa-hamburger mr-1"></i>
-                            <span>Fuudi</span>
+                            <span>Fuudspace</span>
                         </router-link>
                     </div>
 
