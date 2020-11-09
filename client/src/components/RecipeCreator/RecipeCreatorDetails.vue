@@ -4,7 +4,7 @@
             <div class="container-fluid font-m">
                 <div class="row">
                     <div class="col-md-6 px-0 colors-main flex-center-center">
-                        <div v-if="!fileId" class="text-center cursor-pointer" @click="chooseFile">
+                        <div v-if="!fileId" class="text-center cursor-pointer py-3" @click="chooseFile">
                             <i class="fas fa-upload image"></i>
                             <div class="font-l mt-2">Upload image</div>
                         </div>

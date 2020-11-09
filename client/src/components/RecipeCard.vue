@@ -17,10 +17,6 @@
                     <router-link :title="title" class="cursor-pointer cursor-underline" :to="`/recipes/recipe/${id}`">
                         <div class="font-l">{{title}}</div>
                     </router-link>
-
-                    <router-link :title="createdByName" class="cursor-pointer cursor-underline" :to="`/user/${createdBy}`">
-                        <div class="font-s font-faded mb-2">by {{createdByName}}</div>
-                    </router-link>
                 </div>
                 
                 <router-link class="cursor-pointer cursor-underline" :to="`/recipes/recipe/${id}?scrollToRatings=true`">
@@ -28,6 +24,12 @@
                         <Stars :stars="rating" max="5"></Stars>
                         <span class="font-s font-normal font-faded ml-1">({{numOfRatings}})</span>
                     </span>
+                </router-link>
+            </div>
+
+            <div class="created-by font-normal">
+                <router-link :title="createdByName" class="cursor-pointer cursor-underline" :to="`/user/${createdBy}`">
+                    <div class="font-s font-faded mb-2">by {{createdByName}}</div>
                 </router-link>
             </div>
 
