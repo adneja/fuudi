@@ -88,7 +88,7 @@
                     return i.name.toLowerCase() === this.searchWord.toLowerCase();
                 }).length !== 0;
 
-                if(this.searchWord.trim().length > 0 && !exists && !this.searching) {
+                if(this.searchWord.trim().length > 0 && !exists && !this.searching && this.showCreate) {
                     returnArray.push({
                         id: -1,
                         [this.displayValue]: this.searchWord,
@@ -117,27 +117,31 @@
             },
 
             select(result) {
-                this.selected = result;
+                if(this.searchResultsWithCreateOption.length > 0) {
+                    this.selected = result;
 
-                if(this.selected.createNew) {
-                    this.$emit('create', this.selected[this.displayValue]);
-                } else {
-                    this.$emit('selected', this.selected);
+                    if(this.selected.createNew) {
+                        this.$emit('create', this.selected[this.displayValue]);
+                    } else {
+                        this.$emit('selected', this.selected);
+                    }
+                    
+                    this.clearSearchResults();
                 }
-                
-                this.clearSearchResults();
             },
 
             selectMarked() {
-                this.selected = this.searchResults[this.marked];
+                if(this.searchResultsWithCreateOption.length > 0) {
+                    this.selected = this.searchResults[this.marked];
 
-                if(this.selected.createNew) {
-                    this.$emit('create', this.selected[this.displayValue]);
-                } else {
-                    this.$emit('selected', this.selected);
+                    if(this.selected.createNew) {
+                        this.$emit('create', this.selected[this.displayValue]);
+                    } else {
+                        this.$emit('selected', this.selected);
+                    }
+                    
+                    this.clearSearchResults();
                 }
-                
-                this.clearSearchResults();
             },
 
             clearSearchResults() {

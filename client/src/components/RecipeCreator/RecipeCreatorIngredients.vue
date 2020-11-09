@@ -32,7 +32,7 @@
 
                         <div class="col-md-2 col-5 px-md-0 flex-start-center">
                             <span class="font-s font-faded">Amount:</span>
-                            <input v-model="ingredient.amount" type="number" min="0" class="form-control" placeholder="Amount">
+                            <input v-model="ingredient.amount" type="number" min="0" class="form-control" placeholder="---">
                         </div>
 
                         <div class="col-md-2 col-7 px-0 flex-start-center">
@@ -81,7 +81,7 @@
 
         methods: {
             itemSelected(fooditem) {
-                this.ingredients.push({...fooditem, amount: 1, unit: null});
+                this.ingredients.push({...fooditem, amount: null, unit: null});
             },
 
             unitSelected(measurement, index) {
@@ -89,7 +89,7 @@
             },
 
             updateIngredient(fooditem, index) {
-                this.ingredients[index] = {...fooditem, amount: 1, unit: null};
+                this.ingredients[index] = {...fooditem, amount: null, unit: null};
             },
 
             remove(index) {
@@ -101,7 +101,7 @@
                     name: name
                 })
                 .then((response) => {
-                    this.ingredients.push({...response[0], amount: 1, unit: null});
+                    this.ingredients.push({...response[0], amount: null, unit: null});
 
                     this.$store.commit('setSystemMessage', {
                         content: `${response[0].name} has been added to the database`,
