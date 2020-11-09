@@ -132,19 +132,27 @@
                         password: this.password
                     })
                     .then((response) => {
-                    this.$store.commit('setUserData', response.user);
-                    this.$store.commit('setToken', response.token);
+                        this.$store.commit('setUserData', response.user);
+                        this.$store.commit('setToken', response.token);
 
-                    this.$store.commit('setSystemMessage', {
-                        content: `Logged in as ${response.user.name}.`,
-                        error: false
-                    });
+                        this.$store.commit('setSystemMessage', {
+                            content: `Logged in as ${response.user.name}`,
+                            error: false
+                        });
 
-                    if(this.$store.getters.loginRedirect) {
-                        this.$router.push(this.$store.getters.loginRedirect);
-                    }
+                        this.$store.dispatch('usersShoppinglistGet')
+                        .then((response) => {
+                            this.$store.commit('setShoppingList', response);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
 
-                    this.close();
+                        if(this.$store.getters.loginRedirect) {
+                            this.$router.push(this.$store.getters.loginRedirect);
+                        }
+
+                        this.close();
                     })
                     .catch((err) => {
                         this.$store.commit('setSystemMessage', {
@@ -177,7 +185,7 @@
                     this.$store.commit('setToken', response.token);
                     
                     this.$store.commit('setSystemMessage', {
-                        content: `Registered as ${response.user.name}.`,
+                        content: `Registered as ${response.user.name}`,
                         error: false
                     });
 

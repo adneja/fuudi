@@ -44,6 +44,8 @@ export default {
                     content: 'Logged out.',
                     err: false
                 });
+
+                context.commit('setShoppingList', []);
     
                 resolve(currentRoute.meta.requiresAuth);
             });
