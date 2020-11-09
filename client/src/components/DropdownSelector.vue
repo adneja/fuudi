@@ -2,7 +2,7 @@
     <div class="dropdownselector">
         <div class="relative">
             <div class="input-group">
-            <input 
+            <input
                 ref="search"
                 class="form-control" 
                 :class="{'input-border': border, 'form-control-sm': small}"
@@ -19,6 +19,12 @@
                     <i class="fas fa-circle-notch fa-spin"></i>
                 </button>
             </div>
+
+            <div v-if="showSelected && selected" class="selected absolute-top-right h-100 w-100 colors-inverted flex-between-center">
+                {{selected[displayValue]}}
+                <i class="fas fa-times-circle cursor-pointer" @click="cancelSelected"></i>
+            </div>
+
             
             <transition name="fade-in">
                 <div v-if="searchResultsWithCreateOption.length > 0" class="absolute-top-left w-100 card-inverted results-dropdown customshadow">
@@ -150,6 +156,14 @@
                 this.marked = 0;
             },
 
+            cancelSelected() {
+                this.selected = null;
+                this.searchWord = '';
+                this.searchResults = [];
+                this.marked = 0;
+                this.$refs.search.focus();
+            },
+
             onBlur() {
                 if(!this.selected) {
                     if(this.searchResults.length > 0) {
@@ -211,5 +225,6 @@
 
     .selected {
         padding: 6px 12px;
+        z-index: 99;
     }
 </style>

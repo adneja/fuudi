@@ -30,12 +30,16 @@
                             </button>
                         </div>
 
-                        <div class="col-md-2 col-5 px-md-0 flex-start-center">
+                        <div class="col-12 px-0 d-md-none d-block">
+                            <div class="mobile-border"></div>
+                        </div>
+
+                        <div class="col-md-2 col-6 px-md-0 flex-start-center">
                             <span class="font-s font-faded">Amount:</span>
                             <input v-model="ingredient.amount" type="number" min="0" class="form-control" placeholder="---">
                         </div>
 
-                        <div class="col-md-2 col-7 px-0 flex-start-center">
+                        <div class="col-md-2 col-6 px-0 flex-start-center">
                             <span class="font-s font-faded">Unit:</span>
 
                             <DropdownSelector 
@@ -53,7 +57,7 @@
                     </div>
                 </div>
 
-                <button @click="remove(index)" class="d-md-block d-none btn btn-secondary">
+                <button @click="remove(index)" class="d-md-block d-none btn btn-primary">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -124,5 +128,11 @@
 
     .name {
         padding: 6px 15px;
+    }
+
+    .mobile-border {
+        height: 1px;
+        background-color: @main-background;
+        opacity: 0.15;
     }
 </style>

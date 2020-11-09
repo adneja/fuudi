@@ -26,8 +26,6 @@ router.get('/query', optional, (req, res) => {
         ingredients: '[]',
     });
 
-    console.log(params);
-
     res.dbResponse('func_recipes_query', params);
 });
 
