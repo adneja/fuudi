@@ -51,17 +51,18 @@
             },
 
             formatAmount(measurement, amount) {
-                if(measurement === 'ml') {
-                    let dl = amount / 100,
+                switch(measurement) {
+                    case 'ml':
+                        let dl = amount / 100,
                         l = dl / 10;
                     
-                    if(l > 1) return l + ' l';
-                    return dl >= 1 ? dl + ' dl' : amount + ' ml';
-                } else if(measurement === 'g') {
-                    let kg = amount / 1000;
-                    return kg >= 1 ? kg + ' kg' : amount + ' g'
-                } else {
-                    return amount + ' ' + measurement;
+                        if(l > 1) return l + ' l';
+                        return dl >= 1 ? dl + ' dl' : amount + ' ml';
+                    case 'g':
+                        let kg = amount / 1000;
+                        return kg >= 1 ? kg + ' kg' : amount + ' g';
+                    default:
+                        return amount + ' ' + measurement;
                 }
             }
         },
