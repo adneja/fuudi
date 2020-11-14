@@ -26,7 +26,7 @@
                 </div>
 
                 <template v-slot:footer>
-                    <button class="btn btn-secondary w-100">Clear</button>
+                    <button class="btn btn-secondary w-100" @click="clear">Clear</button>
                 </template>
             </SidePanel>
         </transition>
@@ -64,6 +64,16 @@
                     default:
                         return amount + ' ' + measurement;
                 }
+            },
+
+            clear() {
+                this.$store.dispatch('usersShoppinglistDelete')
+                .then((response) => {
+                    this.$store.commit('setShoppingList', response);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
             }
         },
 

@@ -55,7 +55,7 @@ export default {
 
         usersShoppinglistDelete(context, data) {
             return new Promise((resolve, reject) => {
-                axios.delete(`/users/shoppinglist/delete`, data, {
+                axios.delete(`/users/shoppinglist/delete`, {
                     headers: {
                         Authorization: context.getters.token,
                     }
